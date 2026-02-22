@@ -33,7 +33,7 @@ const ConsumerHome = () => {
       <section className="main-section-consumer" id="home-section">
         <div className="top-action" style={{ display: 'flex', justifyContent: 'center', marginBottom: '40px' }}>
           {/* TRIGGER FOR NEW PROJECT MODAL */}
-          <button className="btn-orange" style={{ padding: '14px 40px' }} onClick={() => setShowAddModal(true)}>
+          <button className="btn-orange-consumer" style={{ padding: '14px 40px' }} onClick={() => setShowAddModal(true)}>
             नयाँ परियोजना थप्नुहोस्
           </button>
         </div>
@@ -43,14 +43,14 @@ const ConsumerHome = () => {
           <span className="filter-text">सबै हेर्नुहोस्</span>
         </div>
 
-        <div className="work-grid">
+        <div className="work-grid-consumer">
           {myWorks.map((work) => (
             <div className="work-item-card-consumer" key={work.id}>
               <img src={work.img} alt="work" className="work-consumer" />
               <h4>{work.title}</h4>
               <p className="stats-orange">👤 {work.count}</p>
               <p className="sub-desc">निर्माण मजदुरको लागि अवसर</p>
-              <button className="btn-orange" onClick={() => { setSelectedWork(work); setShowModal(true); }}>प्रगति</button>
+              <button className="btn-orange-consumer-pragati" onClick={() => { setSelectedWork(work); setShowModal(true); }}>प्रगति</button>
             </div>
           ))}
         </div>
@@ -137,7 +137,7 @@ const ConsumerHome = () => {
                     <textarea className="modal-textarea" placeholder="विवरण लेख्नुहोस्..."></textarea>
                   </div>
                 </div>
-                <button type="submit" className="modal-submit-btn orange-btn">आवेदन</button>
+                <button type="submit" className="modal-submit-btn orange-btn-consumer">आवेदन</button>
               </div>
             </form>
           </div>
@@ -146,8 +146,8 @@ const ConsumerHome = () => {
 
       {/* MODAL 2: PROGRESS/UPDATE */}
       {showModal && (
-        <div className="modal-overlay" onClick={() => setShowModal(false)}>
-          <div className="modal-box" onClick={(e) => e.stopPropagation()}>
+        <div className="modal-overlay-consumer" onClick={() => setShowModal(false)}>
+          <div className="modal-box-consumer" onClick={(e) => e.stopPropagation()}>
             <span className="modal-close" onClick={() => setShowModal(false)}>&times;</span>
             <h2 className="modal-title">{selectedWork?.title}</h2>
             <div className="modal-flex">

@@ -102,7 +102,7 @@ html {
 .profile-top-bar {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 90px;
+    argin-bottom: 90px;
 }
 
 .availability {
