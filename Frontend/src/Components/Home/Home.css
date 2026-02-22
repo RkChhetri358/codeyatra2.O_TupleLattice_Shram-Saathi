@@ -9,11 +9,18 @@ html {
   background: url('/bg1.png') no-repeat center center fixed;
   background-size: cover;
   font-family: 'Raleway', sans-serif;
+  height: 100vh;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
 }
 
 .main-section {
-  padding: 120px 10% 60px; /* Navbar space ko lagi 120px top */
+  padding: 120px 10% 60px;
   min-height: 100vh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  display: flex;
+  flex-direction: column;
 }
 
 .profile-light-bg {
@@ -52,7 +59,7 @@ html {
   height: 170px;
   border-radius: 20px;
   object-fit: cover;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* fixed object-shadow error */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
 .stats-orange { color: #f18f14; font-weight: 700; margin: 8px 0; }
@@ -74,6 +81,7 @@ html {
 .avatar-circle { width: 220px; height: 220px; border-radius: 50%; border: 5px solid white; object-fit: cover; }
 .review-stars { text-align: center; margin-top: 15px; color: #f18f14; font-weight: 800; }
 
+.profile-details-form { flex: 1; }
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 .full-span { grid-column: span 2; }
 
@@ -96,30 +104,68 @@ html {
 .notif-info p { font-size: 13px; color: #555; margin-top: 4px; }
 
 .floating-bg { position: fixed; right: 0; top: 220px; width: 280px; opacity: 0.2; z-index: -1; }
-/* 1. Whole wrapper lai snap container banaune */
-.home-wrapper {
-  background: url('/bg1.png') no-repeat center center fixed;
-  background-size: cover;
-  font-family: 'Raleway', sans-serif;
-  
-  height: 100vh;           /* Screen ko height fix garne */
-  overflow-y: scroll;      /* Scroll enable garne */
-  scroll-snap-type: y mandatory; /* Y-axis ma snap "Mandatory" garne */
-  scroll-behavior: smooth;
-}
 
-/* 2. Pratyek section lai snap alignment dine */
-.main-section {
-  padding: 100px 10% 60px;
-  min-height: 100vh;       /* Pratyek section full screen huna parcha */
-  scroll-snap-align: start; /* Scroll garda section ko mathillo bhag ma magnetic snap huncha */
-  scroll-snap-stop: always; /* Ekchoti scroll garda arko section ma matra rokosh bhanda yo use huncha */
-  
-  display: flex;           /* Content lai center ma rakhna sajilo hunchha */
-  flex-direction: column;
-}
-
-/* Chrome, Safari ra Opera ma scrollbar lukauna (optional - clean look ko lagi) */
+/* Chrome, Safari ra Opera ma scrollbar lukauna */
 .home-wrapper::-webkit-scrollbar {
   display: none;
 }
+
+/* --- POPUP (MODAL) STYLES --- */
+.modal-active .main-section, 
+.modal-active .floating-bg,
+.modal-active .navbar-container {
+  filter: blur(10px);
+  pointer-events: none;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+}
+
+.modal-box {
+  background: white;
+  padding: 40px;
+  border-radius: 30px;
+  width: 850px;
+  max-width: 95%;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+}
+
+.modal-close {
+  position: absolute;
+  right: 25px; top: 15px;
+  font-size: 35px;
+  color: #f18f14;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.modal-title { color: #647543; font-weight: 800; margin-bottom: 30px; }
+.modal-flex { display: flex; gap: 40px; }
+.modal-job-img { width: 200px; height: 200px; border-radius: 20px; object-fit: cover; }
+.modal-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; flex: 1; }
+
+.m-input label {
+  display: block; font-size: 13px; font-weight: 700; color: #647543; margin-bottom: 5px;
+}
+.m-input input, .m-input textarea {
+  width: 100%; padding: 12px; border: none; background: #f2f2f2; border-radius: 10px;
+}
+.m-input textarea { height: 80px; resize: none; }
+
+.purple-border input { border: 1.5px solid #a855f7 !important; }
+
+.modal-submit-btn {
+  background: #f18f14; color: white; border: none; padding: 12px 40px;
+  border-radius: 25px; font-weight: 800; margin-top: 30px; cursor: pointer;
+}
+
+.modal-active { overflow: hidden; }
