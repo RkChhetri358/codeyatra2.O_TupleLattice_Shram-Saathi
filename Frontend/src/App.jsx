@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import LandingPage from "./components/LandingPage/LandingPage";
 import Login from "./Components/Loginpage/Loginpage";
 import Signup from "./components/Signup/Signup";
+import NepaliChatbot from "./Components/Chatbot/NepaliChatbot";
 
 // Baki components haru paxi chaine bela uncomment garna sakincha
 // import Dashboard from "./components/Dashboard/Dashboard";
@@ -23,6 +24,7 @@ function App() {
         {/* Auth Routes */}
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/chatbot" element={<NepaliChatbot />} />
 
         {/* Dashboard Layout and Protected Routes (Paxi use garna lai ready rakheko) */}
         {/* <Route path="/home" element={<Home />} />
