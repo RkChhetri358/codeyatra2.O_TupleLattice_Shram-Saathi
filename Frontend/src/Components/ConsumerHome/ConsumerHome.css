@@ -1,0 +1,144 @@
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800&display=swap");
+
+/* Global smooth behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+.home-wrapper {
+  background: url('/bg1.png') no-repeat center center fixed;
+  background-size: cover;
+  font-family: 'Raleway', sans-serif;
+  height: 100vh;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory; /* Tyakka-tyakka section ma scroll hune */
+}
+
+/* Sections */
+.main-section {
+  padding: 120px 10% 60px;
+  min-height: 100vh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-light-bg {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 35px;
+}
+
+.nepali-title {
+  color: #647543;
+  font-weight: 800;
+  font-size: 24px;
+}
+
+.filter-text {
+  color: #f18f14;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Jobs Grid */
+.work-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 35px;
+}
+
+.work-item-card { text-align: center; }
+
+.work-pic {
+  width: 170px;
+  height: 170px;
+  border-radius: 20px;
+  object-fit: cover;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.stats-orange { color: #f18f14; font-weight: 700; margin: 8px 0; }
+.sub-desc { font-size: 11px; color: #777; margin-bottom: 12px; }
+
+.btn-orange {
+  background: #f18f14; color: white; border: none; padding: 10px 35px;
+  border-radius: 25px; font-weight: 800; cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-orange:hover { background: #d67a0e; transform: scale(1.05); }
+
+/* Profile Section */
+.profile-layout { display: flex; gap: 50px; align-items: flex-start; flex-wrap: wrap; }
+.avatar-circle { width: 220px; height: 220px; border-radius: 50%; border: 5px solid white; object-fit: cover; }
+.review-stars { text-align: center; margin-top: 15px; color: #f18f14; font-weight: 800; }
+
+.profile-details-form { flex: 1; min-width: 300px; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.full-span { grid-column: span 2; }
+
+.field-group label { display: block; font-size: 13px; font-weight: 700; color: #647543; margin-bottom: 5px; }
+.field-group input { width: 100%; padding: 14px; border-radius: 12px; border: none; background: #f2f2f2; }
+
+.save-btn {
+  background: #f18f14; color: white; border: none; padding: 12px 30px;
+  border-radius: 25px; font-weight: 800; margin-top: 25px; cursor: pointer;
+}
+
+/* Notifications */
+.notif-card {
+  display: flex; align-items: center; gap: 20px; background: white;
+  padding: 18px; border-radius: 18px; margin-bottom: 15px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+.notif-img { width: 65px; height: 65px; border-radius: 12px; }
+
+/* Hide Scrollbar */
+.home-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+/* Modal Effects */
+.modal-active .main-section, 
+.modal-active .navbar-container {
+  filter: blur(10px);
+  pointer-events: none;
+}
+
+.modal-overlay {
+  position: fixed; top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex; justify-content: center; align-items: center;
+  z-index: 99999;
+}
+
+.modal-box {
+  background: white; padding: 40px; border-radius: 30px;
+  width: 850px; max-width: 95%; position: relative;
+}
+
+.modal-close {
+  position: absolute; right: 25px; top: 15px;
+  font-size: 35px; color: #f18f14; cursor: pointer;
+}
+
+.modal-title { color: #647543; font-weight: 800; margin-bottom: 30px; }
+.modal-flex { display: flex; gap: 40px; flex-wrap: wrap; }
+.modal-job-img { width: 200px; height: 200px; border-radius: 20px; object-fit: cover; }
+.modal-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; flex: 1; }
+
+.m-input label { display: block; font-size: 13px; font-weight: 700; color: #647543; margin-bottom: 5px; }
+.m-input input { width: 100%; padding: 12px; border: none; background: #f2f2f2; border-radius: 10px; }
+.purple-border input { border: 1.5px solid #a855f7 !important; }
+
+.modal-submit-btn {
+  background: #f18f14; color: white; border: none; padding: 12px 40px;
+  border-radius: 25px; font-weight: 800; margin-top: 30px; cursor: pointer;
+}
