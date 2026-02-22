@@ -1,7 +1,5 @@
 
 
-from pyexpat.errors import messages
-
 from fastapi import FastAPI, APIRouter, HTTPException, status,Depends,File, UploadFile, Form
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
@@ -77,9 +75,7 @@ async def hello():
     
 #     return {"message": "Login successful", "username": db_user.username,"id": db_user.id}
 @app.post("/api/login")
-@app.post("/api/login")
 async def login(userdata: LoginRequest, db: Session = Depends(get_db)):
-
     # 1. Look for the user in the database
     db_user = db.query(models.User).filter(
         models.User.username == userdata.username,
@@ -89,24 +85,18 @@ async def login(userdata: LoginRequest, db: Session = Depends(get_db)):
     # 2. If user doesn't exist, throw 401
     if not db_user:
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
+            status_code=status.HTTP_401_UNAUTHORIZED, 
             detail="Invalid username or password"
         )
-
-    # 3. Return user info
+    
+    # 3. Return all necessary info for the frontend
     return {
         "message": "Login successful",
         "username": db_user.username,
-        "role": db_user.role,
-        "id": db_user.id,
-        "mobile": db_user.mobilenumber
+        "role": db_user.role,       # 'user' or 'consumer'
+        "id": db_user.id,           # Required for consumer_id in projects
+        "mobile": db_user.mobilenumber # Required for phone_number in projects
     }
-        
-        
-        
-        
-        
-        
 
 
 @app.post("/api/postProjectDetails")
@@ -121,9 +111,7 @@ async def post_project_details(
     file: UploadFile = File(...),
     db: Session = Depends(get_db)
 ):
-    
     try:
-        
      
         file_location = f"projects/{file.filename}"
         os.makedirs("projects", exist_ok=True)
@@ -157,11 +145,10 @@ async def post_project_details(
 models.Base.metadata.create_all(bind=engine)
 
 
-# @app.get("/api/allusers")
-# async def get_all_users(db: Session = Depends(get_db)):
-    
-#     all_users = db.query(models.User).all()
-#     return all_users
+@app.get("/api/allusers")
+async def get_all_users(db: Session = Depends(get_db)):
+    all_users = db.query(models.Asset).all()
+    return all_users
 
 @app.post("/api/signup/", response_model=SignupResponse)
 async def signup(
@@ -226,22 +213,21 @@ from fastapi import HTTPException
 from sqlalchemy.orm import Session
 import models
 
-
-
-# @app.get("/api/allprojects")
-# async def get_all_projects(db: Session = Depends(get_db)):
-#     try:
-#             all_projects = db.query(models.AddProject).all()
-#             return all_projects
+@app.get("/api/allprojects")
+async def get_all_projects(db: Session = Depends(get_db)):
+    try:
+      
+        all_projects = db.query(models.AddProject).all()
        
-#     except Exception as e:
+        return all_projects
+
+    except Exception as e:
         
-        
-#         print(f"Error fetching projects: {str(e)}")
-#         raise HTTPException(
-#             status_code=500, 
-#             detail="Internal Server Error: Could not retrieve projects"
-#         )
+        print(f"Error fetching projects: {str(e)}")
+        raise HTTPException(
+            status_code=500, 
+            detail="Internal Server Error: Could not retrieve projects"
+        )
     
     
     
@@ -279,13 +265,13 @@ class ConnectionManager:
 manager = ConnectionManager()
 
 # 2. Endpoint to fetch history
-# @app.get("/api/chat/history/{user_id}/{target_id}")
-# async def get_chat_history(user_id: int, target_id: int, db: Session = Depends(get_db)):
-#     messages = db.query(models.ChatMessage).filter(
-#         ((models.ChatMessage.sender_id == user_id) & (models.ChatMessage.recipient_id == target_id)) |
-#         ((models.ChatMessage.sender_id == target_id) & (models.ChatMessage.recipient_id == user_id))
-#           ).order_by(models.ChatMessage.timestamp.asc()).all()
-#     return messages
+@app.get("/api/chat/history/{user_id}/{target_id}")
+async def get_chat_history(user_id: int, target_id: int, db: Session = Depends(get_db)):
+    messages = db.query(models.ChatMessage).filter(
+        ((models.ChatMessage.sender_id == user_id) & (models.ChatMessage.recipient_id == target_id)) |
+        ((models.ChatMessage.sender_id == target_id) & (models.ChatMessage.recipient_id == user_id))
+    ).order_by(models.ChatMessage.timestamp.asc()).all()
+    return messages
 
 # 3. WebSocket with Saving Logic
 @app.websocket("/ws/chat/{user_id}")
@@ -344,9 +330,6 @@ def get_ai_response(user_text: str):
 # input. When a user sends a voice file to this endpoint, the file is saved temporarily, and then the
 # content of the audio file is transcribed into text using the Groq API's audio transcription service.
 # 2. Voice-to-Text Endpoint
-
-
-
 @router.post("/api/chat/voice")
 async def chat_with_voice(file: UploadFile = File(...)):
     # Save temporary audio file
@@ -373,9 +356,7 @@ async def chat_with_voice(file: UploadFile = File(...)):
 
 @app.post("/api/chat/text")
 async def chat_with_text(request: ChatRequest):
-    
     try:
-        
         reply = get_ai_response(request.text)
         return {"bot_reply": reply}
     except Exception as e:
