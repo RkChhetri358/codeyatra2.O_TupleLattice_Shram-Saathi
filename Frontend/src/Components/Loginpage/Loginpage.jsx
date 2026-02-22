@@ -26,56 +26,46 @@ const Login = () => {
     }
   }, [navigate]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError(""); // Reset error state
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setError(""); // Reset error state
 
-    try {
+  try {
+    const response = await axios.post("http://127.0.0.1:8000/api/login", {
+      username: formData.username,
+      password: formData.password,
+    });
+
+    if (response.status === 200) {
+      
+      const { username, role, message } = response.data;
+
+      const userData = {
+        username: username,
+        role: role, 
+      };
+
+      
+      localStorage.setItem("user", JSON.stringify(userData));
+
+      alert(message); 
      
-     const response = await axios.post("http://127.0.0.1:8000/api/login", {
-  username: formData.username,
-  password: formData.password,
-});
-
-if (response.status === 200) {
-  const userData = {
-    username: response.data.username,
-  };
-
-  localStorage.setItem("user", JSON.stringify(userData));
-  navigate('/layout/dashboard');
-}
-
-    //   if (response.status === 200) {
-    //     // 2. Extract data from your LoginView response
-    //     const userData = {
-    //       username: response.data.username,
-    //       // role: response.data.role,     // 'artist', 'distributor', or 'user'
-    //       // wallet: response.data.wallet, // Public address
-    //       email: response.data.email,
-    //     };
-    //           navigate('/layout/dashboard');
-    //     // 3. Store in localStorage for global access
-    //     localStorage.setItem("user", JSON.stringify(userData));
-
-    //     // 4. Role-based navigation
-    //     // if (userData.role === "artist") {
-    //     //   navigate('/layout/dashboard'); // Or specific artist dashboard
-    //     // } else {
-    //     //   navigate('/layout/dashboard'); // Standard view
-    //     // }
-    //   }
-    } catch (err) {
-      console.error("Login Error:", err.response?.data || err.message);
-      if (err.response) {
-        setError(err.response.data.error || "Invalid username or password");
+      if (role === "consumer") {
+        navigate('/layout/consumer-dashboard'); 
       } else {
-        setError("Cannot connect to server. Please try again.");
+        navigate('/layout/dashboard'); 
       }
     }
-  };
+  } catch (err) {
+    console.error("Login Error:", err.response?.data || err.message);
+    
+   
+    const errorMessage = err.response?.data?.detail || "Invalid username or password";
+    setError(errorMessage);
+  }
+};
 
-  /* 🔐 SOCIAL LOGIN REDIRECTS (Kept as requested) */
+ 
   const googleLogin = () => window.location.href = "https://accounts.google.com/o/oauth2/v2/auth";
   const facebookLogin = () => window.location.href = "https://www.facebook.com/v18.0/dialog/oauth";
   const discordLogin = () => window.location.href = "https://discord.com/oauth2/authorize";
