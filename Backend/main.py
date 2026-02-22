@@ -6,7 +6,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from pydantic import BaseModel, EmailStr
 import os
-
+from fastapi import WebSocket, WebSocketDisconnect
+from typing import List
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -233,7 +234,7 @@ async def get_all_projects(db: Session = Depends(get_db)):
     
     
 
-# Mount the 'projects' folder to the '/projects' URL path
+
 app.mount("/projects", StaticFiles(directory="projects"), name="projects")
     
     
@@ -241,7 +242,56 @@ app.mount("/projects", StaticFiles(directory="projects"), name="projects")
     
     
     
-    
+from fastapi import WebSocket, WebSocketDisconnect
+from typing import List
+
+# 1. Store active connections
+class ConnectionManager:
+    def __init__(self):
+        self.active_connections: dict[int, WebSocket] = {}
+
+    async def connect(self, user_id: int, websocket: WebSocket):
+        await websocket.accept()
+        self.active_connections[user_id] = websocket
+
+    def disconnect(self, user_id: int):
+        if user_id in self.active_connections:
+            del self.active_connections[user_id]
+
+    async def send_personal_message(self, message: dict, user_id: int):
+        if user_id in self.active_connections:
+            await self.active_connections[user_id].send_json(message)
+
+manager = ConnectionManager()
+
+# 2. Endpoint to fetch history
+@app.get("/api/chat/history/{user_id}/{target_id}")
+async def get_chat_history(user_id: int, target_id: int, db: Session = Depends(get_db)):
+    messages = db.query(models.ChatMessage).filter(
+        ((models.ChatMessage.sender_id == user_id) & (models.ChatMessage.recipient_id == target_id)) |
+        ((models.ChatMessage.sender_id == target_id) & (models.ChatMessage.recipient_id == user_id))
+    ).order_by(models.ChatMessage.timestamp.asc()).all()
+    return messages
+
+# 3. WebSocket with Saving Logic
+@app.websocket("/ws/chat/{user_id}")
+async def websocket_endpoint(websocket: WebSocket, user_id: int, db: Session = Depends(get_db)):
+    await manager.connect(user_id, websocket)
+    try:
+        while True:
+            data = await websocket.receive_json()
+            recipient_id = data["recipient_id"]
+            text = data["text"]
+
+            # Save to Database
+            new_msg = models.ChatMessage(sender_id=user_id, recipient_id=recipient_id, text=text)
+            db.add(new_msg)
+            db.commit()
+
+            # Send to recipient if online
+            await manager.send_personal_message({"sender_id": user_id, "text": text}, int(recipient_id))
+    except WebSocketDisconnect:
+        manager.disconnect(user_id)
     
     
     

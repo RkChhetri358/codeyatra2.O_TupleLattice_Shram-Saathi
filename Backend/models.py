@@ -1,5 +1,6 @@
-from sqlalchemy import Column, Integer, String,ForeignKey
+from sqlalchemy import Column, Integer, String,ForeignKey,Text, DateTime
 from sqlalchemy.orm import relationship
+from datetime import datetime
 from database import Base
 
 # # class User(Base):
@@ -37,7 +38,14 @@ class User(Base):
         return f"<User(username={self.username}, role={self.role})>"
     
     
-    
+class ChatMessage(Base):
+    __tablename__ = "chat_messages"
+
+    id = Column(Integer, primary_key=True, index=True)
+    sender_id = Column(Integer)
+    recipient_id = Column(Integer)
+    text = Column(Text)
+    timestamp = Column(DateTime, default=datetime.utcnow)
     
     
     
