@@ -53,3 +53,27 @@
 .nav-logo img {
   height: 60px;
 }
+.navbar-menu li {
+  cursor: pointer;
+  padding: 10px 0;
+  font-weight: 600;
+  color: #647543;
+  transition: 0.3s;
+  position: relative;
+}
+
+/* Scroll garda orange line aaune logic */
+.navbar-menu li.active {
+  color: #f18f14;
+}
+
+.navbar-menu li.active::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: #f18f14; /* Orange Line */
+  border-radius: 2px;
+}
