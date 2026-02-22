@@ -16,7 +16,7 @@ const ConsumerHome = () => {
         setMyWorks(response.data);
       } catch (err) {
         setMyWorks([
-          { id: 1, title: 'भवन निर्माण (Build House)', count: '23 / 30', img: '/1.png' },
+          { id: 1, title: 'भवन निर्माण (Build House)', count: '23 / 30', img: '/7.png' },
           { id: 2, title: 'घरकाम (Clean House)', count: '0 / 1', img: '/2.png' },
           { id: 3, title: 'घरकाम (Clean House)', count: '2 / 2', img: '/3.png' },
         ]);
@@ -26,11 +26,11 @@ const ConsumerHome = () => {
   }, []);
 
   return (
-    <div className={`home-wrapper ${(showModal || showAddModal) ? 'modal-active' : ''}`}>
+    <div className={`home-wrapper-consumer ${(showModal || showAddModal) ? 'modal-active' : ''}`}>
       <Navbar />
 
       {/* SECTION 1: HOME */}
-      <section className="main-section" id="home-section">
+      <section className="main-section-consumer" id="home-section">
         <div className="top-action" style={{ display: 'flex', justifyContent: 'center', marginBottom: '40px' }}>
           {/* TRIGGER FOR NEW PROJECT MODAL */}
           <button className="btn-orange" style={{ padding: '14px 40px' }} onClick={() => setShowAddModal(true)}>
@@ -45,7 +45,7 @@ const ConsumerHome = () => {
 
         <div className="work-grid">
           {myWorks.map((work) => (
-            <div className="work-item-card" key={work.id}>
+            <div className="work-item-card-consumer" key={work.id}>
               <img src={work.img} alt="work" className="work-consumer" />
               <h4>{work.title}</h4>
               <p className="stats-orange">👤 {work.count}</p>
