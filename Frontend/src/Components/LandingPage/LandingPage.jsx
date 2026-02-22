@@ -35,7 +35,7 @@ export default function LandingPage() {
       </div>
 
       <h1 className="headline" >
-       Saathi
+      
       </h1>
     </div>
   );
