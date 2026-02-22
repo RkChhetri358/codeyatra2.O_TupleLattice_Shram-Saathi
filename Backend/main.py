@@ -1,6 +1,20 @@
+from turtle import title
+
+from fastapi import FastAPI, HTTPException, status,Depends,File, UploadFile, Form
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi import FastAPI
-from schema import SignupRequest,SignupResponse,AddassetResponse,LoginRequest
+from sqlalchemy.orm import Session
+from pydantic import BaseModel, EmailStr
+import os
+from Backend.schema import LoginRequest
+from database import engine, get_db
+import models
+from typing import Optional
+
+from pydantic import BaseModel
+
+import requests
+
+
 app = FastAPI()
 
 app.add_middleware(
@@ -30,6 +44,4 @@ async def login(userdata:LoginRequest,db:Session=Depends(get_db)):
         raise HTTPException(status_code=400, detail="Invalid username or password")
     
     return {"message": "Login successful", "username": db_user.username}
-
-
 
