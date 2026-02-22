@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import LandingPage from "./components/LandingPage/LandingPage";
+import LandingPage from "./Components/LandingPage/LandingPage";
 import Login from "./Components/Loginpage/Loginpage";
 import Signup from "./components/Signup/Signup";
 
@@ -21,6 +21,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/chatbot" element={<VoiceChat currentUserId={1} targetUserId={2} targetUserName="John Doe" />} />
         
+       
 
         {/* Home Page Route - Login garesi yetai redirect huncha */}
         <Route path="/home" element={<Home />} /> 
