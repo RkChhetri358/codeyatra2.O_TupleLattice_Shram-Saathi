@@ -9,17 +9,11 @@ html {
   background: url('/bg1.png') no-repeat center center fixed;
   background-size: cover;
   font-family: 'Raleway', sans-serif;
-<<<<<<< HEAD
-  height: 100vh;
-  overflow-y: scroll;
-  scroll-snap-type: y mandatory;
-=======
   
   height: 100vh;
   overflow-y: scroll;
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
->>>>>>> 3117900b85d1cda42964636788a58953004590b3
 }
 
 /* Sections */
@@ -71,14 +65,10 @@ html {
   height: 170px;
   border-radius: 50%;
   object-fit: cover;
-<<<<<<< HEAD
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-=======
   object-position: center;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
   display: block;
   margin: 0 auto 15px;
->>>>>>> 3117900b85d1cda42964636788a58953004590b3
 }
 
 .stats-orange {
@@ -120,11 +110,6 @@ html {
   font-weight: 600;
 }
 
-<<<<<<< HEAD
-.profile-details-form { flex: 1; }
-.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-.full-span { grid-column: span 2; }
-=======
 .profile-layout {
   display: flex;
   /* border: 2px solid red; */
@@ -132,7 +117,6 @@ html {
   align-items: center;
   justify-content: left;
 }
->>>>>>> 3117900b85d1cda42964636788a58953004590b3
 
 /* Profile Image Circular Fill */
 /* Direct image styling */
@@ -166,11 +150,17 @@ html {
 
 .review-stars {
   text-align: center;
-  margin-top: 15px;
+  margin-top: 25px;
   color: #f18f14;
   font-weight: 800;
 }
-
+.star-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  margin-top: 10px;
+}
 .form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -220,11 +210,6 @@ html {
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
-<<<<<<< HEAD
-.floating-bg { position: fixed; right: 0; top: 220px; width: 280px; opacity: 0.2; z-index: -1; }
-
-/* Chrome, Safari ra Opera ma scrollbar lukauna */
-=======
 .notif-img {
   width: 65px;
   height: 65px;
@@ -253,67 +238,6 @@ html {
 }
 
 /* Hide Scrollbar for clean look */
->>>>>>> 3117900b85d1cda42964636788a58953004590b3
 .home-wrapper::-webkit-scrollbar {
   display: none;
 }
-
-/* --- POPUP (MODAL) STYLES --- */
-.modal-active .main-section, 
-.modal-active .floating-bg,
-.modal-active .navbar-container {
-  filter: blur(10px);
-  pointer-events: none;
-}
-
-.modal-overlay {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0, 0, 0, 0.3);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 99999;
-}
-
-.modal-box {
-  background: white;
-  padding: 40px;
-  border-radius: 30px;
-  width: 850px;
-  max-width: 95%;
-  position: relative;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-}
-
-.modal-close {
-  position: absolute;
-  right: 25px; top: 15px;
-  font-size: 35px;
-  color: #f18f14;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.modal-title { color: #647543; font-weight: 800; margin-bottom: 30px; }
-.modal-flex { display: flex; gap: 40px; }
-.modal-job-img { width: 200px; height: 200px; border-radius: 20px; object-fit: cover; }
-.modal-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; flex: 1; }
-
-.m-input label {
-  display: block; font-size: 13px; font-weight: 700; color: #647543; margin-bottom: 5px;
-}
-.m-input input, .m-input textarea {
-  width: 100%; padding: 12px; border: none; background: #f2f2f2; border-radius: 10px;
-}
-.m-input textarea { height: 80px; resize: none; }
-
-.purple-border input { border: 1.5px solid #a855f7 !important; }
-
-.modal-submit-btn {
-  background: #f18f14; color: white; border: none; padding: 12px 40px;
-  border-radius: 25px; font-weight: 800; margin-top: 30px; cursor: pointer;
-}
-
-.modal-active { overflow: hidden; }

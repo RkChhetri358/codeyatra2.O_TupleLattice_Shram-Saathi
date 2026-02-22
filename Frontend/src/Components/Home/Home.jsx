@@ -1,9 +1,9 @@
-<<<<<<< HEAD
 import React, { useState, useEffect } from 'react';
 import Navbar from '../Navbar/Navbar'; 
 import axios from 'axios'; 
 import './Home.css';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFilter ,faUser,faStar} from '@fortawesome/free-solid-svg-icons';
 const Home = () => {
   
   const [jobs, setJobs] = useState([]); 
@@ -65,25 +65,6 @@ const Home = () => {
       alert("आवेदन पठाउन सकिएन |");
     }
   };
-=======
-import React from "react";
-import Navbar from "../Navbar/Navbar";
-import "./Home.css";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFilter ,faUser} from '@fortawesome/free-solid-svg-icons';
-const Home = () => {
-  const jobs = [
-    {
-      id: 1,
-      title: "भवन निर्माण (Build House)",
-      count: "23 / 30",
-      img: "/1.png",
-    },
-    { id: 2, title: "घरकाम (Clean House)", count: "0 / 1", img: "/2.png" },
-    { id: 3, title: "घरकाम (Clean House)", count: "2 / 2", img: "/3.png" },
-    { id: 4, title: "घरकाम (Clean House)", count: "2 / 2", img: "/3.png" }
-  ];
->>>>>>> 3117900b85d1cda42964636788a58953004590b3
 
   return (
     <div className={`home-wrapper ${showModal ? 'modal-active' : ''}`}>
@@ -96,21 +77,6 @@ const Home = () => {
           <span className="filter-text"><FontAwesomeIcon icon={faFilter} /> छनोट / Filter</span>
         </div>
 
-<<<<<<< HEAD
-        {loading ? <p>लोड हुँदैछ...</p> : (
-          <div className="work-grid">
-            {jobs.map((job) => (
-              <div className="work-item-card" key={job.id}>
-                <img src={job.img} alt="work" className="work-pic" />
-                <h4>{job.title}</h4>
-                <p className="stats-orange">👤 {job.count}</p>
-                <p className="sub-desc">घरवान / निर्माण मजदुरको लागि अवसर</p>
-                <button className="btn-orange" onClick={() => handleApplyClick(job)}>आवेदन</button>
-              </div>
-            ))}
-          </div>
-        )}
-=======
         <div className="work-grid">
           {jobs.map((job) => (
             <div className="work-item-card" key={job.id}>
@@ -118,11 +84,10 @@ const Home = () => {
               <h4>{job.title}</h4>
               <p className="stats-orange"><FontAwesomeIcon icon={faUser} />{job.count}</p>
               <p className="sub-desc">घरवान / निर्माण मजदुरको लागि अवसर</p>
-              <button className="btn-orange">आवेदन</button>
+              <button className="btn-orange" onClick={()=>handleApplyClick(job)}>आवेदन</button>
             </div>
           ))}
         </div>
->>>>>>> 3117900b85d1cda42964636788a58953004590b3
 
         <h3 className="nepali-title" style={{ marginTop: "60px" }}>
           अधिकतम पारिश्रमिक
@@ -154,7 +119,7 @@ const Home = () => {
 
             <div className="review-stars">
               <p>समीक्षा / Review</p>
-              <div className="star-row">⭐⭐⭐⭐⭐ 5.0</div>
+              <div className="star-row"><FontAwesomeIcon icon={faStar} /><FontAwesomeIcon icon={faStar} /><FontAwesomeIcon icon={faStar} /> 5.0</div>
             </div>
           </div>
 
