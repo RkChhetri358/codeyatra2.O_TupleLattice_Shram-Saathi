@@ -7,7 +7,7 @@ const Signup = () => {
   const navigate = useNavigate();
 
   // Address Data
-  const locationData = {
+const locationData = {
     Kathmandu: ["Koteshwor", "Baneshwor", "Chabahil", "Kalanki"],
     Lalitpur: ["Patan", "Jawalakhel", "Lagankhel"],
     Bhaktapur: ["Suryabinayak", "Thimi", "Sallaghari"],
@@ -17,17 +17,15 @@ const Signup = () => {
 
   const [formData, setFormData] = useState({
     username: "",
-   
-    
-    mobile: "", // Added
-   address:"",
+    mobile: "",
+    district: "",
+    place: "",
     password: "",
-   
     role: "user",
   });
 
-  const [citizenshipPhoto, setCitizenshipPhoto] = useState(null); // Added
-  const [userPhoto, setUserPhoto] = useState(null); // Added
+  const [citizenshipPhoto, setCitizenshipPhoto] = useState(null);
+  const [userPhoto, setUserPhoto] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e) => {
@@ -37,11 +35,17 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Use FormData for file uploads
     const data = new FormData();
-    Object.keys(formData).forEach((key) => data.append(key, formData[key]));
-    if (citizenshipPhoto) data.append("citizenship_photo", citizenshipPhoto);
-    if (userPhoto) data.append("user_photo", userPhoto);
+    // Aligning keys with Backend Form arguments
+    data.append("username", formData.username);
+    data.append("mobilenumber", formData.mobile);
+    
+    data.append("address", `${formData.place}, ${formData.district}`);
+    data.append("password", formData.password);
+    data.append("role", formData.role);
+    
+    if (citizenshipPhoto) data.append("citizenship", citizenshipPhoto);
+    if (userPhoto) data.append("coverphoto", userPhoto);
 
     try {
       const response = await axios.post(
@@ -50,16 +54,12 @@ const Signup = () => {
         { headers: { "Content-Type": "multipart/form-data" } }
       );
 
-      if (response.status === 201) {
-        alert("Signup Successful! Please login.");
+      if (response.status === 200 || response.status === 201) {
+        alert("Signup Successful!");
         navigate("/login");
       }
     } catch (error) {
-      if (error.response) {
-        alert(`Error: ${JSON.stringify(error.response.data)}`);
-      } else {
-        alert("Server is unreachable. Check if Django is running.");
-      }
+      alert(`Error: ${JSON.stringify(error.response?.data || "Server error")}`);
     }
   };
 
