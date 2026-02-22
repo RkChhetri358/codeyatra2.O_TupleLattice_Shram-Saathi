@@ -126,12 +126,14 @@ useEffect(() => {
   // }, []);
 
   return (
-    <div className={`home-wrapper ${(showModal || showAddModal) ? 'modal-active' : ''}`}>
+    <div className="home-wrapper-consumer">
       <Navbar />
 
-      <section className="main-section" id="home-section">
+      {/* SECTION 1: HOME */}
+      <section className="main-section-consumer" id="home-section">
         <div className="top-action" style={{ display: 'flex', justifyContent: 'center', marginBottom: '40px' }}>
-          <button className="btn-orange" style={{ padding: '14px 40px' }} onClick={() => setShowAddModal(true)}>
+          {/* TRIGGER FOR NEW PROJECT MODAL */}
+          <button className="btn-orange-consumer" style={{ padding: '14px 40px' }} onClick={() => setShowAddModal(true)}>
             नयाँ परियोजना थप्नुहोस्
           </button>
         </div>
@@ -141,10 +143,10 @@ useEffect(() => {
           <span className="filter-text">सबै हेर्नुहोस्</span>
         </div>
 
-       <div className="work-grid">
+       <div className="work-grid-consumer">
   {myWorks.map((work) => (
     
-    <div className="work-item-card" key={work.id}>
+    <div className="work-item-card-consumer" key={work.id}>
       {/* 1. Display the uploaded image or a default one */}
      
       <img 
@@ -165,7 +167,7 @@ useEffect(() => {
       <p style={{ fontSize: '12px', color: '#666' }}>अवधि: {work.duration}</p>
       
       <button 
-        className="btn-orange" 
+        className="btn-orange-consumer-pragati" 
         onClick={() => { setSelectedWork(work); setShowModal(true); }}
       >
         विवरण हेर्नुहोस्
@@ -175,6 +177,7 @@ useEffect(() => {
 </div>
 
 
+    
 
         
       </section>
@@ -238,7 +241,7 @@ useEffect(() => {
                     <textarea name="description" className="modal-textarea" value={formData.description} onChange={handleChange}></textarea>
                   </div>
                 </div>
-                <button type="submit" onClick={handleAddProject} className="modal-submit-btn orange-btn">आवेदन</button>
+                <button type="submit" onClick={handleAddProject}  className="modal-submit-btn orange-btn-consumer">आवेदन</button>
               </div>
             </form>
           </div>
@@ -247,8 +250,8 @@ useEffect(() => {
 
       {/* MODAL 2: PROGRESS/UPDATE remains unchanged */}
       {showModal && (
-        <div className="modal-overlay" onClick={() => setShowModal(false)}>
-           <div className="modal-box" onClick={(e) => e.stopPropagation()}>
+        <div className="modal-overlay-consumer" onClick={() => setShowModal(false)}>
+          <div className="modal-box-consumer" onClick={(e) => e.stopPropagation()}>
             <span className="modal-close" onClick={() => setShowModal(false)}>&times;</span>
             <h2 className="modal-title">{selectedWork?.title}</h2>
             <div className="modal-flex">
