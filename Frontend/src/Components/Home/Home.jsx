@@ -1,21 +1,68 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from '../Navbar/Navbar'; 
+import axios from 'axios'; 
 import './Home.css';
 
 const Home = () => {
-  // Modal control garna state
+  
+  const [jobs, setJobs] = useState([]); 
   const [showModal, setShowModal] = useState(false);
   const [selectedJob, setSelectedJob] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  const jobs = [
-    { id: 1, title: 'भवन निर्माण (Build House)', count: '23 / 30', img: '/1.png' },
-    { id: 2, title: 'घरकाम (Clean House)', count: '0 / 1', img: '/2.png' },
-    { id: 3, title: 'घरकाम (Clean House)', count: '2 / 2', img: '/3.png' },
-  ];
+  
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        
+        const response = await axios.get("http://127.0.0.1:8000/api/jobs");
+        setJobs(response.data);
+        setLoading(false);
+      } catch (err) {
+        console.error("Fetch Error:", err);
+        setError("data cant be load");
+        setLoading(false);
+        
+        
+        setJobs([
+          { id: 1, title: 'भवन निर्माण (Build House)', count: '23 / 30', img: '/1.png' },
+          { id: 2, title: 'घरकाम (Clean House)', count: '0 / 1', img: '/2.png' },
+          { id: 3, title: 'घरकाम (Clean House)', count: '2 / 2', img: '/3.png' },
+        ]);
+      }
+    };
 
+    fetchJobs();
+  }, []);
+
+  // 2. आवेदन thichda hune kaam
   const handleApplyClick = (job) => {
     setSelectedJob(job);
     setShowModal(true);
+  };
+
+  // 3. Modal vitra ko Form submit garne (Post to Backend)
+  const handleFinalSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const userData = JSON.parse(localStorage.getItem("user")); // Login gareko user info
+      
+      const applicationData = {
+        job_id: selectedJob.id,
+        username: userData?.username,
+        // ... aru form fields haru yaha thapne
+      };
+
+      const response = await axios.post("http://127.0.0.1:8000/api/apply", applicationData);
+      
+      if (response.status === 200) {
+        alert("आवेदन सफल भयो !");
+        setShowModal(false);
+      }
+    } catch (err) {
+      alert("आवेदन पठाउन सकिएन |");
+    }
   };
 
   return (
@@ -29,17 +76,19 @@ const Home = () => {
           <span className="filter-text">🚩 छनोट / Filter</span>
         </div>
 
-        <div className="work-grid">
-          {jobs.map((job) => (
-            <div className="work-item-card" key={job.id}>
-              <img src={job.img} alt="work" className="work-pic" />
-              <h4>{job.title}</h4>
-              <p className="stats-orange">👤 {job.count}</p>
-              <p className="sub-desc">घरवान / निर्माण मजदुरको लागि अवसर</p>
-              <button className="btn-orange" onClick={() => handleApplyClick(job)}>आवेदन</button>
-            </div>
-          ))}
-        </div>
+        {loading ? <p>लोड हुँदैछ...</p> : (
+          <div className="work-grid">
+            {jobs.map((job) => (
+              <div className="work-item-card" key={job.id}>
+                <img src={job.img} alt="work" className="work-pic" />
+                <h4>{job.title}</h4>
+                <p className="stats-orange">👤 {job.count}</p>
+                <p className="sub-desc">घरवान / निर्माण मजदुरको लागि अवसर</p>
+                <button className="btn-orange" onClick={() => handleApplyClick(job)}>आवेदन</button>
+              </div>
+            ))}
+          </div>
+        )}
 
         <h3 className="nepali-title" style={{ marginTop: '60px' }}>अधिकतम पारिश्रमिक</h3>
         <div className="work-grid">
@@ -115,14 +164,14 @@ const Home = () => {
         </div>
       </section>
 
-      {/* POPUP MODAL (APPPLICATION FORM) */}
+      {/* POPUP MODAL */}
       {showModal && (
         <div className="modal-overlay">
           <div className="modal-box">
             <span className="modal-close" onClick={() => setShowModal(false)}>&times;</span>
             <h2 className="modal-title">{selectedJob?.title}</h2>
             
-            <div className="modal-flex">
+            <form onSubmit={handleFinalSubmit} className="modal-flex">
               <div className="modal-left">
                 <img src={selectedJob?.img} alt="job" className="modal-job-img" />
               </div>
@@ -134,28 +183,28 @@ const Home = () => {
                   </div>
                   <div className="m-input purple-border">
                     <label>समय अवधि/ Time Duration</label>
-                    <input type="text" placeholder="2-5 years" />
+                    <input type="text" placeholder="2-5 years" required />
                   </div>
                   <div className="m-input">
                     <label>फोन नम्बर/Phone No.</label>
-                    <input type="text" placeholder="मोबाइल नम्बर प्रविष्ट गर्नुहोस्" />
+                    <input type="text" placeholder="मोबाइल नम्बर" required />
                   </div>
                   <div className="m-input">
                     <label>ठेगाना/Address</label>
-                    <input type="text" placeholder="आफ्नो ठेगाना लेख्नुहोस्" />
+                    <input type="text" placeholder="ठेगाना" required />
                   </div>
                   <div className="m-input">
                     <label>कामको प्रकार/Work Type</label>
-                    <input type="text" placeholder="निर्माण / घरकाम / कृषि / अन्य" />
+                    <input type="text" placeholder="Work type" required />
                   </div>
                   <div className="m-input">
-                    <label>अतिरिक्त जानकारी/Additional Information</label>
+                    <label>अतिरिक्त जानकारी/Additional info</label>
                     <textarea placeholder="..."></textarea>
                   </div>
                 </div>
-                <button className="modal-submit-btn">आवेदन</button>
+                <button type="submit" className="modal-submit-btn">आवेदन</button>
               </div>
-            </div>
+            </form>
           </div>
         </div>
       )}
