@@ -1,4 +1,4 @@
-from turtle import title
+
 
 from fastapi import FastAPI, APIRouter, HTTPException, status,Depends,File, UploadFile, Form
 from fastapi.middleware.cors import CORSMiddleware
@@ -6,6 +6,9 @@ from sqlalchemy.orm import Session
 from pydantic import BaseModel, EmailStr
 import os
 
+
+from dotenv import load_dotenv
+load_dotenv()
 
 from groq import Groq
 import shutil
@@ -34,7 +37,7 @@ from sqlalchemy.orm import Session
 import os
 import models
 from database import engine, get_db
-from schema import SignupResponse # Ensure this has message, username, coverphoto, citizenship
+from schema import SignupResponse,ChatRequest# Ensure this has message, username, coverphoto, citizenship
 
 app = FastAPI()
 
@@ -214,3 +217,14 @@ async def chat_with_voice(file: UploadFile = File(...)):
     ai_reply = get_ai_response(transcription)
     
     return {"user_text": transcription, "bot_reply": ai_reply}
+
+@app.post("/api/chat/text")
+async def chat_with_text(request: ChatRequest):
+    try:
+        reply = get_ai_response(request.text)
+        return {"bot_reply": reply}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+# IMPORTANT: Link the router if you use it in separate files
+app.include_router(router)
