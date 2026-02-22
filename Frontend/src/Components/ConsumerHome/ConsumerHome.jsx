@@ -4,9 +4,9 @@ import axios from 'axios';
 import './ConsumerHome.css';
 
 const ConsumerHome = () => {
-  const [myWorks, setMyWorks] = useState([]);
-  const [showModal, setShowModal] = useState(false); // For Progress/Update
-  const [showAddModal, setShowAddModal] = useState(false); // For New Project
+  const [myWorks, setMyWorks] = useState([]); // <-- must exist
+  const [showModal, setShowModal] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false);
   const [selectedWork, setSelectedWork] = useState(null);
 
   useEffect(() => {
@@ -25,8 +25,24 @@ const ConsumerHome = () => {
     fetchMyWorks();
   }, []);
 
+  useEffect(() => {
+    const fetchMyWorks = async () => {
+      try {
+        const response = await axios.get("http://127.0.0.1:8000/api/consumer/works");
+        setMyWorks(response.data);
+      } catch (err) {
+        setMyWorks([
+          { id: 1, title: 'भवन निर्माण (Build House)', count: '23 / 30', img: '/7.png' },
+          { id: 2, title: 'घरकाम (Clean House)', count: '0 / 1', img: '/2.png' },
+          { id: 3, title: 'घरकाम (Clean House)', count: '2 / 2', img: '/3.png' },
+        ]);
+      }
+    };
+    fetchMyWorks();
+  }, []);
+
   return (
-    <div className={`home-wrapper-consumer ${(showModal || showAddModal) ? 'modal-active' : ''}`}>
+    <div className="home-wrapper-consumer">
       <Navbar />
 
       {/* SECTION 1: HOME */}

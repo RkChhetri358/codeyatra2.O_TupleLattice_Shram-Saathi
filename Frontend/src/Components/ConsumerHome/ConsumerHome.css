@@ -1,3 +1,25 @@
+/* FORCE NORMAL SCROLL */
+html {
+  height: auto !important;
+  overflow-y: auto !important;
+}
+
+body {
+  height: auto !important;
+  overflow-y: auto !important;
+  overflow-x: hidden;
+}
+
+/* Main Wrapper */
+.home-wrapper-consumer {
+  min-height: 100vh;
+  width: 100%;
+  display: block;
+}
+.home-wrapper-consumer {
+  min-height: 100vh;
+  overflow-x: hidden;
+}
 /* General Layout */
 .home-wrapper-consumer {
   background: #fdfdfd;
