@@ -1,11 +1,12 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import LandingPage from "./Components/LandingPage/LandingPage";
 import Login from "./Components/Loginpage/Loginpage";
-import Signup from "./components/Signup/Signup";
+import Signup from "./Components/Signup/Signup";
+import Home from "./Components/Home/Home";
 
 import VoiceChat from "./Components/VoiceChat/VoiceChat";
 
-import Home from "./Components/Home/Home"; // Home lai uncomment gareko
+ // Home lai uncomment gareko
 
 
 

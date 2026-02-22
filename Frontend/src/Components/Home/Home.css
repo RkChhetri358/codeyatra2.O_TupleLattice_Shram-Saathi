@@ -9,17 +9,11 @@ html {
   background: url('/bg1.png') no-repeat center center fixed;
   background-size: cover;
   font-family: 'Raleway', sans-serif;
-<<<<<<< HEAD
-  height: 100vh;
-  overflow-y: scroll;
-  scroll-snap-type: y mandatory;
-=======
   
   height: 100vh;
   overflow-y: scroll;
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
->>>>>>> 3117900b85d1cda42964636788a58953004590b3
 }
 
 /* Sections */
@@ -71,14 +65,10 @@ html {
   height: 170px;
   border-radius: 50%;
   object-fit: cover;
-<<<<<<< HEAD
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-=======
   object-position: center;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
   display: block;
   margin: 0 auto 15px;
->>>>>>> 3117900b85d1cda42964636788a58953004590b3
 }
 
 .stats-orange {
@@ -120,11 +110,6 @@ html {
   font-weight: 600;
 }
 
-<<<<<<< HEAD
-.profile-details-form { flex: 1; }
-.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-.full-span { grid-column: span 2; }
-=======
 .profile-layout {
   display: flex;
   /* border: 2px solid red; */
@@ -132,7 +117,6 @@ html {
   align-items: center;
   justify-content: left;
 }
->>>>>>> 3117900b85d1cda42964636788a58953004590b3
 
 /* Profile Image Circular Fill */
 /* Direct image styling */
@@ -220,11 +204,6 @@ html {
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
-<<<<<<< HEAD
-.floating-bg { position: fixed; right: 0; top: 220px; width: 280px; opacity: 0.2; z-index: -1; }
-
-/* Chrome, Safari ra Opera ma scrollbar lukauna */
-=======
 .notif-img {
   width: 65px;
   height: 65px;
@@ -253,7 +232,6 @@ html {
 }
 
 /* Hide Scrollbar for clean look */
->>>>>>> 3117900b85d1cda42964636788a58953004590b3
 .home-wrapper::-webkit-scrollbar {
   display: none;
 }
