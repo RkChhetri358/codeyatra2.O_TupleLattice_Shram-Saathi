@@ -24,31 +24,44 @@ const Login = () => {
     }
   }, [navigate]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setError(""); // Reset error state
 
-    try {
-      const response = await axios.post("http://127.0.0.1:8000/api/login/", {
-        username: formData.username,
-        password: formData.password,
-      });
+  try {
+    const response = await axios.post("http://127.0.0.1:8000/api/login", {
+      username: formData.username,
+      password: formData.password,
+    });
 
-      if (response.status === 200) {
-        const userData = {
-          username: response.data.username,
-        };
-        localStorage.setItem("user", JSON.stringify(userData));
-        navigate('/layout/dashboard');
-      }
-    } catch (err) {
-      if (err.response) {
-        setError(err.response.data.error || "Invalid username or password");
+    if (response.status === 200) {
+      
+      const { username, role, message } = response.data;
+
+      const userData = {
+        username: username,
+        role: role, 
+      };
+
+      
+      localStorage.setItem("user", JSON.stringify(userData));
+
+      alert(message); 
+     
+      if (role === "consumer") {
+        navigate('/layout/consumer-dashboard'); 
       } else {
-        setError("Cannot connect to server. Please try again.");
+        navigate('/layout/dashboard'); 
       }
     }
-  };
+  } catch (err) {
+    console.error("Login Error:", err.response?.data || err.message);
+    
+   
+    const errorMessage = err.response?.data?.detail || "Invalid username or password";
+    setError(errorMessage);
+  }
+};
 
   const socialLogin = (provider) => {
     const urls = {
