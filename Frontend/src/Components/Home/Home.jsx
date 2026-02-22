@@ -85,7 +85,7 @@ const Home = () => {
               <h4>{job.title}</h4>
               <p className="stats-orange"><FontAwesomeIcon icon={faUser} />{job.count}</p>
               <p className="sub-desc">घरवान / निर्माण मजदुरको लागि अवसर</p>
-              <button className="btn-orange">आवेदन</button>
+              <button className="btn-orange" onClick={()=>handleApplyClick(job)}>आवेदन</button>
             </div>
           ))}
         </div>
