@@ -17,7 +17,7 @@ import requests
 
 
 
-from schema import SignupRequest,SignupResponse,AddassetResponse,LoginRequest
+from schema import SignupResponse,LoginRequest
 
 app = FastAPI()
 
@@ -57,3 +57,110 @@ async def login(userdata:LoginRequest,db:Session=Depends(get_db)):
 
 
 
+# @app.post("/api/signup/", response_model=SignupResponse, status_code=status.HTTP_201_CREATED)
+# async def signup(
+#     userdata: SignupRequest, db: Session = Depends(get_db)):
+
+#     # 1. Check if username exists
+#     db_user_by_name = db.query(models.User).filter(
+#         models.User.username == userdata.username
+#     ).first()
+    
+#     if db_user_by_name:
+#         raise HTTPException(status_code=400, detail="Username already taken")
+
+#     # 2. NEW: Check if email exists to avoid the IntegrityError
+#     db_user_by_email = db.query(models.User).filter(
+#         models.User.email == userdata.email
+#     ).first()
+
+#     if db_user_by_email:
+#         raise HTTPException(status_code=400, detail="Email already registered")
+    
+#     # 3. Proceed if both are unique
+#     new_user = models.User(
+#         username=userdata.username,
+#         email=userdata.email,
+#         password=userdata.password
+#     )
+
+#     db.add(new_user)
+#     db.commit()
+#     db.refresh(new_user)    
+    
+#     return {
+#         "message": "Signup Successful! Please login.",
+#         "username": userdata.username
+#     }
+
+
+
+
+
+
+
+
+
+import os # Make sure this is at the top of your main.py
+@app.post("/api/signup/", response_model=SignupResponse) # Use your class here
+async def signup(
+    username: str = Form(...), 
+    mobilenumber: str = Form(...), 
+    address: str = Form(...), 
+    role: str = Form(...), 
+    password: str = Form(...),
+    citizenship: UploadFile = File(...), 
+    coverphoto: UploadFile = File(...), 
+    db: Session = Depends(get_db)
+):
+    # 1. Save the file
+    if not os.path.exists("coverphoto"):
+     
+        os.makedirs("coverphoto")
+        
+    file_location_coverphoto = f"coverphoto/{coverphoto.filename}"
+    content = await coverphoto.read()
+    
+    with open(file_location_coverphoto, "wb") as f:
+        f.write(content)
+        
+    if not os.path.exists("citizenship"):
+     
+        os.makedirs("citizenship")
+        
+    file_location_citizenship = f"citizenship/{citizenship.filename}"
+    content = await citizenship.read()
+    
+    with open(file_location_citizenship, "wb") as f:
+        f.write(content)
+    
+    with open(file_location_coverphoto, "wb") as f:
+        f.write(content)
+
+    # 2. Save to Database using the Model
+    new_asset = models.Asset(
+        username=username,
+        mobilenumber=mobilenumber,
+        address=address,
+        password=password,
+        coverphoto=file_location_coverphoto,
+        citizenship=file_location_citizenship
+    )
+
+    db.add(new_asset)
+    db.commit()
+    db.refresh(new_asset)
+
+    # 3. Return data that matches your AddassetResponse class
+    return {
+        "message": "Added Successfully", 
+        "coverphoto": coverphoto.filename,
+        "citizenship": citizenship.filename
+    }
+
+
+#GETTING all userdetails of sign up 
+@app.get("/api/allusers")
+async def get_all_users(db: Session = Depends(get_db)):
+    all_users = db.query(models.Asset).all()
+    return all_users
