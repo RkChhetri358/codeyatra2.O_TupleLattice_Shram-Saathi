@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState, useEffect } from 'react';
 import Navbar from '../Navbar/Navbar'; 
 import axios from 'axios'; 
@@ -64,6 +65,25 @@ const Home = () => {
       alert("आवेदन पठाउन सकिएन |");
     }
   };
+=======
+import React from "react";
+import Navbar from "../Navbar/Navbar";
+import "./Home.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFilter ,faUser} from '@fortawesome/free-solid-svg-icons';
+const Home = () => {
+  const jobs = [
+    {
+      id: 1,
+      title: "भवन निर्माण (Build House)",
+      count: "23 / 30",
+      img: "/1.png",
+    },
+    { id: 2, title: "घरकाम (Clean House)", count: "0 / 1", img: "/2.png" },
+    { id: 3, title: "घरकाम (Clean House)", count: "2 / 2", img: "/3.png" },
+    { id: 4, title: "घरकाम (Clean House)", count: "2 / 2", img: "/3.png" }
+  ];
+>>>>>>> 3117900b85d1cda42964636788a58953004590b3
 
   return (
     <div className={`home-wrapper ${showModal ? 'modal-active' : ''}`}>
@@ -73,9 +93,10 @@ const Home = () => {
       <section id="home-section" className="main-section">
         <div className="section-header">
           <h3 className="nepali-title">काम / Work</h3>
-          <span className="filter-text">🚩 छनोट / Filter</span>
+          <span className="filter-text"><FontAwesomeIcon icon={faFilter} /> छनोट / Filter</span>
         </div>
 
+<<<<<<< HEAD
         {loading ? <p>लोड हुँदैछ...</p> : (
           <div className="work-grid">
             {jobs.map((job) => (
@@ -89,14 +110,29 @@ const Home = () => {
             ))}
           </div>
         )}
+=======
+        <div className="work-grid">
+          {jobs.map((job) => (
+            <div className="work-item-card" key={job.id}>
+              <img src={job.img} alt="work" className="work-pic" />
+              <h4>{job.title}</h4>
+              <p className="stats-orange"><FontAwesomeIcon icon={faUser} />{job.count}</p>
+              <p className="sub-desc">घरवान / निर्माण मजदुरको लागि अवसर</p>
+              <button className="btn-orange">आवेदन</button>
+            </div>
+          ))}
+        </div>
+>>>>>>> 3117900b85d1cda42964636788a58953004590b3
 
-        <h3 className="nepali-title" style={{ marginTop: '60px' }}>अधिकतम पारिश्रमिक</h3>
+        <h3 className="nepali-title" style={{ marginTop: "60px" }}>
+          अधिकतम पारिश्रमिक
+        </h3>
         <div className="work-grid">
           {jobs.map((job) => (
             <div className="work-item-card" key={`wage-${job.id}`}>
               <img src={job.img} alt="work" className="work-pic" />
               <h4>{job.title}</h4>
-              <p className="stats-orange">👤 {job.count}</p>
+              <p className="stats-orange"><FontAwesomeIcon icon={faUser} />{job.count}</p>
               <p className="sub-desc">घरवान / निर्माण मजदुरको लागि अवसर</p>
               <button className="btn-orange" onClick={() => handleApplyClick(job)}>आवेदन</button>
             </div>
@@ -113,7 +149,9 @@ const Home = () => {
 
         <div className="profile-layout">
           <div className="profile-sidebar">
-            <img src="/old_man.png" alt="User" className="avatar-circle" />
+       
+            <img src="/7.png" alt="User" className="profile-avatar-img" />
+
             <div className="review-stars">
               <p>समीक्षा / Review</p>
               <div className="star-row">⭐⭐⭐⭐⭐ 5.0</div>
@@ -128,11 +166,17 @@ const Home = () => {
               </div>
               <div className="field-group">
                 <label>उमेर/Age</label>
-                <input type="text" placeholder="आफ्नो उमेर प्रविष्ट गर्नुहोस्" />
+                <input
+                  type="text"
+                  placeholder="आफ्नो उमेर प्रविष्ट गर्नुहोस्"
+                />
               </div>
               <div className="field-group">
                 <label>फोन नम्बर/Phone No.</label>
-                <input type="text" placeholder="मोबाइल नम्बर प्रविष्ट गर्नुहोस्" />
+                <input
+                  type="text"
+                  placeholder="मोबाइल नम्बर प्रविष्ट गर्नुहोस्"
+                />
               </div>
               <div className="field-group">
                 <label>ठेगाना/Address</label>
@@ -140,7 +184,10 @@ const Home = () => {
               </div>
               <div className="field-group full-span">
                 <label>कामको प्रकार</label>
-                <input type="text" placeholder="निर्माण / घरकाम / कृषि / अन्य" />
+                <input
+                  type="text"
+                  placeholder="निर्माण / घरकाम / कृषि / अन्य"
+                />
               </div>
             </div>
             <button className="save-btn">जानकारी परिवर्तन</button>

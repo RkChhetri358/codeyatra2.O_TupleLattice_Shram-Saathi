@@ -179,6 +179,65 @@ async def signup(
     
     
     
+    
+    
+    
+    #view all allProjects
+from fastapi import HTTPException
+from sqlalchemy.orm import Session
+import models
+
+@app.get("/api/allprojects")
+async def get_all_projects(db: Session = Depends(get_db)):
+    try:
+      
+        all_projects = db.query(models.AddProject).all()
+       
+        return all_projects
+
+    except Exception as e:
+        
+        print(f"Error fetching projects: {str(e)}")
+        raise HTTPException(
+            status_code=500, 
+            detail="Internal Server Error: Could not retrieve projects"
+        )
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     # 1. AI Brain (Nepali Support)
 def get_ai_response(user_text: str):
     completion = client.chat.completions.create(

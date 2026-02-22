@@ -76,9 +76,7 @@ const Navbar = () => {
         </ul>
       </div>
 
-      <div className="navright">
-        <img src="/side.png" alt="" className="nav-side-icon" style={{ height: '30px', opacity: 0.6 }} />
-      </div>
+      
     </nav>
   );
 };
