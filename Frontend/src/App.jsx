@@ -23,7 +23,7 @@ function App() {
         
 
         {/* Home Page Route - Login garesi yetai redirect huncha */}
-        <Route path="/home" element={<Home />} />
+        <Route path="/home" element={<Home />} /> 
 
         {/* Dashboard Layout and Protected Routes (Paxi use garna lai ready rakheko) */}
         {/* <Route path="/addasset" element={<AddAsset />} />
