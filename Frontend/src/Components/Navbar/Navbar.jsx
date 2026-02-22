@@ -73,6 +73,12 @@ const Navbar = () => {
           >
             NOTIFICATIONS
           </li>
+          {/* <li 
+            className={activeSection === "notif-section" ? "active" : ""} 
+            onClick={() => scrollToSection('notif-section')}
+          >
+            CHAT
+          </li> */}
         </ul>
       </div>
 
