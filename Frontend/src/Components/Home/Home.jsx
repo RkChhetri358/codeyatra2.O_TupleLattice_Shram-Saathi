@@ -1,16 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Navbar from '../Navbar/Navbar'; 
 import './Home.css';
 
 const Home = () => {
+  // Modal control garna state
+  const [showModal, setShowModal] = useState(false);
+  const [selectedJob, setSelectedJob] = useState(null);
+
   const jobs = [
     { id: 1, title: 'भवन निर्माण (Build House)', count: '23 / 30', img: '/1.png' },
     { id: 2, title: 'घरकाम (Clean House)', count: '0 / 1', img: '/2.png' },
     { id: 3, title: 'घरकाम (Clean House)', count: '2 / 2', img: '/3.png' },
   ];
 
+  const handleApplyClick = (job) => {
+    setSelectedJob(job);
+    setShowModal(true);
+  };
+
   return (
-    <div className="home-wrapper">
+    <div className={`home-wrapper ${showModal ? 'modal-active' : ''}`}>
       <Navbar />
 
       {/* SECTION 1: HOME */}
@@ -27,7 +36,7 @@ const Home = () => {
               <h4>{job.title}</h4>
               <p className="stats-orange">👤 {job.count}</p>
               <p className="sub-desc">घरवान / निर्माण मजदुरको लागि अवसर</p>
-              <button className="btn-orange">आवेदन</button>
+              <button className="btn-orange" onClick={() => handleApplyClick(job)}>आवेदन</button>
             </div>
           ))}
         </div>
@@ -40,7 +49,7 @@ const Home = () => {
               <h4>{job.title}</h4>
               <p className="stats-orange">👤 {job.count}</p>
               <p className="sub-desc">घरवान / निर्माण मजदुरको लागि अवसर</p>
-              <button className="btn-orange">आवेदन</button>
+              <button className="btn-orange" onClick={() => handleApplyClick(job)}>आवेदन</button>
             </div>
           ))}
         </div>
@@ -105,6 +114,51 @@ const Home = () => {
           ))}
         </div>
       </section>
+
+      {/* POPUP MODAL (APPPLICATION FORM) */}
+      {showModal && (
+        <div className="modal-overlay">
+          <div className="modal-box">
+            <span className="modal-close" onClick={() => setShowModal(false)}>&times;</span>
+            <h2 className="modal-title">{selectedJob?.title}</h2>
+            
+            <div className="modal-flex">
+              <div className="modal-left">
+                <img src={selectedJob?.img} alt="job" className="modal-job-img" />
+              </div>
+              <div className="modal-right">
+                <div className="modal-form-grid">
+                  <div className="m-input">
+                    <label>कामको नाम / Task name</label>
+                    <input type="text" value={selectedJob?.title} readOnly />
+                  </div>
+                  <div className="m-input purple-border">
+                    <label>समय अवधि/ Time Duration</label>
+                    <input type="text" placeholder="2-5 years" />
+                  </div>
+                  <div className="m-input">
+                    <label>फोन नम्बर/Phone No.</label>
+                    <input type="text" placeholder="मोबाइल नम्बर प्रविष्ट गर्नुहोस्" />
+                  </div>
+                  <div className="m-input">
+                    <label>ठेगाना/Address</label>
+                    <input type="text" placeholder="आफ्नो ठेगाना लेख्नुहोस्" />
+                  </div>
+                  <div className="m-input">
+                    <label>कामको प्रकार/Work Type</label>
+                    <input type="text" placeholder="निर्माण / घरकाम / कृषि / अन्य" />
+                  </div>
+                  <div className="m-input">
+                    <label>अतिरिक्त जानकारी/Additional Information</label>
+                    <textarea placeholder="..."></textarea>
+                  </div>
+                </div>
+                <button className="modal-submit-btn">आवेदन</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       <img src="/side.png" alt="" className="floating-bg" />
     </div>
