@@ -88,6 +88,26 @@ const handleAddProject = async (e) => {
   }
 };
 
+useEffect(() => {
+  const fetchMyWorks = async () => {
+    try {
+      const response = await axios.get("http://127.0.0.1:8000/api/allprojects");
+      console.log("Data Received from Backend:", response.data); // DEBUG 2
+      setMyWorks(response.data);
+    } catch (err) {
+      console.error("Error fetching projects:", err);
+      // Fallback dummy data if backend is empty/fails
+      setMyWorks([
+        { id: 1, project_name: 'भवन निर्माण', duration: '1 Year', address: 'Kathmandu', file_path: '' },
+      ]);
+    }
+  };
+  fetchMyWorks();
+}, []);
+
+
+
+
   // useEffect(() => {
   //   const fetchMyWorks = async () => {
   //     try {
@@ -121,17 +141,42 @@ const handleAddProject = async (e) => {
           <span className="filter-text">सबै हेर्नुहोस्</span>
         </div>
 
-        <div className="work-grid">
-          {myWorks.map((work) => (
-            <div className="work-item-card" key={work.id}>
-              <img src={work.img || "/1.png"} alt="work" className="work-consumer" />
-              <h4>{work.project_name || work.title}</h4>
-              <p className="stats-orange">👤 {work.requiredWorkers || work.count}</p>
-              <p className="sub-desc">निर्माण मजदुरको लागि अवसर</p>
-              <button className="btn-orange" onClick={() => { setSelectedWork(work); setShowModal(true); }}>प्रगति</button>
-            </div>
-          ))}
-        </div>
+       <div className="work-grid">
+  {myWorks.map((work) => (
+    
+    <div className="work-item-card" key={work.id}>
+      {/* 1. Display the uploaded image or a default one */}
+     
+      <img 
+        src={work.file_path ? `http://127.0.0.1:8000/${work.file_path}` : "/1.png"} 
+        alt="project" 
+        className="work-consumer" 
+        onError={(e) => { e.target.src = "/1.png"; }} // Fallback if image path fails
+      />
+      
+      {/* 2. Display project name */}
+      <h4>{work.project_name}</h4>
+      
+      {/* 3. Display Type and Address */}
+      <p className="stats-orange">📍 {work.address}</p>
+      <p className="sub-desc">{work.project_type || "निर्माण मजदुरको लागि अवसर"}</p>
+      
+      {/* 4. Display Duration */}
+      <p style={{ fontSize: '12px', color: '#666' }}>अवधि: {work.duration}</p>
+      
+      <button 
+        className="btn-orange" 
+        onClick={() => { setSelectedWork(work); setShowModal(true); }}
+      >
+        विवरण हेर्नुहोस्
+      </button>
+    </div>
+  ))}
+</div>
+
+
+
+        
       </section>
 
       {/* SECTION 2: PROFILE remains unchanged */}
@@ -203,9 +248,41 @@ const handleAddProject = async (e) => {
       {/* MODAL 2: PROGRESS/UPDATE remains unchanged */}
       {showModal && (
         <div className="modal-overlay" onClick={() => setShowModal(false)}>
-           {/* ... progress modal code ... */}
+           <div className="modal-box" onClick={(e) => e.stopPropagation()}>
+            <span className="modal-close" onClick={() => setShowModal(false)}>&times;</span>
+            <h2 className="modal-title">{selectedWork?.title}</h2>
+            <div className="modal-flex">
+              <div className="modal-left">
+                <img src={selectedWork?.img} className="modal-job-img" alt="" />
+              </div>
+              <div className="modal-right">
+                <div className="modal-form-grid">
+                  <div className="m-input"><label>कामको शीर्षक</label><input value={selectedWork?.title} readOnly /></div>
+                  <div className="m-input purple-border"><label>समय अवधि</label><input placeholder="2-5 years" /></div>
+                  <div className="m-input"><label>सम्पर्क नम्बर</label><input placeholder="98XXXXXXXX" /></div>
+                  <div className="m-input"><label>ठेगाना</label><input placeholder="काठमाडौं" /></div>
+                </div>
+                <button className="modal-submit-btn">अपडेट गर्नुहोस्</button>
+              </div>
+            </div>
+          </div>
         </div>
       )}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     </div>
   );
 };

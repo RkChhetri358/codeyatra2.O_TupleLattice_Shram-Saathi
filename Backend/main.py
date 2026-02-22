@@ -1,6 +1,7 @@
 
 
 from fastapi import FastAPI, APIRouter, HTTPException, status,Depends,File, UploadFile, Form
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from pydantic import BaseModel, EmailStr
@@ -231,7 +232,9 @@ async def get_all_projects(db: Session = Depends(get_db)):
     
     
     
-    
+
+# Mount the 'projects' folder to the '/projects' URL path
+app.mount("/projects", StaticFiles(directory="projects"), name="projects")
     
     
     
