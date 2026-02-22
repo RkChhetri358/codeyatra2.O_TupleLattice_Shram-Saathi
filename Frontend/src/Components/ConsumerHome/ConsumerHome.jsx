@@ -42,7 +42,7 @@ const ConsumerHome = () => {
         <div className="work-grid">
           {myWorks.map((work) => (
             <div className="work-item-card" key={work.id}>
-              <img src={work.img} alt="work" className="work-pic" />
+              <img src={work.img} alt="work" className="work-consumer" />
               <h4>{work.title}</h4>
               <p className="stats-orange">👤 {work.count}</p>
               <p className="sub-desc">निर्माण मजदुरको लागि अवसर</p>
