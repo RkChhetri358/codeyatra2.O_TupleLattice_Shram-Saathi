@@ -17,7 +17,7 @@ import requests
 
 
 
-from schema import SignupRequest,SignupResponse,AddassetResponse,LoginRequest
+from schema import SignupResponse,LoginRequest
 
 app = FastAPI()
 
@@ -107,6 +107,7 @@ async def signup(
     username: str = Form(...), 
     mobilenumber: str = Form(...), 
     address: str = Form(...), 
+    role: str = Form(...), 
     password: str = Form(...),
     citizenship: UploadFile = File(...), 
     coverphoto: UploadFile = File(...), 
