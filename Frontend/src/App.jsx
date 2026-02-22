@@ -2,21 +2,21 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import LandingPage from "./components/LandingPage/LandingPage";
 // import Login from "./components/Loginpage/Loginpage";
 import Login from "./Components/Loginpage/Loginpage";
-import Signup from "./components/Signup/Signup";
+// import Signup from "./components/Signup/Signup";
 
-import Dashboard from "./components/Dashboard/Dashboard";
-import Profile from "./components/Profile/Profile";
+// import Dashboard from "./components/Dashboard/Dashboard";
+// import Profile from "./components/Profile/Profile";
 
 
 
-import Layout from "./components/Layout/Layout";
-import Home from "./components/Home/Home";
-// import AddAsset from "./components/AddAsset/AddAsset";
+// import Layout from "./components/Layout/Layout";
+// import Home from "./components/Home/Home";
+// // import AddAsset from "./components/AddAsset/AddAsset";
 
-import AddAsset from "./Components/AddAsset/AddAsset";
-import Asset from "./Components/Asset/Asset";
-import SellingAsset from "./Components/SellingAsset/SellingAsset";
-import BuyingAsset from "./Components/BuyingAsset/BuyingAsset";
+// import AddAsset from "./Components/AddAsset/AddAsset";
+// import Asset from "./Components/Asset/Asset";
+// import SellingAsset from "./Components/SellingAsset/SellingAsset";
+// import BuyingAsset from "./Components/BuyingAsset/BuyingAsset";
 
 function App() {
   return (
@@ -24,13 +24,13 @@ function App() {
       <Routes>
       
         <Route path="/" element={<LandingPage />} />
-        <Route path="/login" element={<Login />} />
+        {/* <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/addasset" element={<AddAsset />} />
+        <Route path="/addasset" element={<AddAsset />} /> */}
 
        
-        <Route path="/layout" element={<Layout />}>
+        {/* <Route path="/layout" element={<Layout />}>
           <Route index element={<Dashboard />} />            
           <Route path="dashboard" element={<Dashboard />} /> 
          
@@ -41,7 +41,7 @@ function App() {
 
           <Route path="profile" element={<Profile />} />
        
-        </Route>
+        </Route> */}
 
       
         <Route path="*" element={<Navigate to="/login" />} />

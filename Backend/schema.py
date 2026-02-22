@@ -14,4 +14,15 @@ class LoginRequest(BaseModel):
     username:str
     password:str
     
+
+
+class SignupRequest(BaseModel):
+    username:str
+    email:EmailStr
+    password:str
+    address:str
+    phone:str
     
+class SignupResponse(BaseModel):
+    message:str
+    username:str
