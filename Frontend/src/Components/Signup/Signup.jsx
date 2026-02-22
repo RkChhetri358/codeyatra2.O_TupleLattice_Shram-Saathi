@@ -6,14 +6,28 @@ import axios from "axios";
 const Signup = () => {
   const navigate = useNavigate();
 
+  // Address Data
+  const locationData = {
+    Kathmandu: ["Koteshwor", "Baneshwor", "Chabahil", "Kalanki"],
+    Lalitpur: ["Patan", "Jawalakhel", "Lagankhel"],
+    Bhaktapur: ["Suryabinayak", "Thimi", "Sallaghari"],
+    Pokhara: ["Lakeside", "Mahendrapool"],
+    Chitwan: ["Bharatpur", "Narayangarh"]
+  };
+
   const [formData, setFormData] = useState({
     username: "",
-    email: "",
+   
+    
+    mobile: "", // Added
+   address:"",
     password: "",
-    wallet_address: "", // Updated to match Django model
+   
     role: "user",
   });
 
+  const [citizenshipPhoto, setCitizenshipPhoto] = useState(null); // Added
+  const [userPhoto, setUserPhoto] = useState(null); // Added
   const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e) => {
@@ -23,10 +37,17 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Use FormData for file uploads
+    const data = new FormData();
+    Object.keys(formData).forEach((key) => data.append(key, formData[key]));
+    if (citizenshipPhoto) data.append("citizenship_photo", citizenshipPhoto);
+    if (userPhoto) data.append("user_photo", userPhoto);
+
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/signup/", // Ensure this matches your urls.py
-        formData
+        "http://127.0.0.1:8000/api/signup/",
+        data,
+        { headers: { "Content-Type": "multipart/form-data" } }
       );
 
       if (response.status === 201) {
@@ -35,7 +56,6 @@ const Signup = () => {
       }
     } catch (error) {
       if (error.response) {
-        // Show specific error from Django (e.g., "Username already taken")
         alert(`Error: ${JSON.stringify(error.response.data)}`);
       } else {
         alert("Server is unreachable. Check if Django is running.");
@@ -47,10 +67,10 @@ const Signup = () => {
     <div className="signup-container">
       <div className="signup-card">
         <div className="signup-header">
-          <img src="/logo.png" alt="UTA Logo" className="logo" />
+          <img src="/logo.png" alt="SS Logo" className="logo" />
           <h2>Create Account</h2>
         </div>
-<br />
+        <br />
         <form className="signup-form" onSubmit={handleSubmit}>
           {/* ROLE SELECTION */}
           <div className="form-group">
@@ -66,7 +86,6 @@ const Signup = () => {
                 />
                 user
               </label>
-
               <label className={formData.role === "consumer" ? "active" : ""}>
                 <input
                   type="radio"
@@ -77,34 +96,34 @@ const Signup = () => {
                 />
                 consumer
               </label>
-
-              {/* <label className={formData.role === "user" ? "active" : ""}>
-  <input
-    type="radio"
-    name="role"
-    value="user"
-    checked={formData.role === "user"}
-    onChange={handleChange}
-  />
-  Collector
-</label> 
-*/}
             </div>
           </div>
+
+          {/*<div className="form-group">
+            <label>Full Name</label>
+            <input
+              type="text"
+              name="fullname"
+              placeholder="Enter your full name"
+              value={formData.fullname}
+              onChange={handleChange}
+              required
+            />
+          </div>*/}
 
           <div className="form-group">
             <label>Username</label>
             <input
               type="text"
               name="username"
-              placeholder="Dave"
+              placeholder=""
               value={formData.username}
               onChange={handleChange}
               required
             />
           </div>
 
-          <div className="form-group">
+          {/*<div className="form-group">
             <label>Email</label>
             <input
               type="email"
@@ -114,8 +133,63 @@ const Signup = () => {
               onChange={handleChange}
               required
             />
-          </div>
+          </div>*/}
 
+          <div className="form-group">
+            <label>Mobile Number</label>
+            <input
+              type="tel"
+              name="mobile"
+              placeholder=""
+              value={formData.mobile}
+              onChange={handleChange}
+              required
+            />
+          </div>
+            {/* <div className="form-group">
+            <label>Address</label>
+            <input
+              type="tel"
+              name="mobile"
+              placeholder=""
+              value={formData.mobile}
+              onChange={handleChange}
+              required
+            />
+          </div>*/}
+
+       <div className="form-group">
+  <label>Address</label>
+  
+  {/* District Selection (Looks like an input box) */}
+  <select 
+    name="district" 
+    value={formData.district} 
+    onChange={handleChange} 
+    required
+    style={{ marginBottom: "10px" }}
+  >
+    <option value="">Select District</option>
+    {Object.keys(locationData).map((d) => (
+      <option key={d} value={d}>{d}</option>
+    ))}
+  </select>
+
+  {/* Place Selection - District select bhayepachi matra automatic aaucha */}
+  {formData.district && (
+    <select 
+      name="place" 
+      value={formData.place} 
+      onChange={handleChange} 
+      required
+    >
+      <option value="">Select Place</option>
+      {locationData[formData.district].map((p) => (
+        <option key={p} value={p}>{p}</option>
+      ))}
+    </select>
+  )}
+</div>
           <div className="form-group">
             <label>Password</label>
             <div className="password-wrapper">
@@ -137,19 +211,26 @@ const Signup = () => {
             </div>
           </div>
 
+      
+
           <div className="form-group">
-            <label>Public Wallet Address</label>
+            <label>Upload Citizenship Photo</label>
             <input
-              type="text"
-              name="wallet_address"
-              placeholder="0x..."
-              value={formData.wallet_address}
-              onChange={handleChange}
+              type="file"
+              accept="image/*"
+              onChange={(e) => setCitizenshipPhoto(e.target.files[0])}
               required
             />
-            <small style={{ color: "#888", fontSize: "11px" }}>
-              Never enter your private key here.
-            </small>
+          </div>
+
+          <div className="form-group">
+            <label>Upload Your Photo</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => setUserPhoto(e.target.files[0])}
+              required
+            />
           </div>
 
           <button className="signup-btn" type="submit">
