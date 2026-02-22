@@ -57,3 +57,42 @@ async def login(userdata:LoginRequest,db:Session=Depends(get_db)):
 
 
 
+@app.post("/api/signup/", response_model=SignupResponse, status_code=status.HTTP_201_CREATED)
+async def signup(userdata: SignupRequest, db: Session = Depends(get_db)):
+
+    # 1. Check if username exists
+    db_user_by_name = db.query(models.User).filter(
+        models.User.username == userdata.username
+    ).first()
+    
+    if db_user_by_name:
+        raise HTTPException(status_code=400, detail="Username already taken")
+
+    # 2. NEW: Check if email exists to avoid the IntegrityError
+    db_user_by_email = db.query(models.User).filter(
+        models.User.email == userdata.email
+    ).first()
+
+    if db_user_by_email:
+        raise HTTPException(status_code=400, detail="Email already registered")
+    
+    # 3. Proceed if both are unique
+    new_user = models.User(
+        username=userdata.username,
+        email=userdata.email,
+        password=userdata.password
+    )
+
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)    
+    
+    return {
+        "message": "Signup Successful! Please login.",
+        "username": userdata.username
+    }
+
+
+
+
+
