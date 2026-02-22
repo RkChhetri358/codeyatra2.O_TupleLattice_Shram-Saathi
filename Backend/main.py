@@ -19,18 +19,25 @@ import requests
 
 from schema import SignupResponse,LoginRequest
 
+
+from fastapi import FastAPI, File, UploadFile, Form, Depends, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy.orm import Session
+import os
+import models
+from database import engine, get_db
+from schema import SignupResponse # Ensure this has message, username, coverphoto, citizenship
+
 app = FastAPI()
 
-# --- CORS SETTINGS ---
-# This allows your React app to talk to your FastAPI backend
+# 1. CORS Middleware (Must be exactly like this)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"], # Add your frontend URL here
+    allow_origins=["http://localhost:5173"], 
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 # Create the database tables
 models.Base.metadata.create_all(bind=engine)
 
@@ -57,110 +64,70 @@ async def login(userdata:LoginRequest,db:Session=Depends(get_db)):
 
 
 
-# @app.post("/api/signup/", response_model=SignupResponse, status_code=status.HTTP_201_CREATED)
-# async def signup(
-#     userdata: SignupRequest, db: Session = Depends(get_db)):
-
-#     # 1. Check if username exists
-#     db_user_by_name = db.query(models.User).filter(
-#         models.User.username == userdata.username
-#     ).first()
-    
-#     if db_user_by_name:
-#         raise HTTPException(status_code=400, detail="Username already taken")
-
-#     # 2. NEW: Check if email exists to avoid the IntegrityError
-#     db_user_by_email = db.query(models.User).filter(
-#         models.User.email == userdata.email
-#     ).first()
-
-#     if db_user_by_email:
-#         raise HTTPException(status_code=400, detail="Email already registered")
-    
-#     # 3. Proceed if both are unique
-#     new_user = models.User(
-#         username=userdata.username,
-#         email=userdata.email,
-#         password=userdata.password
-#     )
-
-#     db.add(new_user)
-#     db.commit()
-#     db.refresh(new_user)    
-    
-#     return {
-#         "message": "Signup Successful! Please login.",
-#         "username": userdata.username
-#     }
 
 
 
 
 
-
-
-
-
-import os # Make sure this is at the top of your main.py
-@app.post("/api/signup/", response_model=SignupResponse) # Use your class here
-async def signup(
-    username: str = Form(...), 
-    mobilenumber: str = Form(...), 
-    address: str = Form(...), 
-    role: str = Form(...), 
-    password: str = Form(...),
-    citizenship: UploadFile = File(...), 
-    coverphoto: UploadFile = File(...), 
-    db: Session = Depends(get_db)
-):
-    # 1. Save the file
-    if not os.path.exists("coverphoto"):
-     
-        os.makedirs("coverphoto")
-        
-    file_location_coverphoto = f"coverphoto/{coverphoto.filename}"
-    content = await coverphoto.read()
-    
-    with open(file_location_coverphoto, "wb") as f:
-        f.write(content)
-        
-    if not os.path.exists("citizenship"):
-     
-        os.makedirs("citizenship")
-        
-    file_location_citizenship = f"citizenship/{citizenship.filename}"
-    content = await citizenship.read()
-    
-    with open(file_location_citizenship, "wb") as f:
-        f.write(content)
-    
-    with open(file_location_coverphoto, "wb") as f:
-        f.write(content)
-
-    # 2. Save to Database using the Model
-    new_asset = models.Asset(
-        username=username,
-        mobilenumber=mobilenumber,
-        address=address,
-        password=password,
-        coverphoto=file_location_coverphoto,
-        citizenship=file_location_citizenship
-    )
-
-    db.add(new_asset)
-    db.commit()
-    db.refresh(new_asset)
-
-    # 3. Return data that matches your AddassetResponse class
-    return {
-        "message": "Added Successfully", 
-        "coverphoto": coverphoto.filename,
-        "citizenship": citizenship.filename
-    }
-
+# Create tables
+models.Base.metadata.create_all(bind=engine)
 
 #GETTING all userdetails of sign up 
 @app.get("/api/allusers")
 async def get_all_users(db: Session = Depends(get_db)):
     all_users = db.query(models.Asset).all()
     return all_users
+
+@app.post("/api/signup/", response_model=SignupResponse)
+async def signup(
+    username: str = Form(...), 
+    mobilenumber: str = Form(...), 
+    address: str = Form(...), 
+    password: str = Form(...),
+    role: str = Form(...), 
+    citizenship: UploadFile = File(...), 
+    coverphoto: UploadFile = File(...), 
+    db: Session = Depends(get_db)
+):
+    # Ensure directories
+    os.makedirs("coverphoto", exist_ok=True)
+    os.makedirs("citizenship", exist_ok=True)
+
+    try:
+        # Save Citizenship
+        cz_path = f"citizenship/{citizenship.filename}"
+        cz_content = await citizenship.read()
+        with open(cz_path, "wb") as f:
+            f.write(cz_content)
+
+        # Save Cover Photo
+        cp_path = f"coverphoto/{coverphoto.filename}"
+        cp_content = await coverphoto.read()
+        with open(cp_path, "wb") as f:
+            f.write(cp_content)
+
+        # Save to DB
+        new_user = models.User(
+            username=username,
+            mobilenumber=mobilenumber,
+            address=address,
+            password=password,
+            role=role,
+            coverphoto=cp_path,
+            citizenship=cz_path
+        )
+        db.add(new_user)
+        db.commit()
+        db.refresh(new_user)
+
+        return {
+            "message": "Signup Successful", 
+            "username": new_user.username,
+            "coverphoto": coverphoto.filename,
+            "citizenship": citizenship.filename
+        }
+
+    except Exception as e:
+        db.rollback()
+        print(f"CRITICAL ERROR: {str(e)}") # LOOK AT YOUR TERMINAL FOR THIS
+        raise HTTPException(status_code=500, detail=str(e))
