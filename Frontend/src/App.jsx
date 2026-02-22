@@ -1,7 +1,9 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import LandingPage from "./components/LandingPage/LandingPage";
+import LandingPage from "./Components/LandingPage/LandingPage";
 import Login from "./Components/Loginpage/Loginpage";
-import Signup from "./components/Signup/Signup";
+import Signup from "./Components/Signup/Signup";
+
+import { NavbarBrand } from "react-bootstrap";
 
 // Baki components haru paxi chaine bela uncomment garna sakincha
 // import Dashboard from "./components/Dashboard/Dashboard";
@@ -23,6 +25,7 @@ function App() {
         {/* Auth Routes */}
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+       
 
         {/* Dashboard Layout and Protected Routes (Paxi use garna lai ready rakheko) */}
         {/* <Route path="/home" element={<Home />} />
