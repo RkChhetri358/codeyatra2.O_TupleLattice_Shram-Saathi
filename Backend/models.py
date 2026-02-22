@@ -54,14 +54,15 @@ class AddProject(Base):
     address = Column(String)
     project_type = Column(String)
     description = Column(String)
+    file_path = Column(String)
     
 
-    owner_id = Column(Integer, ForeignKey("users.id"))
+    consumer_id = Column(Integer, ForeignKey("users.id"))
 
     # owner = relationship("User", back_populates="projects")
 
     def __repr__(self):
-        return f"<Project(name={self.project_name}, owner_id={self.owner_id})>"
+        return f"<Project(name={self.project_name}, consumer_id={self.consumer_id} , phone_number={self.phone_number} )>"
 
 
 # from sqlalchemy import Column, Integer, String, ForeignKey
