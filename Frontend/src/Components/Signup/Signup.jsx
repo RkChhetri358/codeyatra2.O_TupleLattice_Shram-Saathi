@@ -243,7 +243,7 @@ const locationData = {
         </div>
 
         <div className="terms-condition">
-          By continuing, you agree to UTA's
+          By continuing, you agree to ShramSaathi's
           <span> Terms of Use </span> and
           <span> Privacy Policy</span>
         </div>
