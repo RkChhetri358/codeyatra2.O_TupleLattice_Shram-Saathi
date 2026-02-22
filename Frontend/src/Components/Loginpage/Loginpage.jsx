@@ -18,12 +18,14 @@ const Login = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      navigate('/layout/dashboard');
-    }
-  }, [navigate]);
+  // useEffect(() => {
+  //   const storedUser = localStorage.getItem("user");
+  //   if (storedUser) {
+  //     navigate('/layout/dashboard');
+  //   }
+  // }, [navigate]);
+
+
 const handleSubmit = async (e) => {
   e.preventDefault();
   setError(""); 
@@ -55,7 +57,7 @@ const handleSubmit = async (e) => {
       if (role === "consumer") {
         navigate('/ConsumerHome'); 
       } else {
-        navigate('/layout/dashboard'); 
+        navigate('/home'); 
       }
     }
   } catch (err) {
