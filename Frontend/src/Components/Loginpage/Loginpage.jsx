@@ -3,6 +3,7 @@ import "./Loginpage.css";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 
+
 const Login = () => {
   const [formData, setFormData] = useState({
     username: "",
@@ -23,10 +24,9 @@ const Login = () => {
       navigate('/layout/dashboard');
     }
   }, [navigate]);
-
 const handleSubmit = async (e) => {
   e.preventDefault();
-  setError(""); // Reset error state
+  setError(""); 
 
   try {
     const response = await axios.post("http://127.0.0.1:8000/api/login", {
@@ -35,29 +35,31 @@ const handleSubmit = async (e) => {
     });
 
     if (response.status === 200) {
-      
-      const { username, role, message } = response.data;
+      // Destructure everything from the backend response
+      const { username, role, id, mobile, message } = response.data;
 
+      // 1. Store individual items for easy access in AddProject
+      localStorage.setItem("user_id", id);
+      localStorage.setItem("phone_number", mobile);
+      
+      // 2. Store the main user object
       const userData = {
         username: username,
         role: role, 
       };
-
-      
       localStorage.setItem("user", JSON.stringify(userData));
 
       alert(message); 
      
+      // 3. Conditional Navigation based on role
       if (role === "consumer") {
-        navigate('/layout/consumer-dashboard'); 
+        navigate('/ConsumerHome'); 
       } else {
         navigate('/layout/dashboard'); 
       }
     }
   } catch (err) {
     console.error("Login Error:", err.response?.data || err.message);
-    
-   
     const errorMessage = err.response?.data?.detail || "Invalid username or password";
     setError(errorMessage);
   }
@@ -74,6 +76,7 @@ const handleSubmit = async (e) => {
 
   return (
     <div className="login-container">
+ 
       <div className="login-card">
         <div className="login-header">
           <img src="/logo.png" alt="UTA Logo" className="logo" />

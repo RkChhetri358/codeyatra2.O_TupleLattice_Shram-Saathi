@@ -1,0 +1,23 @@
+.chat-container {
+  display: flex; flex-direction: column; height: 90vh; max-width: 450px;
+  margin: auto; background: #e5ddd5; border-radius: 12px; overflow: hidden;
+}
+.chat-header {
+  background: #075e54; color: white; padding: 15px; display: flex; align-items: center;
+}
+.chat-window {
+  flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;
+}
+.message-bubble {
+  max-width: 70%; padding: 10px; border-radius: 12px; font-size: 14px; line-height: 1.4;
+}
+.message-me { align-self: flex-end; background: #dcf8c6; border-bottom-right-radius: 2px; }
+.message-them { align-self: flex-start; background: #ffffff; border-bottom-left-radius: 2px; }
+.input-area { background: #f0f0f0; padding: 10px; display: flex; align-items: center; gap: 8px; }
+.chat-input { flex: 1; border: none; padding: 10px; border-radius: 20px; outline: none; }
+.mic-button {
+  background: #128c7e; border: none; color: white; width: 40px; height: 40px;
+  border-radius: 50%; cursor: pointer;
+}
+.mic-button.recording { background: #ea4335; animation: pulse 1s infinite; }
+@keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }

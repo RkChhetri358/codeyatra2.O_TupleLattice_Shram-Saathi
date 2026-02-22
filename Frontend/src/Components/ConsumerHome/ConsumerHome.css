@@ -1,0 +1,190 @@
+/* General Layout */
+.home-wrapper {
+  background: #fdfdfd;
+  min-height: 100vh;
+}
+
+.main-section {
+  padding: 60px 10%;
+}
+
+.profile-light-bg {
+  background: rgba(100, 117, 67, 0.05);
+}
+
+.nepali-title {
+  color: #647543;
+  font-weight: 800;
+}
+
+.btn-orange {
+  background: #f18f14;
+  color: white;
+  height: 65px;
+  border: none;
+  border-radius: 30px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 70px;
+  transition: 0.3s;
+}
+
+.btn-orange:hover {
+  background: #d67a0e;
+}
+
+/* Modal Core */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-box {
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  position: relative;
+  width: 90%;
+  max-width: 900px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+/* Add Project Modal Specifics (Matching Image) */
+.add-project-modal {
+  max-width: 850px;
+}
+
+.main-modal-title {
+  font-size: 28px;
+  margin-bottom: 30px;
+  margin-top: 30PX;
+}
+
+.orange-x {
+  color: #f18f14 !important;
+  font-size: 35px;
+  font-weight: bold;
+  cursor: pointer;
+  position: absolute;
+  top: 20px;
+  right: 25px;
+}
+
+.modal-flex {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+.photo-upload-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.photo-placeholder {
+  width: 200px;
+  height: 200px;
+  background: #f0f0f0;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.photo-placeholder:hover {
+  background: #e8e8e8;
+}
+
+.plus-icon {
+  font-size: 60px;
+  color: #c0c0c0;
+  font-weight: 300;
+}
+
+.upload-text {
+  margin-top: 15px;
+  color: #777;
+  font-size: 14px;
+}
+
+/* Form Grid */
+.modal-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.full-span {
+  grid-column: span 2;
+}
+
+.m-input label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: #647543;
+  margin-bottom: 5px;
+}
+
+.m-input input, .modal-textarea {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  background: #f2f2f2;
+  border-radius: 10px;
+  font-family: inherit;
+}
+
+.modal-textarea {
+  height: 80px;
+  resize: none;
+}
+
+.orange-btn {
+  background: #f18f14;
+  width: 180px;
+  margin-top: 25px;
+  padding: 12px;
+  border-radius: 25px;
+  font-size: 18px;
+}
+
+/* Profile Section Styles */
+.avatar-circle {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.work-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 30px;
+}
+
+.work-item-card {
+  text-align: center;
+  padding: 20px;
+  border: 1px solid #eee;
+  border-radius: 15px;
+}
+
+.work-consumer {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}

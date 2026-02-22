@@ -1,0 +1,79 @@
+.navbar-container {
+  height: 90px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.236);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  padding: 0 50px;
+}
+
+.navbar-menu {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+}
+
+.navbar-menu li {
+  font-size: 16px;
+  font-weight: 800;
+  color: #647543;
+  cursor: pointer;
+  position: relative;
+  transition: 0.3s;
+}
+
+/* Base line (hidden) */
+.navbar-menu li::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 0;
+  height: 3px;
+  background: #f18f14;
+  transition: width 0.3s ease-in-out;
+}
+
+/* Active bhayeko bela line full width hune */
+.navbar-menu li.active {
+  color: #f18f14;
+}
+
+.navbar-menu li.active::after {
+  width: 100%;
+}
+
+.nav-logo img {
+  height: 60px;
+}
+.navbar-menu li {
+  cursor: pointer;
+  padding: 10px 0;
+  font-weight: 600;
+  color: #647543;
+  transition: 0.3s;
+  position: relative;
+}
+
+/* Scroll garda orange line aaune logic */
+.navbar-menu li.active {
+  color: #f18f14;
+}
+
+.navbar-menu li.active::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: #f18f14; /* Orange Line */
+  border-radius: 2px;
+}

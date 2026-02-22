@@ -1,2 +1,6 @@
 recommendation/.env
 recommendation/venv/
+
+Backend/.env
+__pycache__/
+venv/

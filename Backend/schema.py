@@ -14,7 +14,8 @@ class LoginRequest(BaseModel):
     username:str
     password:str
     
-
+class ChatRequest(BaseModel):
+    text: str
 
 class SignupResponse(BaseModel):
     message: str
