@@ -2,7 +2,7 @@ import React from "react";
 import Navbar from "../Navbar/Navbar";
 import "./Home.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFilter ,faUser} from '@fortawesome/free-solid-svg-icons';
+import { faFilter ,faUser,faStar} from '@fortawesome/free-solid-svg-icons';
 const Home = () => {
   const jobs = [
     {
@@ -69,7 +69,7 @@ const Home = () => {
 
             <div className="review-stars">
               <p>समीक्षा / Review</p>
-              <div className="star-row">⭐⭐⭐⭐⭐ 5.0</div>
+              <div className="star-row"><FontAwesomeIcon icon={faStar} /><FontAwesomeIcon icon={faStar} /><FontAwesomeIcon icon={faStar} /> 5.0</div>
             </div>
           </div>
 
