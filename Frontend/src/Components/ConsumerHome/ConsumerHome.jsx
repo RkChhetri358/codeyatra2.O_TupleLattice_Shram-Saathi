@@ -5,7 +5,8 @@ import './ConsumerHome.css';
 
 const ConsumerHome = () => {
   const [myWorks, setMyWorks] = useState([]);
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(false); // For Progress/Update
+  const [showAddModal, setShowAddModal] = useState(false); // For New Project
   const [selectedWork, setSelectedWork] = useState(null);
 
   useEffect(() => {
@@ -25,13 +26,16 @@ const ConsumerHome = () => {
   }, []);
 
   return (
-    <div className={`home-wrapper ${showModal ? 'modal-active' : ''}`}>
+    <div className={`home-wrapper ${(showModal || showAddModal) ? 'modal-active' : ''}`}>
       <Navbar />
 
       {/* SECTION 1: HOME */}
       <section className="main-section" id="home-section">
         <div className="top-action" style={{ display: 'flex', justifyContent: 'center', marginBottom: '40px' }}>
-          <button className="btn-orange" style={{ padding: '14px 40px' }}>नयाँ परियोजना थप्नुहोस्</button>
+          {/* TRIGGER FOR NEW PROJECT MODAL */}
+          <button className="btn-orange" style={{ padding: '14px 40px' }} onClick={() => setShowAddModal(true)}>
+            नयाँ परियोजना थप्नुहोस्
+          </button>
         </div>
 
         <div className="section-header">
@@ -88,24 +92,59 @@ const ConsumerHome = () => {
         </div>
       </section>
 
-      {/* SECTION 3: NOTIFICATIONS */}
-      <section className="main-section" id="notif-section">
-        <div className="section-header">
-          <h3 className="nepali-title">सूचना 🔔 / NOTIFICATIONS</h3>
-        </div>
-        
-        <div className="notif-list">
-          <div className="notif-card">
-            <img src="/1.png" className="notif-img" alt="" />
-            <div className="notif-info">
-              <h4>आवेदन प्राप्त भयो</h4>
-              <p>तपाईंको 'भवन निर्माण' प्रोजेक्टमा नयाँ आवेदन आएको छ।</p>
-            </div>
+      {/* MODAL 1: ADD NEW PROJECT (Matching the Image) */}
+      {showAddModal && (
+        <div className="modal-overlay">
+          <div className="modal-box add-project-modal">
+            <span className="modal-close orange-x" onClick={() => setShowAddModal(false)}>&times;</span>
+            
+            <h2 className="nepali-title main-modal-title">नयाँ परियोजना</h2>
+            
+            <form className="modal-flex">
+              {/* Left Side: Photo Upload */}
+              <div className="modal-left photo-upload-section">
+                <div className="photo-placeholder">
+                  <span className="plus-icon">+</span>
+                </div>
+                <p className="upload-text">फोटो थप्नुहोस्</p>
+              </div>
+
+              {/* Right Side: Form Fields */}
+              <div className="modal-right">
+                <div className="modal-form-grid">
+                  <div className="m-input">
+                    <label>कामको नाम / शीर्षक</label>
+                    <input type="text" placeholder="परियोजनाको नाम लेख्नुहोस्" />
+                  </div>
+                  <div className="m-input">
+                    <label>समय अवधि</label>
+                    <input type="text" placeholder="समय अवधि" />
+                  </div>
+                  <div className="m-input">
+                    <label>आवश्यक श्रमिक संख्या</label>
+                    <input type="text" placeholder="संख्या लेख्नुहोस्" />
+                  </div>
+                  <div className="m-input">
+                    <label>ठेगाना / Address</label>
+                    <input type="text" placeholder="आफ्नो ठेगाना लेख्नुहोस्" />
+                  </div>
+                  <div className="m-input full-span">
+                    <label>कामको प्रकार</label>
+                    <input type="text" placeholder="निर्माण / घरकाम / कृषि / अन्य" />
+                  </div>
+                  <div className="m-input full-span">
+                    <label>अतिरिक्त जानकारी</label>
+                    <textarea className="modal-textarea" placeholder="विवरण लेख्नुहोस्..."></textarea>
+                  </div>
+                </div>
+                <button type="submit" className="modal-submit-btn orange-btn">आवेदन</button>
+              </div>
+            </form>
           </div>
         </div>
-      </section>
+      )}
 
-      {/* --- MODAL --- */}
+      {/* MODAL 2: PROGRESS/UPDATE */}
       {showModal && (
         <div className="modal-overlay" onClick={() => setShowModal(false)}>
           <div className="modal-box" onClick={(e) => e.stopPropagation()}>
