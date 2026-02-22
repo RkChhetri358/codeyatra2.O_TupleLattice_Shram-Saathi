@@ -1,4 +1,5 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String,ForeignKey
+from sqlalchemy.orm import relationship
 from database import Base
 
 # class User(Base):
@@ -33,3 +34,30 @@ class User(Base):
 
     def __repr__(self):
         return f"<User(username={self.username}, role={self.role})>"
+    
+    
+    
+    
+    
+    
+class AddProject(Base):
+    __tablename__ = "projects"
+
+    id = Column(Integer, primary_key=True, index=True)
+    project_name = Column(String, index=True)
+    duration = Column(String)
+    
+  
+    phone_number = Column(String) 
+    
+    address = Column(String)
+    project_type = Column(String)
+    description = Column(String)
+    
+
+    owner_id = Column(Integer, ForeignKey("users.id"))
+
+    owner = relationship("User", back_populates="projects")
+
+    def __repr__(self):
+        return f"<Project(name={self.project_name}, owner_id={self.owner_id})>"

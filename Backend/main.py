@@ -64,15 +64,50 @@ async def login(userdata:LoginRequest,db:Session=Depends(get_db)):
 
 
 
+@app.post("/api/postProjectDetails")
+async def post_project_details(
+    project_name: str = Form(...),
+    duration: str = Form(...),
+    phone_number: str = Form(...),
+    address: str = Form(...),
+    project_type: str = Form(...),
+    description: str = Form(...),
+    file: UploadFile = File(...),
+    db: Session = Depends(get_db)
+):
+    try:
+     
+        file_location = f"projects/{file.filename}"
+        os.makedirs("projects", exist_ok=True)
+        with open(file_location, "wb") as f:
+            f.write(await file.read())
+
+            new_project = models.AddProject(
+                project_name=project_name,
+                duration=duration,
+                phone_number=phone_number,
+                address=address,
+                project_type=project_type,
+                description=description,
+                file_path=file_location
+            )
+            db.add(new_project)
+            db.commit()
+            db.refresh(new_project)
+
+        return {"message": "Project details posted successfully", "file_path": file_location}
+    except Exception as e:
+        print(f"Error posting project details: {str(e)}")
+        raise HTTPException(status_code=500, detail="Failed to post project details")
 
 
 
 
+ 
 
-# Create tables
 models.Base.metadata.create_all(bind=engine)
 
-#GETTING all userdetails of sign up 
+
 @app.get("/api/allusers")
 async def get_all_users(db: Session = Depends(get_db)):
     all_users = db.query(models.Asset).all()

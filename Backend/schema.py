@@ -21,4 +21,6 @@ class SignupResponse(BaseModel):
     username: str
     coverphoto: str
     citizenship: str
-    
+
+
+
