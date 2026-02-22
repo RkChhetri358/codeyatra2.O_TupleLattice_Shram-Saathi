@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./Loginpage.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import { Link } from "react-router-dom";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -18,7 +17,6 @@ const Login = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Redirect if already logged in
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
@@ -65,21 +63,25 @@ const handleSubmit = async (e) => {
   }
 };
 
- 
-  const googleLogin = () => window.location.href = "https://accounts.google.com/o/oauth2/v2/auth";
-  const facebookLogin = () => window.location.href = "https://www.facebook.com/v18.0/dialog/oauth";
-  const discordLogin = () => window.location.href = "https://discord.com/oauth2/authorize";
+  const socialLogin = (provider) => {
+    const urls = {
+      google: "https://accounts.google.com/o/oauth2/v2/auth",
+      facebook: "https://www.facebook.com/v18.0/dialog/oauth",
+      discord: "https://discord.com/oauth2/authorize"
+    };
+    window.location.href = urls[provider];
+  };
 
   return (
     <div className="login-container">
       <div className="login-card">
         <div className="login-header">
-          <img src="/UTA.png" alt="UTA Logo" className="logo" />
+          <img src="/logo.png" alt="UTA Logo" className="logo" />
           <h2>Welcome Back</h2>
         </div>
 
         <form className="login-form" onSubmit={handleSubmit}>
-          {error && <p className="error-msg" style={{color: 'red', textAlign: 'center'}}>{error}</p>}
+          {error && <p className="error-msg">{error}</p>}
 
           <div className="form-group">
             <label>Username</label>
@@ -107,7 +109,6 @@ const handleSubmit = async (e) => {
               <span
                 className="toggle-password"
                 onClick={() => setShowPassword(!showPassword)}
-                style={{ cursor: "pointer" }}
               >
                 {showPassword ? "🙈" : "👁️"}
               </span>
@@ -126,21 +127,22 @@ const handleSubmit = async (e) => {
         </div>
 
         <div className="social-login">
-          <button className="social-btn" onClick={googleLogin}>
+          <button className="social-btn" onClick={() => socialLogin('google')}>
             <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" height="20" />
           </button>
-          <button className="social-btn" onClick={facebookLogin}>
+          <button className="social-btn" onClick={() => socialLogin('facebook')}>
             <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png" alt="Facebook" height="20" />
           </button>
-          <button className="social-btn" onClick={discordLogin}>
+          <button className="social-btn" onClick={() => socialLogin('discord')}>
             <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord" height="20" />
           </button>
-          
         </div>
-         <div className="signup-link"> Don’t have an account?<Link to="/signup"> Sign up</Link>
-           </div> 
 
-          <div className="terms-condition">
+        <div className="signup-link">
+          Don’t have an account? <Link to="/signup">Sign up</Link>
+        </div>
+
+        <div className="terms-condition">
           By continuing, you agree to UTA's
           <span> Terms of Use </span> and
           <span> Privacy Policy</span>
