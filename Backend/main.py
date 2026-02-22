@@ -61,18 +61,40 @@ async def hello():
     return {"message": "Hello, World!"}
 
 
+# @app.post("/api/login")
+# async def login(userdata:LoginRequest,db:Session=Depends(get_db)):
+#     db_user = db.query(models.User).filter(
+#         models.User.username == userdata.username,
+#         models.User.password == userdata.password
+#     ).first()
+
+#     if not db_user:
+#         raise HTTPException(status_code=400, detail="Invalid username or password")
+    
+#     return {"message": "Login successful", "username": db_user.username,"id": db_user.id}
 @app.post("/api/login")
-async def login(userdata:LoginRequest,db:Session=Depends(get_db)):
+async def login(userdata: LoginRequest, db: Session = Depends(get_db)):
+    # 1. Look for the user in the database
     db_user = db.query(models.User).filter(
         models.User.username == userdata.username,
         models.User.password == userdata.password
     ).first()
 
+    # 2. If user doesn't exist, throw 401
     if not db_user:
-        raise HTTPException(status_code=400, detail="Invalid username or password")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, 
+            detail="Invalid username or password"
+        )
     
-    return {"message": "Login successful", "username": db_user.username}
-
+    # 3. Return all necessary info for the frontend
+    return {
+        "message": "Login successful",
+        "username": db_user.username,
+        "role": db_user.role,       # 'user' or 'consumer'
+        "id": db_user.id,           # Required for consumer_id in projects
+        "mobile": db_user.mobilenumber # Required for phone_number in projects
+    }
 
 
 @app.post("/api/postProjectDetails")
@@ -83,6 +105,7 @@ async def post_project_details(
     address: str = Form(...),
     project_type: str = Form(...),
     description: str = Form(...),
+    consumer_id: int = Form(...),
     file: UploadFile = File(...),
     db: Session = Depends(get_db)
 ):
@@ -100,7 +123,8 @@ async def post_project_details(
                 address=address,
                 project_type=project_type,
                 description=description,
-                file_path=file_location
+                file_path=file_location,
+                consumer_id=consumer_id
             )
             db.add(new_project)
             db.commit()
