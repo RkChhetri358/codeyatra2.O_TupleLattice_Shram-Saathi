@@ -12,19 +12,14 @@ body {
 
 /* Main Wrapper */
 .home-wrapper-consumer {
+ 
   min-height: 100vh;
   width: 100%;
   display: block;
+    background: url('/bg1.png') no-repeat center center fixed;
+  background-size: cover;
 }
-.home-wrapper-consumer {
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-/* General Layout */
-.home-wrapper-consumer {
-  background: #fdfdfd;
-  min-height: 100vh;
-}
+
 
 .main-section-consumer {
   padding: 60px 10%;
