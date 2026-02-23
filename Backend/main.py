@@ -25,7 +25,11 @@ client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 # 1. CORS Middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"], 
+    allow_origins=[
+        "http://localhost:5173",
+        "http://localhost:5174",  
+        "http://127.0.0.1:5174",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

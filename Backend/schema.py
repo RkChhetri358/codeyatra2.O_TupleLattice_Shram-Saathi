@@ -25,14 +25,8 @@ class SignupResponse(BaseModel):
     citizenship: str
 
 
-class ApplicationRequest(BaseModel):
-    job_id: int
-    username: str
-    duration: str
-    phone: str
-    address: str
-    work_type: str
-    additional_info: Optional[str] = None
+from pydantic import BaseModel
+from typing import Optional
 
 class ProfileUpdate(BaseModel):
     user_id: int
@@ -41,3 +35,12 @@ class ProfileUpdate(BaseModel):
     phone: str
     address: str
     work_type: str
+
+class ApplicationRequest(BaseModel):
+    job_id: int
+    username: str
+    duration: str
+    phone: str
+    address: str
+    work_type: str
+    additional_info: Optional[str] = None
