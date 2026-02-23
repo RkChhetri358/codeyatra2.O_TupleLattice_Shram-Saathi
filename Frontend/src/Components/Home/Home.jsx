@@ -3,7 +3,7 @@ import Navbar from '../Navbar/Navbar';
 import axios from 'axios'; 
 import './Home.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFilter ,faUser,faStar} from '@fortawesome/free-solid-svg-icons';
+import { faFilter ,faUser,faStar,faBell} from '@fortawesome/free-solid-svg-icons';
 const Home = () => {
   
   const [jobs, setJobs] = useState([]); 
@@ -162,7 +162,7 @@ const Home = () => {
 
       {/* SECTION 3: NOTIFICATIONS */}
       <section id="notif-section" className="main-section">
-        <h3 className="nepali-title">सूचना 🔔</h3>
+        <h3 className="nepali-title">सूचना <FontAwesomeIcon icon={faBell} /></h3>
         <div className="notif-container">
           {[1, 2].map((i) => (
             <div className="notif-card" key={i}>

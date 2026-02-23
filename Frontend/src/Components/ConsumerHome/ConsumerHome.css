@@ -28,7 +28,13 @@ body {
 .profile-light-bg {
   background: rgba(100, 117, 67, 0.05);
 }
-
+.profile-left-side{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+}
 .nepali-title {
   color: #647543;
   font-weight: 800;
@@ -218,4 +224,32 @@ body {
 
   border-radius: 75%;
   margin-bottom: 15px;
+}
+/* Notifications */
+.notif-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: white;
+  padding: 18px;
+  border-radius: 18px;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.notif-img {
+  width: 65px;
+  height: 65px;
+  border-radius: 12px;
+}
+
+.notif-info h4 {
+  color: #647543;
+  margin: 0;
+}
+
+.notif-info p {
+  font-size: 13px;
+  color: #555;
+  margin-top: 4px;
 }

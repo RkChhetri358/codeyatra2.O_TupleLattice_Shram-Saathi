@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../Navbar/Navbar";
 import axios from "axios";
 import "./ConsumerHome.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import { faFilter ,faUser,faStar,faBell} from '@fortawesome/free-solid-svg-icons';
 
 const ConsumerHome = () => {
   const [myWorks, setMyWorks] = useState([]); // <-- must exist
@@ -76,7 +79,7 @@ const ConsumerHome = () => {
             <div className="work-item-card-consumer" key={work.id}>
               <img src={work.img} alt="work" className="work-consumer" />
               <h4>{work.title}</h4>
-              <p className="stats-orange">👤 {work.count}</p>
+              <p className="stats-orange"><FontAwesomeIcon icon={faUser} />{work.count}</p>
               <p className="sub-desc">निर्माण मजदुरको लागि अवसर</p>
               <button
                 className="btn-orange-consumer-pragati"
@@ -101,11 +104,11 @@ const ConsumerHome = () => {
         <div className="profile-layout">
           <div className="profile-left-side">
             <img
-              src="/user_profile.png"
+              src="/8.png"
               alt="Profile"
               className="avatar-circle"
             />
-            <div className="review-stars">⭐⭐⭐⭐⭐</div>
+            <div className="review-stars"><FontAwesomeIcon icon={faStar} /><FontAwesomeIcon icon={faStar} /><FontAwesomeIcon icon={faStar} /></div>
           </div>
 
           <div className="profile-details-form">
@@ -133,7 +136,7 @@ const ConsumerHome = () => {
         {/* section 3  */}
       </section>
                 <section id="notif-section" className="main-section">
-        <h3 className="nepali-title">सूचना 🔔</h3>
+        <h3 className="nepali-title">सूचना <FontAwesomeIcon icon={faBell} /></h3>
         <div className="notif-container">
           {[1, 2].map((i) => (
             <div className="notif-card" key={i}>
