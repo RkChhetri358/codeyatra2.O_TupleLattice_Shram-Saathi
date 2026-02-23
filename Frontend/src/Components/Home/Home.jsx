@@ -282,7 +282,12 @@ useEffect(() => {
         <div className="modal-left">
           {/* Dynamic Image */}
           <img src={selectedJob?.img} alt="job" className="modal-job-img" />
+        <div className="div-basePricelabel">
+          <label defaultValue={profileData.base_price} readOnly >आधार मूल्य: {profileData.base_price}</label>
+       
         </div>
+        </div>
+        
         <div className="modal-right">
           <div className="modal-form-grid">
             <div className="m-input">
@@ -302,7 +307,7 @@ useEffect(() => {
 
             <div className="m-input">
               <label>फोन नम्बर/Phone No.</label>
-              <input type="text" placeholder="मोबाइल नम्बर" required />
+              <input type="text" defaultValue={profileData.phone} placeholder="मोबाइल नम्बर" required />
             </div>
 
             <div className="m-input">
