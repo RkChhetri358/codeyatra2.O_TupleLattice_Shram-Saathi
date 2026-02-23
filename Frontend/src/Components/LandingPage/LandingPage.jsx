@@ -22,7 +22,7 @@ export default function LandingPage() {
     const totalTime = 2000;
 
     const timer = setTimeout(() => {
-      navigate('/home')
+      navigate('/login')
     }, totalTime);
 
     return () => clearTimeout(timer);

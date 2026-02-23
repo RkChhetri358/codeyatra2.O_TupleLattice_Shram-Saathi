@@ -11,18 +11,40 @@ export default function VoiceChat({ currentUserId, targetUserId, targetUserName 
   const socket = useRef(null);
   const scrollRef = useRef(null);
 
-  // Initialize WebSocket connection
   useEffect(() => {
-    socket.current = new WebSocket(`ws://127.0.0.1:8000/ws/chat/${currentUserId}`);
+  const fetchHistory = async () => {
+    try {
+      const res = await axios.get(`http://127.0.0.1:8000/api/chat/history/${currentUserId}/${targetUserId}`);
+      // Format history to match your message state
+      const formattedHistory = res.data.map(msg => ({
+        sender: msg.sender_id === parseInt(currentUserId) ? "me" : "them",
+        text: msg.text
+      }));
+      setMessages(formattedHistory);
+    } catch (err) {
+      console.error("History Load Error:", err);
+    }
+  };
 
-    socket.current.onmessage = (event) => {
-      const data = JSON.parse(event.data);
+  if (targetUserId) fetchHistory();
+}, [currentUserId, targetUserId]);
+
+
+  // Initialize WebSocket connection
+useEffect(() => {
+  socket.current = new WebSocket(`ws://127.0.0.1:8000/ws/chat/${currentUserId}`);
+
+  socket.current.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+    // Only add message if it's from the person we are currently chatting with
+    if (data.sender_id === targetUserId) {
       setMessages((prev) => [...prev, { sender: "them", text: data.text }]);
-      speak(data.text); // Voice feedback for incoming messages
-    };
+      speak(data.text);
+    }
+  };
 
-    return () => socket.current.close();
-  }, [currentUserId]);
+  return () => socket.current.close();
+}, [currentUserId, targetUserId]);
 
   // Auto-scroll to bottom
   useEffect(() => {
