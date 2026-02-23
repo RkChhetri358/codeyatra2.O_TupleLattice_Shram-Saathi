@@ -13,6 +13,8 @@ import VoiceChat from "./Components/VoiceChat/VoiceChat";
 import ConsumerHome from "./Components/ConsumerHome/ConsumerHome"; 
 import RatingPop from "./Components/Ratingpop/Ratingpop";
 import Pragati from "./Components/Pragati/Pragati";
+import WorkerSelectionModal from "./Components/WorkerSelectionModal/WorkerSelectionModal";
+import Payment from "./Components/Payment/Payment";
 
 // Baki components commented chhan
 // import Dashboard from "./Components/Dashboard/Dashboard";
@@ -29,7 +31,7 @@ function App() {
         <Route path="/Ratingpop" element={<RatingPop />} />
         <Route path="/pragati" element={<Pragati />} />
         <Route path="/chatbot" element={<VoiceChat currentUserId={1} targetUserId={2} targetUserName="John Doe" />} />
-        
+        <Route path="/Payment" element={<Payment proposedPrice={5000} onClose={() => window.history.back()} />} />
        
 
         {/* Home Page Route - Login garesi yetai redirect huncha */}
@@ -37,15 +39,9 @@ function App() {
 
         {/* 2. Aba URL ma "http://localhost:5184/ConsumerHome" handa yo khulchha */}
         <Route path="/ConsumerHome" element={<ConsumerHome />} />
+        <Route path="/WorkerSelectionModal" element={<WorkerSelectionModal/>} />
 
-        {/* Dashboard Layout Routes (Ready for future) */}
-        {/* <Route path="/layout" element={<Layout />}>
-          <Route index element={<Dashboard />} />            
-          <Route path="dashboard" element={<Dashboard />} /> 
-          <Route path="profile" element={<Profile />} />
-        </Route> 
-        */}
-
+ 
         <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
       

@@ -18,7 +18,7 @@ export default function NepaliChatbot() {
       const transcript = event.results[0][0].transcript;
       setIsRecording(false);
       
-      // Send text to your FastAPI AI endpoint
+      
       const res = await axios.post("http://127.0.0.1:8000/api/chat/text", {
         text: transcript
       });

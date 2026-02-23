@@ -9,6 +9,7 @@ import VoiceChat from '../VoiceChat/VoiceChat';
 import { Link } from 'react-router-dom';
 
 const ConsumerHome = () => {
+    const navigate = useNavigate();
   const [myWorks, setMyWorks] = useState([]);
   const [showModal, setShowModal] = useState(false); 
   const [showAddModal, setShowAddModal] = useState(false); 
@@ -249,7 +250,7 @@ const ConsumerHome = () => {
                     <p className="worker-name">{worker.name}</p>
                     <p className="worker-role">{worker.role}</p>
                     <div className="worker-stars" style={{ color: "#ff6b00" }}>★★★★★</div>
-                    <button className="select-btn-orange">छनौट</button>
+                    <button className="select-btn-orange" onClick={()=>navigate('/WorkerSelectionModal')}>छनौट</button>
                   </div>
                 ))}
               </div>
