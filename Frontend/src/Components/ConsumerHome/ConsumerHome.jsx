@@ -130,8 +130,22 @@ const ConsumerHome = () => {
             <button className="save-btn">परिवर्तन सुरक्षित गर्नुहोस्</button>
           </div>
         </div>
+        {/* section 3  */}
       </section>
-
+                <section id="notif-section" className="main-section">
+        <h3 className="nepali-title">सूचना 🔔</h3>
+        <div className="notif-container">
+          {[1, 2].map((i) => (
+            <div className="notif-card" key={i}>
+              <img src="/build.png" alt="icon" className="notif-img" />
+              <div className="notif-info">
+                <h4>भवन निर्माण (Build House)</h4>
+                <p>-- ले तपाईंलाई यस परियोजनामा काम गर्न अनुरोध गरेका छन्।</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
       {showAddModal && (
         <div className="modal-overlay">
           <div className="modal-box add-project-modal">
