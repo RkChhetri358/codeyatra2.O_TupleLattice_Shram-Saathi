@@ -344,3 +344,14 @@ html {
     font-weight: bold;
     text-align: center;
 }
+/* .chat-popup-wrapper {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 300px;
+  height: 400px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  z-index: 9999;
+} */

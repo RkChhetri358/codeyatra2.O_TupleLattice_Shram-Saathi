@@ -70,47 +70,30 @@ const handleFinalSubmit = async (e) => {
   try {
     const res = await axios.post("http://127.0.0.1:8000/api/apply", applicationData);
     
-    if(res.data.status === "success") {
-      alert("आवेदन सफल भयो !");
-      setShowModal(false);
-      
-      // पक्का गर्नुहोस् कि selectedJob मा owner_id छ
-      // तपाईँको API ले 'consumer_id' पठाएको छ, त्यसैले owner_id को सट्टा consumer_id हुन सक्छ
-      const targetId = selectedJob.owner_id || selectedJob.consumer_id;
-      
-      setChatTarget({ 
-        id: targetId, 
-        name: "Job Owner" 
-      });
-      setShowChat(true); 
-    }
-  } catch (err) {
+if(res.data.status === "success") {
+  alert("आवेदन सफल भयो !");
+  setShowModal(false);
+
+  const targetId = selectedJob.owner_id;
+
+  if (!targetId) {
+    console.error("No owner_id found in selectedJob", selectedJob);
+    return;
+  }
+
+  setChatTarget({ 
+    id: targetId, 
+    name: "Job Owner" 
+  });
+
+  setShowChat(true); 
+}
+}
+   catch (err) {
     console.error(err);
     alert("त्रुटि भयो ।");
   }
 };
-
-//   const handleFinalSubmit = async (e) => {
-//   e.preventDefault();
-//   // Get values from form inputs (you'll need to add state for these inputs)
-//   const applicationData = {
-//     job_id: selectedJob.id,
-//     username: JSON.parse(localStorage.getItem("username")), 
-//     duration: e.target[1].value, // Simple way to get input values
-//     phone: e.target[2].value,
-//     address: e.target[3].value,
-//     work_type: e.target[4].value,
-//     additional_info: e.target[5].value
-//   };
-
-//   try {
-//     await axios.post("http://127.0.0.1:8000/api/apply", applicationData);
-//     alert("आवेदन सफल भयो !");
-//     setShowModal(false);
-//   } catch (err) {
-//     alert("त्रुटि भयो ।");
-//   }
-// };
 
 
 
@@ -331,7 +314,12 @@ useEffect(() => {
           ))}
         </div>
       </section>
-
+  <div className="chat-popup-wrapper">
+    <button className="close-chat" onClick={() => setShowChat(false)}>X</button>
+    {/* यहाँ तपाईँको Chat कम्पोनेन्ट हुनुपर्छ */}
+    <div className="chat-header">Chat with {chatTarget.name}</div>
+ <VoiceChat currentUserId={parseInt(userId)} targetUserId={chatTarget.id} targetUserName={chatTarget.name} />
+  </div>
  {showModal && (
   <div className="modal-overlay">
     <div className="modal-box">
@@ -399,14 +387,9 @@ useEffect(() => {
 )}
 
 {/* Chat Popup Component */}
-{showChat && (
-  <div className="chat-popup-wrapper">
-    <button className="close-chat" onClick={() => setShowChat(false)}>X</button>
-    {/* यहाँ तपाईँको Chat कम्पोनेन्ट हुनुपर्छ */}
-    <div className="chat-header">Chat with {chatTarget.name}</div>
-    {/* <Chat targetId={chatTarget.id} />  <-- तपाईँको Chat UI यहाँ राख्नुहोस् */}
-  </div>
-)}
+{/* {showChat && (
+
+)} */}
 
 
       <img src="/side.png" alt="" className="floating-bg" />
