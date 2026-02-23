@@ -12,6 +12,7 @@ import VoiceChat from "./Components/VoiceChat/VoiceChat";
 // 1. Exact Folder ra File name ConsumerHome nai hunu parchha
 import ConsumerHome from "./Components/ConsumerHome/ConsumerHome"; 
 import RatingPop from "./Components/Ratingpop/Ratingpop";
+import Pragati from "./Components/Pragati/Pragati";
 
 // Baki components commented chhan
 // import Dashboard from "./Components/Dashboard/Dashboard";
@@ -26,6 +27,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/Ratingpop" element={<RatingPop />} />
+        <Route path="/pragati" element={<Pragati />} />
         <Route path="/chatbot" element={<VoiceChat currentUserId={1} targetUserId={2} targetUserName="John Doe" />} />
         
        
@@ -46,6 +48,7 @@ function App() {
 
         <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
+      
     </Router>
   );
 }

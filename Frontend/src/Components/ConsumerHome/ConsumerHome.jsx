@@ -4,7 +4,9 @@ import axios from 'axios';
 import './ConsumerHome.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser,faStar  } from '@fortawesome/free-solid-svg-icons'
+import { useNavigate } from 'react-router-dom';
 import VoiceChat from '../VoiceChat/VoiceChat';
+import { Link } from 'react-router-dom';
 
 const ConsumerHome = () => {
   const [myWorks, setMyWorks] = useState([]);
@@ -153,22 +155,6 @@ useEffect(() => {
 
 
 
-  // useEffect(() => {
-  //   const fetchMyWorks = async () => {
-  //     try {
-  //       const response = await axios.get("http://127.0.0.1:8000/api/allprojects");
-  //       setMyWorks(response.data);
-  //     } catch (err) {
-  //       // Fallback dummy data if backend fails
-  //       setMyWorks([
-  //         { id: 1, title: 'भवन निर्माण (Build House)', count: '23 / 30', img: '/1.png' },
-  //         { id: 2, title: 'घरकाम (Clean House)', count: '0 / 1', img: '/2.png' },
-  //         { id: 3, title: 'घरकाम (Clean House)', count: '2 / 2', img: '/3.png' },
-  //       ]);
-  //     }
-  //   };
-  //   fetchMyWorks();
-  // }, []);
 
   return (
     <div className="home-wrapper-consumer">
@@ -185,33 +171,22 @@ useEffect(() => {
           <h3 className="nepali-title">मेरो काम / My work</h3>
          
         </div>
-
-       <div className="work-grid-consumer">
+<div className="work-grid-consumer">
   {myWorks.map((work) => (
-    
     <div className="work-item-card-consumer" key={work.id}>
-      {/* 1. Display the uploaded image or a default one */}
-     
       <img 
         src={work.file_path ? `http://127.0.0.1:8000/${work.file_path}` : "/1.png"} 
         alt="project" 
         className="work-consumer" 
-        onError={(e) => { e.target.src = "/1.png"; }} // Fallback if image path fails
+        onError={(e) => { e.target.src = "/1.png"; }}
       />
-      
-      {/* 2. Display project name */}
       <h4>{work.project_name}</h4>
-      
-      {/* 3. Display Type and Address */}
       <p className="stats-orange">📍 {work.address}</p>
-      <p className="sub-desc">{work.project_type || "निर्माण मजदुरको लागि अवसर"}</p>
       
-      {/* 4. Display Duration */}
-      <p style={{ fontSize: '12px', color: '#666' }}>अवधि: {work.duration}</p>
-      
+      {/* This will now work because navigate is defined above */}
       <button 
-        className="btn-orange-consumer-pragati" 
-        onClick={() => { setSelectedWork(work); setShowModal(true); }}
+        className="btn-orange-consumer-pragati"
+        onClick={() => navigate('/pragati', { state: { work: work } })}
       >
         विवरण हेर्नुहोस्
       </button>
