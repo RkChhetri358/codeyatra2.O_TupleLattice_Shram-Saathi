@@ -4,6 +4,7 @@ import axios from 'axios';
 import './Home.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilter ,faUser,faStar,faBell} from '@fortawesome/free-solid-svg-icons';
+import VoiceChat from '../VoiceChat/VoiceChat';
 const Home = () => {
   
   const [jobs, setJobs] = useState([]); 
@@ -44,30 +45,90 @@ const Home = () => {
   };
 
 
+// Add these states at the top of Home component
+const [showChat, setShowChat] = useState(false);
+const [chatTarget, setChatTarget] = useState({ id: null, name: "" });
 
+// Standardized userId retrieval
 
-
-  const handleFinalSubmit = async (e) => {
+const handleFinalSubmit = async (e) => {
   e.preventDefault();
-  // Get values from form inputs (you'll need to add state for these inputs)
+  
+  // Form elements बाट सुरक्षित डाटा लिने तरिका
+  const formData = new FormData(e.target);
+  
   const applicationData = {
     job_id: selectedJob.id,
     username: JSON.parse(localStorage.getItem("username")), 
-    duration: e.target[1].value, // Simple way to get input values
-    phone: e.target[2].value,
-    address: e.target[3].value,
-    work_type: e.target[4].value,
-    additional_info: e.target[5].value
+    duration: e.target.elements[1]?.value || "", 
+    phone: e.target.elements[2]?.value || "",
+    address: e.target.elements[3]?.value || "",
+    work_type: e.target.elements[4]?.value || "",
+    additional_info: e.target.elements[6]?.value || "" 
   };
 
   try {
-    await axios.post("http://127.0.0.1:8000/api/apply", applicationData);
-    alert("आवेदन सफल भयो !");
-    setShowModal(false);
+    const res = await axios.post("http://127.0.0.1:8000/api/apply", applicationData);
+    
+    if(res.data.status === "success") {
+      alert("आवेदन सफल भयो !");
+      setShowModal(false);
+      
+      // पक्का गर्नुहोस् कि selectedJob मा owner_id छ
+      // तपाईँको API ले 'consumer_id' पठाएको छ, त्यसैले owner_id को सट्टा consumer_id हुन सक्छ
+      const targetId = selectedJob.owner_id || selectedJob.consumer_id;
+      
+      setChatTarget({ 
+        id: targetId, 
+        name: "Job Owner" 
+      });
+      setShowChat(true); 
+    }
   } catch (err) {
+    console.error(err);
     alert("त्रुटि भयो ।");
   }
 };
+
+//   const handleFinalSubmit = async (e) => {
+//   e.preventDefault();
+//   // Get values from form inputs (you'll need to add state for these inputs)
+//   const applicationData = {
+//     job_id: selectedJob.id,
+//     username: JSON.parse(localStorage.getItem("username")), 
+//     duration: e.target[1].value, // Simple way to get input values
+//     phone: e.target[2].value,
+//     address: e.target[3].value,
+//     work_type: e.target[4].value,
+//     additional_info: e.target[5].value
+//   };
+
+//   try {
+//     await axios.post("http://127.0.0.1:8000/api/apply", applicationData);
+//     alert("आवेदन सफल भयो !");
+//     setShowModal(false);
+//   } catch (err) {
+//     alert("त्रुटि भयो ।");
+//   }
+// };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 const [profileData, setProfileData] = useState({
   name: "",
@@ -336,6 +397,17 @@ useEffect(() => {
     </div>
   </div>
 )}
+
+{/* Chat Popup Component */}
+{showChat && (
+  <div className="chat-popup-wrapper">
+    <button className="close-chat" onClick={() => setShowChat(false)}>X</button>
+    {/* यहाँ तपाईँको Chat कम्पोनेन्ट हुनुपर्छ */}
+    <div className="chat-header">Chat with {chatTarget.name}</div>
+    {/* <Chat targetId={chatTarget.id} />  <-- तपाईँको Chat UI यहाँ राख्नुहोस् */}
+  </div>
+)}
+
 
       <img src="/side.png" alt="" className="floating-bg" />
     </div>

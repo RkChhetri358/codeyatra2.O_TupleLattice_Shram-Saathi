@@ -209,6 +209,7 @@ async def get_jobs(db: Session = Depends(get_db)):
             "count": "Active", # Example placeholder
             "img": f"http://127.0.0.1:8000/{p.file_path}" if p.file_path else "/1.png",
             "desc": p.description,
+            "owner_id": p.consumer_id,
             "address": p.address
         } for p in projects
     ]

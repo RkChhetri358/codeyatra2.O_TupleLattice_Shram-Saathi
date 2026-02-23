@@ -244,6 +244,30 @@ html {
   pointer-events: none;
 }
 
+
+
+.chat-popup-wrapper {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    width: 350px;
+    height: 500px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    border-radius: 10px;
+    background: white;
+}
+.close-chat {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    background: red;
+    color: white;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+}
+
 .modal-overlay {
   position: fixed;
   top: 0; left: 0;
@@ -295,3 +319,28 @@ html {
 }
 
 .modal-active { overflow: hidden; }
+
+
+/* Chat Popup Wrapper लाई स्क्रिनको दायाँ कुनामा देखाउन */
+.chat-popup-wrapper {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 100000; /* धेरै उच्च राख्नुहोस् */
+    width: 350px;
+    height: 450px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.chat-header {
+    background: #f18f14;
+    color: white;
+    padding: 15px;
+    font-weight: bold;
+    text-align: center;
+}
