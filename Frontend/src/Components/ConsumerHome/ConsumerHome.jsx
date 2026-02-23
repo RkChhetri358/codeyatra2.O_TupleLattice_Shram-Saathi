@@ -9,11 +9,8 @@ const ConsumerHome = () => {
   const [myWorks, setMyWorks] = useState([]);
   const [showModal, setShowModal] = useState(false); 
   const [showAddModal, setShowAddModal] = useState(false); 
-=======
-  const [myWorks, setMyWorks] = useState([]); // <-- must exist
-  const [showModal, setShowModal] = useState(false);
-  const [showAddModal, setShowAddModal] = useState(false);
->>>>>>> 49f8ea5b872cb8992f08156c9d42d33e17e6d649
+
+
   const [selectedWork, setSelectedWork] = useState(null);
   
 
