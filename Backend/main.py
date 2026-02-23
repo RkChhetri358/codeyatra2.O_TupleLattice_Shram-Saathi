@@ -30,12 +30,13 @@ app.add_middleware(
         "http://127.0.0.1:5173",
         "http://localhost:5174",
         "http://127.0.0.1:5174",
+        "http://localhost:5176",
+        "http://127.0.0.1:5176",
     ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 models.Base.metadata.create_all(bind=engine)
 
 for folder in ["projects", "coverphoto", "citizenship"]:
@@ -207,7 +208,9 @@ async def get_jobs(db: Session = Depends(get_db)):
             "img": f"http://127.0.0.1:8000/{p.file_path}" if p.file_path else "/1.png",
             "desc": p.description,
             "owner_id": p.consumer_id,
-            "address": p.address
+            "address": p.address,
+            "base_price": p.base_price, 
+            "duration": p.duration      
         } for p in projects
     ]
 

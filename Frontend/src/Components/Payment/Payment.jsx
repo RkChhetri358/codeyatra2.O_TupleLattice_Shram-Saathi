@@ -8,7 +8,11 @@ const Payment = ({ proposedPrice, onClose }) => {
 
   const advanceAmount = proposedPrice * 0.20;
 
+<<<<<<< HEAD
  
+=======
+  // QR scan गर्दा देखिने टेक्स्ट: "Payment for TupleLattice: Rs. XXXX"
+>>>>>>> 5dcbb72bca04fb3d81235e5e8bfbccb0c8197c5d
   const qrData = encodeURIComponent(`Payment for TupleLattice: Rs. ${advanceAmount}`);
   const qrChartUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${qrData}`;
 
@@ -58,7 +62,11 @@ const Payment = ({ proposedPrice, onClose }) => {
             <h2 className="pay-success-title">भुक्तानी सफल भयो!</h2>
             <div className="pay-status-badge">Worker is Selected</div>
             <p className="pay-success-desc">तपाईंको कामदार छनोट भइसकेको छ। उहाँ छिट्टै तपाईंको सम्पर्कमा आउनुहुनेछ।</p>
+<<<<<<< HEAD
             <button className="pay-primary-btn" onClick={()=>navigate('/ConsumerHome')}>Done</button>
+=======
+            <button className="pay-primary-btn" onClick={onClose}>Done</button>
+>>>>>>> 5dcbb72bca04fb3d81235e5e8bfbccb0c8197c5d
           </div>
         )}
       </div>
