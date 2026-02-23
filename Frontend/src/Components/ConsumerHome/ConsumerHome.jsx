@@ -7,6 +7,7 @@ import { faUser,faStar,faBell   } from '@fortawesome/free-solid-svg-icons'
 import { useNavigate } from 'react-router-dom';
 import VoiceChat from '../VoiceChat/VoiceChat';
 import { Link } from 'react-router-dom';
+import Toggle from '../Toggle/Toggle';
 
 const ConsumerHome = () => {
     const navigate = useNavigate();
@@ -95,7 +96,6 @@ const ConsumerHome = () => {
     <div className="home-wrapper-consumer">
       <Navbar />
 
-      {/* SECTION 1: PROJECT GRID */}
       <section className="main-section-consumer" id="home-section">
         <div className="top-action" style={{ display: "flex", justifyContent: "center", marginBottom: "40px" }}>
           <button className="btn-orange-consumer" style={{ padding: "14px 40px" }} onClick={() => setShowAddModal(true)}>
@@ -132,7 +132,7 @@ const ConsumerHome = () => {
         </div>
       </section>
 
-      {/* MODAL 1: ADD NEW PROJECT */}
+  
       {showAddModal && (
         <div className="modal-overlay-consumer" onClick={() => setShowAddModal(false)}>
           <div className="modal-box-consumer wide-update-modal" onClick={(e) => e.stopPropagation()}>
@@ -184,7 +184,6 @@ const ConsumerHome = () => {
         </div>
       )}
 
-     {/* MODAL 2: PROGRESS/DETAILS MODAL */}
       {showModal && (
         <div className="modal-overlay-consumer" onClick={() => setShowModal(false)}>
           <div className="modal-box-consumer wide-update-modal" onClick={(e) => e.stopPropagation()}>
@@ -200,6 +199,7 @@ const ConsumerHome = () => {
                   alt="Job" 
                 />
                 <p className="status-label">Status : <span className="status-val">प्रक्रियामा</span></p>
+               <Toggle/>
               </div>
 
               <div className="modal-details-grid">
@@ -271,7 +271,7 @@ const ConsumerHome = () => {
           </div>
         </div>
       )}
-      {/* SECTION 2: PROFILE */}
+    
       <section className="main-section profile-light-bg" id="profile-section">
         <div className="section-header">
           <h3 className="nepali-title">विवरण / PROFILE</h3>

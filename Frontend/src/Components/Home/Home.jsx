@@ -230,7 +230,7 @@ const handleProfileUpdate = async () => {
             <div className="star-row">
               <FontAwesomeIcon icon={faStar} />
               <FontAwesomeIcon icon={faStar} />
-              <FontAwesomeIcon icon={faStar} /> 5.0
+              <FontAwesomeIcon icon={faStar} /> 3.0
             </div>
           </div>
         </div>

@@ -7,7 +7,7 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
 const WorkerSelectionModal = ({ worker }) => {
   const navigate = useNavigate();
 
-  // Props chaina vane placeholder data use hunchha
+ 
   const displayWorker = worker || { 
     name: "Bishal Pokhrel", 
     role: "निर्माण / घरकाम / कृषि / अन्य", 
