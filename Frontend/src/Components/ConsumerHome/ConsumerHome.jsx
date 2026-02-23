@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '../Navbar/Navbar'; 
 import axios from 'axios';
 import './ConsumerHome.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUser,faStar  } from '@fortawesome/free-solid-svg-icons'
 
 const ConsumerHome = () => {
   const [myWorks, setMyWorks] = useState([]);
@@ -183,10 +185,111 @@ useEffect(() => {
       </section>
 
       {/* SECTION 2: PROFILE remains unchanged */}
-      <section className="main-section profile-light-bg" id="profile-section">
-        {/* ... profile code ... */}
-      </section>
+         <section id="profile-section" className="main-section profile-light-bg">
 
+        <div className="profile-top-bar">
+
+          <h3 className="nepali-title">विवरण / PROFILE</h3>
+
+          <span className="availability">उपलब्धता / Status : उपलब्ध 🟢</span>
+
+        </div>
+
+
+
+        <div className="profile-layout">
+
+          <div className="profile-sidebar">
+
+       
+
+            <img src="/7.png" alt="User" className="profile-avatar-img" />
+
+
+
+            <div className="review-stars">
+
+              <p>समीक्षा / Review</p>
+
+              <div className="star-row"><FontAwesomeIcon icon={faStar} /><FontAwesomeIcon icon={faStar} /><FontAwesomeIcon icon={faStar} /> 5.0</div>
+
+            </div>
+
+          </div>
+
+
+
+          <div className="profile-details-form">
+
+            <div className="form-grid">
+
+              <div className="field-group">
+
+                <label>नाम/Name</label>
+
+                <input type="text" placeholder="आफ्नो नाम लेख्नुहोस्" />
+
+              </div>
+
+              <div className="field-group">
+
+                <label>आधार मूल्य/Base Price</label>
+
+                <input
+
+                  type="text"
+
+                  placeholder="आधार मूल्य प्रविष्ट गर्नुहोस्"
+
+                />
+
+              </div>
+
+              <div className="field-group">
+
+                <label>फोन नम्बर/Phone No.</label>
+
+                <input
+
+                  type="text"
+
+                  placeholder="मोबाइल नम्बर प्रविष्ट गर्नुहोस्"
+
+                />
+
+              </div>
+
+              <div className="field-group">
+
+                <label>ठेगाना/Address</label>
+
+                <input type="text" placeholder="आफ्नो ठेगाना लेख्नुहोस्" />
+
+              </div>
+
+              <div className="field-group full-span">
+
+                <label>कामको प्रकार</label>
+
+                <input
+
+                  type="text"
+
+                  placeholder="निर्माण / घरकाम / कृषि / अन्य"
+
+                />
+
+              </div>
+
+            </div>
+
+            <button className="save-btn">जानकारी परिवर्तन</button>
+
+          </div>
+
+        </div>
+
+      </section>
       {/* MODAL 1: ADD NEW PROJECT */}
       {showAddModal && (
         <div className="modal-overlay">

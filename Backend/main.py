@@ -284,5 +284,18 @@ async def post_project_details(
 
 
  
-
+@app.get("/api/user/{user_id}")
+async def get_user_profile(user_id: int, db: Session = Depends(get_db)):
+    user = db.query(models.User).filter(models.User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    # Return user details including potential new fields
+    return {
+        "username": user.username,
+        "mobilenumber": user.mobilenumber,
+        "address": user.address,
+        "base_price": getattr(user, 'base_price', ""), # Handles if column doesn't exist yet
+        "work_type": getattr(user, 'work_type', "")
+    }
 models.Base.metadata.create_all(bind=engine)

@@ -43,28 +43,6 @@ const Home = () => {
     setShowModal(true);
   };
 
-  // 3. Modal vitra ko Form submit garne (Post to Backend)
-  // const handleFinalSubmit = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     const userData = JSON.parse(localStorage.getItem("user")); // Login gareko user info
-      
-  //     const applicationData = {
-  //       job_id: selectedJob.id,
-  //       username: userData?.username,
-  //       // ... aru form fields haru yaha thapne
-  //     };
-
-  //     const response = await axios.post("http://127.0.0.1:8000/api/apply", applicationData);
-      
-  //     if (response.status === 200) {
-  //       alert("आवेदन सफल भयो !");
-  //       setShowModal(false);
-  //     }
-  //   } catch (err) {
-  //     alert("आवेदन पठाउन सकिएन |");
-  //   }
-  // };
 
 
 
@@ -91,21 +69,74 @@ const Home = () => {
   }
 };
 
+const [profileData, setProfileData] = useState({
+  name: "",
+  phone: "",
+  address: "",
+  base_price: "",
+  work_type: ""
+});
+const userId = localStorage.getItem("id") || localStorage.getItem("user_id");
 
-const handleProfileUpdate = async () => {
-  const userId = localStorage.getItem("user_id");
-  const updateData = {
-    user_id: parseInt(userId),
-    name: nameState, // You need to bind inputs to React state
-    base_price: priceState,
-    phone: phoneState,
-    address: addressState,
-    work_type: typeState
+  // 1. Fetch User Data on Load
+useEffect(() => {
+  const fetchUserData = async () => {
+    // If no userId, don't attempt to fetch
+    if (!userId) {
+      console.warn("No User ID found in localStorage");
+      return;
+    }
+
+    try {
+      console.log("Fetching data for User ID:", userId);
+      const response = await axios.get(`http://127.0.0.1:8000/api/user/${userId}`);
+      
+      // Log for debugging
+      console.log("Backend Response:", response.data);
+
+      setProfileData({
+        name: response.data.username || "",
+        phone: response.data.mobilenumber || "",
+        address: response.data.address || "",
+        // base_price: response.data.base_price || "",
+        // work_type: response.data.work_type || ""
+      });
+    } catch (err) {
+      console.error("Error fetching profile:", err);
+    }
   };
 
-  await axios.put("http://127.0.0.1:8000/api/profile/update", updateData);
-  alert("प्रोफाइल अपडेट भयो !");
-};
+  fetchUserData();
+}, [userId]);
+
+  // 2. Handle input changes
+  const handleChange = (e) => {
+    setProfileData({ ...profileData, [e.target.name]: e.target.value });
+  };
+
+  // 3. Update Profile Logic
+  const handleProfileUpdate = async () => {
+    try {
+      const updateData = {
+        user_id: parseInt(userId),
+        name: profileData.name,
+        phone: profileData.phone,
+        address: profileData.address,
+        base_price: profileData.base_price,
+        work_type: profileData.work_type
+      };
+
+      // Changed to .post as per your backend route definition
+      const response = await axios.post("http://127.0.0.1:8000/api/profile/update", updateData);
+      
+      if (response.status === 200) {
+        alert("जानकारी परिवर्तन सफल भयो ! (Profile Updated)");
+      }
+    } catch (err) {
+      console.error("Update error:", err);
+      alert("अपडेट गर्न सकिएन ।");
+    }
+  };
 
   return (
     <div className={`home-wrapper ${showModal ? 'modal-active' : ''}`}>
@@ -147,59 +178,82 @@ const handleProfileUpdate = async () => {
       </section>
 
       {/* SECTION 2: PROFILE */}
-      <section id="profile-section" className="main-section profile-light-bg">
-        <div className="profile-top-bar">
-          <h3 className="nepali-title">विवरण / PROFILE</h3>
-          <span className="availability">उपलब्धता / Status : उपलब्ध 🟢</span>
-        </div>
+<section id="profile-section" className="main-section profile-light-bg">
+      <div className="profile-top-bar">
+        <h3 className="nepali-title">विवरण / PROFILE</h3>
+        <span className="availability">उपलब्धता / Status : उपलब्ध 🟢</span>
+      </div>
 
-        <div className="profile-layout">
-          <div className="profile-sidebar">
-       
-            <img src="/7.png" alt="User" className="profile-avatar-img" />
-
-            <div className="review-stars">
-              <p>समीक्षा / Review</p>
-              <div className="star-row"><FontAwesomeIcon icon={faStar} /><FontAwesomeIcon icon={faStar} /><FontAwesomeIcon icon={faStar} /> 5.0</div>
+      <div className="profile-layout">
+        <div className="profile-sidebar">
+          <img src="/7.png" alt="User" className="profile-avatar-img" />
+          <div className="review-stars">
+            <p>समीक्षा / Review</p>
+            <div className="star-row">
+              <FontAwesomeIcon icon={faStar} />
+              <FontAwesomeIcon icon={faStar} />
+              <FontAwesomeIcon icon={faStar} /> 5.0
             </div>
           </div>
-
-          <div className="profile-details-form">
-            <div className="form-grid">
-              <div className="field-group">
-                <label>नाम/Name</label>
-                <input type="text" placeholder="आफ्नो नाम लेख्नुहोस्" />
-              </div>
-              <div className="field-group">
-                <label>आधार मूल्य/Base Price</label>
-                <input
-                  type="text"
-                  placeholder="आधार मूल्य प्रविष्ट गर्नुहोस्"
-                />
-              </div>
-              <div className="field-group">
-                <label>फोन नम्बर/Phone No.</label>
-                <input
-                  type="text"
-                  placeholder="मोबाइल नम्बर प्रविष्ट गर्नुहोस्"
-                />
-              </div>
-              <div className="field-group">
-                <label>ठेगाना/Address</label>
-                <input type="text" placeholder="आफ्नो ठेगाना लेख्नुहोस्" />
-              </div>
-              <div className="field-group full-span">
-                <label>कामको प्रकार</label>
-                <input
-                  type="text"
-                  placeholder="निर्माण / घरकाम / कृषि / अन्य"
-                />
-              </div>
-            </div>
-            <button className="save-btn">जानकारी परिवर्तन</button>
-          </div>
         </div>
-      </section>
+
+        <div className="profile-details-form">
+          <div className="form-grid">
+            <div className="field-group">
+              <label>नाम/Name</label>
+              <input 
+                type="text" 
+                name="name"
+                value={profileData.name} 
+                readOnly // Fetched, not editable
+                className="readonly-input"
+              />
+            </div>
+            <div className="field-group">
+              <label>आधार मूल्य/Base Price</label>
+              <input
+                type="text"
+                name="base_price"
+                placeholder="आधार मूल्य प्रविष्ट गर्नुहोस्"
+                value={profileData.base_price}
+                onChange={handleChange} // Editable
+              />
+            </div>
+            <div className="field-group">
+              <label>फोन नम्बर/Phone No.</label>
+              <input
+                type="text"
+                name="phone"
+                value={profileData.phone}
+                readOnly // Fetched, not editable
+              />
+            </div>
+            <div className="field-group">
+              <label>ठेगाना/Address</label>
+              <input 
+                type="text" 
+                name="address"
+                value={profileData.address} 
+                readOnly // Fetched, not editable
+              />
+            </div>
+            <div className="field-group full-span">
+              <label>कामको प्रकार</label>
+              <input
+                type="text"
+                name="work_type"
+                placeholder="निर्माण / घरकाम / कृषि / अन्य"
+                value={profileData.work_type}
+                onChange={handleChange} // Editable
+              />
+            </div>
+          </div>
+          <button className="save-btn" onClick={handleProfileUpdate}>
+            जानकारी परिवर्तन
+          </button>
+        </div>
+      </div>
+    </section>
 
       {/* SECTION 3: NOTIFICATIONS */}
       <section id="notif-section" className="main-section">
