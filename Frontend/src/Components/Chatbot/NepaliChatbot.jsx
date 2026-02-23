@@ -10,7 +10,7 @@ export default function NepaliChatbot() {
   const startListening = () => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     const recognition = new SpeechRecognition();
-    recognition.lang = 'ne-NP'; // Set language to Nepali
+    recognition.lang = 'ne-NP'; 
 
     recognition.onstart = () => setIsRecording(true);
     
@@ -25,7 +25,7 @@ export default function NepaliChatbot() {
       
       setChat({ user: transcript, bot: res.data.bot_reply });
       
-      // OPTIONAL: Speak the bot reply
+    
       speak(res.data.bot_reply);
     };
 
