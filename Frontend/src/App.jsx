@@ -3,14 +3,13 @@ import LandingPage from "./Components/LandingPage/LandingPage";
 import Login from "./Components/Loginpage/Loginpage";
 import Signup from "./Components/Signup/Signup";
 import Home from "./Components/Home/Home";
-
 import VoiceChat from "./Components/VoiceChat/VoiceChat";
-
- // Home lai uncomment gareko
-
 
 // 1. Exact Folder ra File name ConsumerHome nai hunu parchha
 import ConsumerHome from "./Components/ConsumerHome/ConsumerHome"; 
+
+// Rating Component Import
+import RatingPop from "./Components/RatingPop/RatingPop"; 
 
 // Baki components commented chhan
 // import Dashboard from "./Components/Dashboard/Dashboard";
@@ -24,15 +23,18 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        
+        {/* Chatbot Route */}
         <Route path="/chatbot" element={<VoiceChat currentUserId={1} targetUserId={2} targetUserName="John Doe" />} />
         
-       
-
         {/* Home Page Route - Login garesi yetai redirect huncha */}
         <Route path="/home" element={<Home />} /> 
 
-        {/* 2. Aba URL ma "http://localhost:5184/ConsumerHome" handa yo khulchha */}
+        {/* 2. Consumer Home Route */}
         <Route path="/ConsumerHome" element={<ConsumerHome />} />
+
+        {/* Rating Popup Test Route - Organized and Clean */}
+        <Route path="/Ratingpop" element={<RatingPop />} />
 
         {/* Dashboard Layout Routes (Ready for future) */}
         {/* <Route path="/layout" element={<Layout />}>

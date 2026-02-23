@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import Navbar from '../Navbar/Navbar'; 
-import axios from 'axios';
-import './ConsumerHome.css';
+import React, { useState, useEffect } from "react";
+import Navbar from "../Navbar/Navbar";
+import axios from "axios";
+import "./ConsumerHome.css";
 
 const ConsumerHome = () => {
   const [myWorks, setMyWorks] = useState([]);
@@ -20,29 +20,33 @@ const ConsumerHome = () => {
     description: ''
   });
 
-  // Handle Input Changes for the Form
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  // Handle Adding New Project
-  const handleAddProject = (e) => {
-    e.preventDefault();
-    console.log("New Project Data:", formData);
-    setShowAddModal(false);
-    alert("नयाँ परियोजना सफलतापूर्वक थपियो!");
-  };
-
   useEffect(() => {
     const fetchMyWorks = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:8000/api/consumer/works");
+        const response = await axios.get(
+          "http://127.0.0.1:8000/api/consumer/works",
+        );
         setMyWorks(response.data);
       } catch (err) {
         setMyWorks([
-          { id: 1, title: 'भवन निर्माण (Build House)', count: '23 / 30', img: '/7.png' },
-          { id: 2, title: 'घरकाम (Clean House)', count: '0 / 1', img: '/2.png' },
-          { id: 3, title: 'घरकाम (Clean House)', count: '2 / 2', img: '/3.png' },
+          {
+            id: 1,
+            title: "भवन निर्माण (Build House)",
+            count: "23 / 30",
+            img: "/7.png",
+          },
+          {
+            id: 2,
+            title: "घरकाम (Clean House)",
+            count: "0 / 1",
+            img: "/2.png",
+          },
+          {
+            id: 3,
+            title: "घरकाम (Clean House)",
+            count: "2 / 2",
+            img: "/3.png",
+          },
         ]);
       }
     };
@@ -55,8 +59,20 @@ const ConsumerHome = () => {
 
       {/* SECTION 1: HOME */}
       <section className="main-section-consumer" id="home-section">
-        <div className="top-action" style={{ display: 'flex', justifyContent: 'center', marginBottom: '40px' }}>
-          <button className="btn-orange-consumer" style={{ padding: '14px 40px' }} onClick={() => setShowAddModal(true)}>
+        <div
+          className="top-action"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginBottom: "40px",
+          }}
+        >
+          {/* TRIGGER FOR NEW PROJECT MODAL */}
+          <button
+            className="btn-orange-consumer"
+            style={{ padding: "14px 40px" }}
+            onClick={() => setShowAddModal(true)}
+          >
             नयाँ परियोजना थप्नुहोस्
           </button>
         </div>
@@ -73,38 +89,88 @@ const ConsumerHome = () => {
               <h4>{work.title}</h4>
               <p className="stats-orange">👤 {work.count}</p>
               <p className="sub-desc">निर्माण मजदुरको लागि अवसर</p>
-              <button className="btn-orange-consumer-pragati" onClick={() => { setSelectedWork(work); setShowModal(true); }}>प्रगति</button>
+              <button
+                className="btn-orange-consumer-pragati"
+                onClick={() => {
+                  setSelectedWork(work);
+                  setShowModal(true);
+                }}
+              >
+                प्रगति
+              </button>
             </div>
           ))}
         </div>
       </section>
 
       {/* SECTION 2: PROFILE */}
-      <section className="main-section profile-light-bg" id="profile-section" style={{ minHeight: '100vh', padding: '100px 10%' }}>
-        <h3 className="nepali-title">विवरण / PROFILE</h3>
-        <div className="profile-layout" style={{ display: 'flex', gap: '50px', marginTop: '30px' }}>
+      <section className="main-section profile-light-bg" id="profile-section">
+        <div className="section-header">
+          <h3 className="nepali-title">विवरण / PROFILE</h3>
+        </div>
+
+        <div className="profile-layout">
           <div className="profile-left-side">
-            <img src="/user_profile.png" alt="Profile" className="avatar-circle" style={{ width: '200px', borderRadius: '50%' }} />
+            <img
+              src="/user_profile.png"
+              alt="Profile"
+              className="avatar-circle"
+            />
+            <div className="review-stars">⭐⭐⭐⭐⭐</div>
           </div>
-          <div className="profile-details-form" style={{ flex: 1 }}>
-            <div className="form-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-              <div className="field-group"><label>नाम/Name</label><input type="text" placeholder="आफ्नो नाम" /></div>
-              <div className="field-group"><label>फोन नम्बर</label><input type="text" placeholder="98XXXXXXXX" /></div>
-              <div className="field-group" style={{ gridColumn: 'span 2' }}><label>ठेगाना</label><input type="text" placeholder="ठेगाना" /></div>
+
+          <div className="profile-details-form">
+            <div className="form-grid">
+              <div className="field-group">
+                <label>नाम/Name</label>
+                <input type="text" placeholder="आफ्नो नाम" />
+              </div>
+              <div className="field-group">
+                <label>उमेर/Age</label>
+                <input type="text" placeholder="आफ्नो उमेर" />
+              </div>
+              <div className="field-group full-span">
+                <label>फोन नम्बर/Phone No.</label>
+                <input type="text" placeholder="मोबाइल नम्बर" />
+              </div>
+              <div className="field-group full-span">
+                <label>ठेगाना/Address</label>
+                <input type="text" placeholder="आफ्नो ठेगाना" />
+              </div>
             </div>
             <button className="save-btn" style={{ marginTop: '20px', padding: '10px 30px', background: '#f18f14', color: '#fff', border: 'none', borderRadius: '25px' }}>परिवर्तन सुरक्षित गर्नुहोस्</button>
           </div>
         </div>
+        {/* section 3  */}
       </section>
-
-      {/* MODAL 1: ADD NEW PROJECT */}
+                <section id="notif-section" className="main-section">
+        <h3 className="nepali-title">सूचना 🔔</h3>
+        <div className="notif-container">
+          {[1, 2].map((i) => (
+            <div className="notif-card" key={i}>
+              <img src="/build.png" alt="icon" className="notif-img" />
+              <div className="notif-info">
+                <h4>भवन निर्माण (Build House)</h4>
+                <p>-- ले तपाईंलाई यस परियोजनामा काम गर्न अनुरोध गरेका छन्।</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
       {showAddModal && (
         <div className="modal-overlay">
           <div className="modal-box add-project-modal">
-            <span className="modal-close orange-x" onClick={() => setShowAddModal(false)}>&times;</span>
+            <span
+              className="modal-close orange-x"
+              onClick={() => setShowAddModal(false)}
+            >
+              &times;
+            </span>
+
             <h2 className="nepali-title main-modal-title">नयाँ परियोजना</h2>
-            
-            <form className="modal-flex" onSubmit={handleAddProject}>
+
+            <form className="modal-flex">
+              {/* Left Side: Photo Upload */}
               <div className="modal-left photo-upload-section">
                 <label htmlFor="project-photo" style={{ cursor: 'pointer' }}>
                   <div className="photo-placeholder" style={{ width: '150px', height: '150px', border: '2px dashed #ccc', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -119,15 +185,49 @@ const ConsumerHome = () => {
                 <p className="upload-text">फोटो थप्नुहोस्</p>
               </div>
 
-              <div className="modal-right" style={{ flex: 1 }}>
-                <div className="modal-form-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
-                  <div className="m-input"><label>कामको शीर्षक</label><input name="projectName" type="text" onChange={handleChange} required /></div>
-                  <div className="m-input"><label>समय अवधि</label><input name="duration" type="text" onChange={handleChange} required /></div>
-                  <div className="m-input"><label>श्रमिक संख्या</label><input name="requiredWorkers" type="text" onChange={handleChange} required /></div>
-                  <div className="m-input"><label>ठेगाना</label><input name="address" type="text" onChange={handleChange} required /></div>
-                  <div className="m-input" style={{ gridColumn: 'span 2' }}><label>विवरण</label><textarea name="description" style={{ width: '100%', height: '60px' }} onChange={handleChange}></textarea></div>
+              {/* Right Side: Form Fields */}
+              <div className="modal-right">
+                <div className="modal-form-grid">
+                  <div className="m-input">
+                    <label>कामको नाम / शीर्षक</label>
+                    <input
+                      type="text"
+                      placeholder="परियोजनाको नाम लेख्नुहोस्"
+                    />
+                  </div>
+                  <div className="m-input">
+                    <label>समय अवधि</label>
+                    <input type="text" placeholder="समय अवधि" />
+                  </div>
+                  <div className="m-input">
+                    <label>आवश्यक श्रमिक संख्या</label>
+                    <input type="text" placeholder="संख्या लेख्नुहोस्" />
+                  </div>
+                  <div className="m-input">
+                    <label>ठेगाना / Address</label>
+                    <input type="text" placeholder="आफ्नो ठेगाना लेख्नुहोस्" />
+                  </div>
+                  <div className="m-input full-span">
+                    <label>कामको प्रकार</label>
+                    <input
+                      type="text"
+                      placeholder="निर्माण / घरकाम / कृषि / अन्य"
+                    />
+                  </div>
+                  <div className="m-input full-span">
+                    <label>अतिरिक्त जानकारी</label>
+                    <textarea
+                      className="modal-textarea"
+                      placeholder="विवरण लेख्नुहोस्..."
+                    ></textarea>
+                  </div>
                 </div>
-                <button type="submit" className="modal-submit-btn orange-btn-consumer" style={{ width: '100%', marginTop: '20px' }}>सुरक्षित गर्नुहोस्</button>
+                <button
+                  type="submit"
+                  className="modal-submit-btn orange-btn-consumer"
+                >
+                  आवेदन
+                </button>
               </div>
             </form>
           </div>
@@ -136,9 +236,17 @@ const ConsumerHome = () => {
 
       {/* MODAL 2: PROGRESS/UPDATE */}
       {showModal && (
-        <div className="modal-overlay-consumer" onClick={() => setShowModal(false)}>
-          <div className="modal-box-consumer" onClick={(e) => e.stopPropagation()}>
-            <span className="modal-close" onClick={() => setShowModal(false)}>&times;</span>
+        <div
+          className="modal-overlay-consumer"
+          onClick={() => setShowModal(false)}
+        >
+          <div
+            className="modal-box-consumer"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <span className="modal-close" onClick={() => setShowModal(false)}>
+              &times;
+            </span>
             <h2 className="modal-title">{selectedWork?.title}</h2>
             <div className="modal-flex">
               <div className="modal-left">
@@ -146,8 +254,22 @@ const ConsumerHome = () => {
               </div>
               <div className="modal-right" style={{ flex: 1, paddingLeft: '20px' }}>
                 <div className="modal-form-grid">
-                  <div className="m-input"><label>कामको शीर्षक</label><input value={selectedWork?.title} readOnly /></div>
-                  <div className="m-input"><label>समय अवधि</label><input placeholder="2-5 years" /></div>
+                  <div className="m-input">
+                    <label>कामको शीर्षक</label>
+                    <input value={selectedWork?.title} readOnly />
+                  </div>
+                  <div className="m-input purple-border">
+                    <label>समय अवधि</label>
+                    <input placeholder="2-5 years" />
+                  </div>
+                  <div className="m-input">
+                    <label>सम्पर्क नम्बर</label>
+                    <input placeholder="98XXXXXXXX" />
+                  </div>
+                  <div className="m-input">
+                    <label>ठेगाना</label>
+                    <input placeholder="काठमाडौं" />
+                  </div>
                 </div>
                 <button className="modal-submit-btn" style={{ marginTop: '20px' }}>अपडेट गर्नुहोस्</button>
               </div>
