@@ -24,6 +24,7 @@ const ConsumerHome = () => {
     address: "",
     projectType: "",
     description: "",
+    base_price: "",
   });
 
   const workersData = [
@@ -35,25 +36,21 @@ const ConsumerHome = () => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
-  const handleAddProject = async (e) => {
+const handleAddProject = async (e) => {
     e.preventDefault();
     const storedUserId = localStorage.getItem("user_id");
     const phoneNumber = localStorage.getItem("phone_number") || "9800000000";
-
-    if (!storedUserId) {
-      alert("कृपया फेरि लगइन गर्नुहोस् (User ID not found)");
-      return;
-    }
 
     const data = new FormData();
     data.append("project_name", formData.projectName);
     data.append("duration", formData.duration);
     data.append("address", formData.address);
     data.append("project_type", formData.projectType);
-    data.append("description", formData.description);
+    // Ensure description isn't empty (FastAPI Form(...) is required)
+    data.append("description", formData.description || "विवरण छैन"); 
     data.append("consumer_id", parseInt(storedUserId));
     data.append("phone_number", phoneNumber);
+    data.append("base_price", formData.base_price); // This must match backend name
 
     if (projectPhoto) {
       data.append("file", projectPhoto);
@@ -62,6 +59,7 @@ const ConsumerHome = () => {
       return;
     }
 
+    
     try {
       const response = await axios.post("http://127.0.0.1:8000/api/postProjectDetails", data, {
         headers: { "Content-Type": "multipart/form-data" },
@@ -164,6 +162,11 @@ const ConsumerHome = () => {
                     <label>समय अवधि</label>
                     <input name="duration" type="text" onChange={handleChange} required />
                   </div>
+
+                  <div className="m-input">
+  <label>आधार मूल्य (Base Price)</label>
+  <input name="base_price" type="text" onChange={handleChange} required placeholder="उदा: ५०००" />
+</div>
                   <div className="m-input">
                     <label>आवश्यक श्रमिक संख्या</label>
                     <input name="requiredWorkers" type="text" onChange={handleChange} required />
