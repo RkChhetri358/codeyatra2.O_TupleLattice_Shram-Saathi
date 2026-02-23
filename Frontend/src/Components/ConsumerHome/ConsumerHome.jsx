@@ -148,7 +148,61 @@ const ConsumerHome = () => {
         </div>
       )}
 
-      {/* OTHER SECTIONS (Profile & Notification) REMAINED SAME */}
+      {/* SECTION 2: PROFILE */}
+      <section className="main-section profile-light-bg" id="profile-section">
+        <div className="section-header">
+          <h3 className="nepali-title">विवरण / PROFILE</h3>
+        </div>
+
+        <div className="profile-layout">
+          <div className="profile-left-side">
+            <img
+              src="/8.png"
+              alt="Profile"
+              className="avatar-circle"
+            />
+            <div className="review-stars"><FontAwesomeIcon icon={faStar} /><FontAwesomeIcon icon={faStar} /><FontAwesomeIcon icon={faStar} /></div>
+          </div>
+
+          <div className="profile-details-form">
+            <div className="form-grid">
+              <div className="field-group">
+                <label>नाम/Name</label>
+                <input type="text" placeholder="आफ्नो नाम" />
+              </div>
+              <div className="field-group">
+                <label>उमेर/Age</label>
+                <input type="text" placeholder="आफ्नो उमेर" />
+              </div>
+              <div className="field-group full-span">
+                <label>फोन नम्बर/Phone No.</label>
+                <input type="text" placeholder="मोबाइल नम्बर" />
+              </div>
+              <div className="field-group full-span">
+                <label>ठेगाना/Address</label>
+                <input type="text" placeholder="आफ्नो ठेगाना" />
+              </div>
+            </div>
+            <button className="save-btn">परिवर्तन सुरक्षित गर्नुहोस्</button>
+          </div>
+        </div>
+        {/* section 3  */}
+      </section>
+      
+                <section id="notif-section" className="main-section">
+        <h3 className="nepali-title">सूचना <FontAwesomeIcon icon={faBell} /></h3>
+        <div className="notif-container">
+          {[1, 2].map((i) => (
+            <div className="notif-card" key={i}>
+              <img src="/build.png" alt="icon" className="notif-img" />
+              <div className="notif-info">
+                <h4>भवन निर्माण (Build House)</h4>
+                <p>-- ले तपाईंलाई यस परियोजनामा काम गर्न अनुरोध गरेका छन्।</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
     </div>
   );
 };
