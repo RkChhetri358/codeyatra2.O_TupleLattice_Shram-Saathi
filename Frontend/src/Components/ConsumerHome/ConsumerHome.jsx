@@ -4,12 +4,19 @@ import axios from 'axios';
 import './ConsumerHome.css';
 
 const ConsumerHome = () => {
+<<<<<<< HEAD
   const [myWorks, setMyWorks] = useState([]);
   const [showModal, setShowModal] = useState(false); 
   const [showAddModal, setShowAddModal] = useState(false); 
+=======
+  const [myWorks, setMyWorks] = useState([]); // <-- must exist
+  const [showModal, setShowModal] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false);
+>>>>>>> 49f8ea5b872cb8992f08156c9d42d33e17e6d649
   const [selectedWork, setSelectedWork] = useState(null);
   
 
+<<<<<<< HEAD
 
   const [formData, setFormData] = useState({
     projectName: "",
@@ -104,14 +111,55 @@ const handleAddProject = async (e) => {
   //   };
   //   fetchMyWorks();
   // }, []);
+=======
+  useEffect(() => {
+    const fetchMyWorks = async () => {
+      try {
+        const response = await axios.get("http://127.0.0.1:8000/api/consumer/works");
+        setMyWorks(response.data);
+      } catch (err) {
+        setMyWorks([
+          { id: 1, title: 'भवन निर्माण (Build House)', count: '23 / 30', img: '/7.png' },
+          { id: 2, title: 'घरकाम (Clean House)', count: '0 / 1', img: '/2.png' },
+          { id: 3, title: 'घरकाम (Clean House)', count: '2 / 2', img: '/3.png' },
+        ]);
+      }
+    };
+    fetchMyWorks();
+  }, []);
+
+  useEffect(() => {
+    const fetchMyWorks = async () => {
+      try {
+        const response = await axios.get("http://127.0.0.1:8000/api/consumer/works");
+        setMyWorks(response.data);
+      } catch (err) {
+        setMyWorks([
+          { id: 1, title: 'भवन निर्माण (Build House)', count: '23 / 30', img: '/7.png' },
+          { id: 2, title: 'घरकाम (Clean House)', count: '0 / 1', img: '/2.png' },
+          { id: 3, title: 'घरकाम (Clean House)', count: '2 / 2', img: '/3.png' },
+        ]);
+      }
+    };
+    fetchMyWorks();
+  }, []);
+>>>>>>> 49f8ea5b872cb8992f08156c9d42d33e17e6d649
 
   return (
-    <div className={`home-wrapper ${(showModal || showAddModal) ? 'modal-active' : ''}`}>
+    <div className="home-wrapper-consumer">
       <Navbar />
 
+<<<<<<< HEAD
       <section className="main-section" id="home-section">
         <div className="top-action" style={{ display: 'flex', justifyContent: 'center', marginBottom: '40px' }}>
           <button className="btn-orange" style={{ padding: '14px 40px' }} onClick={() => setShowAddModal(true)}>
+=======
+      {/* SECTION 1: HOME */}
+      <section className="main-section-consumer" id="home-section">
+        <div className="top-action" style={{ display: 'flex', justifyContent: 'center', marginBottom: '40px' }}>
+          {/* TRIGGER FOR NEW PROJECT MODAL */}
+          <button className="btn-orange-consumer" style={{ padding: '14px 40px' }} onClick={() => setShowAddModal(true)}>
+>>>>>>> 49f8ea5b872cb8992f08156c9d42d33e17e6d649
             नयाँ परियोजना थप्नुहोस्
           </button>
         </div>
@@ -121,14 +169,21 @@ const handleAddProject = async (e) => {
           <span className="filter-text">सबै हेर्नुहोस्</span>
         </div>
 
-        <div className="work-grid">
+        <div className="work-grid-consumer">
           {myWorks.map((work) => (
+<<<<<<< HEAD
             <div className="work-item-card" key={work.id}>
               <img src={work.img || "/1.png"} alt="work" className="work-consumer" />
               <h4>{work.project_name || work.title}</h4>
               <p className="stats-orange">👤 {work.requiredWorkers || work.count}</p>
+=======
+            <div className="work-item-card-consumer" key={work.id}>
+              <img src={work.img} alt="work" className="work-consumer" />
+              <h4>{work.title}</h4>
+              <p className="stats-orange">👤 {work.count}</p>
+>>>>>>> 49f8ea5b872cb8992f08156c9d42d33e17e6d649
               <p className="sub-desc">निर्माण मजदुरको लागि अवसर</p>
-              <button className="btn-orange" onClick={() => { setSelectedWork(work); setShowModal(true); }}>प्रगति</button>
+              <button className="btn-orange-consumer-pragati" onClick={() => { setSelectedWork(work); setShowModal(true); }}>प्रगति</button>
             </div>
           ))}
         </div>
@@ -193,7 +248,11 @@ const handleAddProject = async (e) => {
                     <textarea name="description" className="modal-textarea" value={formData.description} onChange={handleChange}></textarea>
                   </div>
                 </div>
+<<<<<<< HEAD
                 <button type="submit" onClick={handleAddProject} className="modal-submit-btn orange-btn">आवेदन</button>
+=======
+                <button type="submit" className="modal-submit-btn orange-btn-consumer">आवेदन</button>
+>>>>>>> 49f8ea5b872cb8992f08156c9d42d33e17e6d649
               </div>
             </form>
           </div>
@@ -202,8 +261,30 @@ const handleAddProject = async (e) => {
 
       {/* MODAL 2: PROGRESS/UPDATE remains unchanged */}
       {showModal && (
+<<<<<<< HEAD
         <div className="modal-overlay" onClick={() => setShowModal(false)}>
            {/* ... progress modal code ... */}
+=======
+        <div className="modal-overlay-consumer" onClick={() => setShowModal(false)}>
+          <div className="modal-box-consumer" onClick={(e) => e.stopPropagation()}>
+            <span className="modal-close" onClick={() => setShowModal(false)}>&times;</span>
+            <h2 className="modal-title">{selectedWork?.title}</h2>
+            <div className="modal-flex">
+              <div className="modal-left">
+                <img src={selectedWork?.img} className="modal-job-img" alt="" />
+              </div>
+              <div className="modal-right">
+                <div className="modal-form-grid">
+                  <div className="m-input"><label>कामको शीर्षक</label><input value={selectedWork?.title} readOnly /></div>
+                  <div className="m-input purple-border"><label>समय अवधि</label><input placeholder="2-5 years" /></div>
+                  <div className="m-input"><label>सम्पर्क नम्बर</label><input placeholder="98XXXXXXXX" /></div>
+                  <div className="m-input"><label>ठेगाना</label><input placeholder="काठमाडौं" /></div>
+                </div>
+                <button className="modal-submit-btn">अपडेट गर्नुहोस्</button>
+              </div>
+            </div>
+          </div>
+>>>>>>> 49f8ea5b872cb8992f08156c9d42d33e17e6d649
         </div>
       )}
     </div>

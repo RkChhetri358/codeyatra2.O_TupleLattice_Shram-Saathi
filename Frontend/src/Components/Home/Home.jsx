@@ -130,10 +130,10 @@ const Home = () => {
                 <input type="text" placeholder="आफ्नो नाम लेख्नुहोस्" />
               </div>
               <div className="field-group">
-                <label>उमेर/Age</label>
+                <label>आधार मूल्य/Base Price</label>
                 <input
                   type="text"
-                  placeholder="आफ्नो उमेर प्रविष्ट गर्नुहोस्"
+                  placeholder="आधार मूल्य प्रविष्ट गर्नुहोस्"
                 />
               </div>
               <div className="field-group">
