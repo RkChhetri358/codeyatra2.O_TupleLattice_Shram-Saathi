@@ -225,6 +225,9 @@ useEffect(() => {
         
       </section>
 
+
+
+
       {/* SECTION 2: PROFILE remains unchanged */}
          <section id="profile-section" className="main-section profile-light-bg">
 
@@ -430,6 +433,10 @@ useEffect(() => {
             <div className="center-action">
               <button className="add-worker-btn-large">श्रमिक थप्नुहोस्</button>
             </div>
+
+
+
+            
 
             <div className="worker-list-area">
               <h3 className="section-subtitle">इच्छुक श्रमिक</h3>
