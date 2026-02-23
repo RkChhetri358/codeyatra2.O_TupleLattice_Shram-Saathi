@@ -6,7 +6,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState("home-section");
 
-  // Scroll Spy Logic: Scroll garda active section thaha paune
+ 
   useEffect(() => {
     const sections = document.querySelectorAll("section, main");
     const options = {

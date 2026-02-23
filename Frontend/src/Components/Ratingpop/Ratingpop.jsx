@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
+<<<<<<< HEAD
 import { useNavigate } from 'react-router-dom'; 
+=======
+import { useNavigate } from 'react-router-dom'; // Navigate ko lagi thapiyo
+>>>>>>> 5dcbb72bca04fb3d81235e5e8bfbccb0c8197c5d
 import './RatingPop.css';
 
 const RatingPop = () => {
@@ -8,11 +12,19 @@ const RatingPop = () => {
   const [hover, setHover] = useState(0);
   const [comment, setComment] = useState("");
 
+<<<<<<< HEAD
 
   const workerName = "राम बहादुर";
 
   const handleClose = () => {
     navigate(-1); 
+=======
+  // Default worker name (Pachhi props bata lina sakinchha)
+  const workerName = "राम बहादुर";
+
+  const handleClose = () => {
+    navigate(-1); // App.jsx ma window.history.back garnu bhanda yo safe hunchha
+>>>>>>> 5dcbb72bca04fb3d81235e5e8bfbccb0c8197c5d
   };
 
   const handleSubmit = () => {
@@ -22,7 +34,11 @@ const RatingPop = () => {
     }
     console.log("Feedback Received:", { rating, comment, workerName });
     alert("तपाईंको प्रतिक्रिया प्राप्त भयो। धन्यवाद!");
+<<<<<<< HEAD
     navigate('/home'); 
+=======
+    navigate('/home'); // Submit pachi home ma pathaidine
+>>>>>>> 5dcbb72bca04fb3d81235e5e8bfbccb0c8197c5d
   };
 
   return (
@@ -54,7 +70,11 @@ const RatingPop = () => {
           })}
         </div>
 
+<<<<<<< HEAD
        
+=======
+        {/* Plain Comment Box (No placeholder) */}
+>>>>>>> 5dcbb72bca04fb3d81235e5e8bfbccb0c8197c5d
         <textarea
           className="feedback-box"
           value={comment}
