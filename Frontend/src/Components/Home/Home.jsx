@@ -4,6 +4,7 @@ import axios from 'axios';
 import './Home.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilter ,faUser,faStar,faBell} from '@fortawesome/free-solid-svg-icons';
+import VoiceChat from '../VoiceChat/VoiceChat';
 const Home = () => {
   
   const [jobs, setJobs] = useState([]); 
@@ -44,68 +45,106 @@ const Home = () => {
   };
 
 
+// Add these states at the top of Home component
+const [showChat, setShowChat] = useState(false);
+const [chatTarget, setChatTarget] = useState({ id: null, name: "" });
 
+// Standardized userId retrieval
 
-
-  const handleFinalSubmit = async (e) => {
+const handleFinalSubmit = async (e) => {
   e.preventDefault();
-  // Get values from form inputs (you'll need to add state for these inputs)
+  
+  // Form elements बाट सुरक्षित डाटा लिने तरिका
+  const formData = new FormData(e.target);
+  
   const applicationData = {
     job_id: selectedJob.id,
     username: JSON.parse(localStorage.getItem("username")), 
-    duration: e.target[1].value, // Simple way to get input values
-    phone: e.target[2].value,
-    address: e.target[3].value,
-    work_type: e.target[4].value,
-    additional_info: e.target[5].value
+    duration: e.target.elements[1]?.value || "", 
+    phone: e.target.elements[2]?.value || "",
+    address: e.target.elements[3]?.value || "",
+    work_type: e.target.elements[4]?.value || "",
+    additional_info: e.target.elements[6]?.value || "" 
   };
 
   try {
-    await axios.post("http://127.0.0.1:8000/api/apply", applicationData);
-    alert("आवेदन सफल भयो !");
-    setShowModal(false);
-  } catch (err) {
+    const res = await axios.post("http://127.0.0.1:8000/api/apply", applicationData);
+    
+if(res.data.status === "success") {
+  alert("आवेदन सफल भयो !");
+  setShowModal(false);
+
+  const targetId = selectedJob.owner_id;
+
+  if (!targetId) {
+    console.error("No owner_id found in selectedJob", selectedJob);
+    return;
+  }
+
+  setChatTarget({ 
+    id: targetId, 
+    name: "Job Owner" 
+  });
+
+  setShowChat(true); 
+}
+}
+   catch (err) {
+    console.error(err);
     alert("त्रुटि भयो ।");
   }
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 const [profileData, setProfileData] = useState({
   name: "",
   phone: "",
   address: "",
   base_price: "",
-  work_type: ""
+  work_type: "",
+  duration: ""
+
 });
 const userId = localStorage.getItem("id") || localStorage.getItem("user_id");
 
   // 1. Fetch User Data on Load
 useEffect(() => {
   const fetchUserData = async () => {
-    // If no userId, don't attempt to fetch
-    if (!userId) {
-      console.warn("No User ID found in localStorage");
-      return;
-    }
+    if (!userId) return;
 
     try {
-      console.log("Fetching data for User ID:", userId);
       const response = await axios.get(`http://127.0.0.1:8000/api/user/${userId}`);
-      
-      // Log for debugging
-      console.log("Backend Response:", response.data);
+      console.log("Profile Data:", response.data);
 
       setProfileData({
         name: response.data.username || "",
         phone: response.data.mobilenumber || "",
         address: response.data.address || "",
-        // base_price: response.data.base_price || "",
-        // work_type: response.data.work_type || ""
+        // Make sure these match the keys returned by your get_user_profile route
+        base_price: response.data.base_price || "", 
+        work_type: response.data.work_type || ""
       });
     } catch (err) {
       console.error("Error fetching profile:", err);
     }
   };
-
   fetchUserData();
 }, [userId]);
 
@@ -115,28 +154,27 @@ useEffect(() => {
   };
 
   // 3. Update Profile Logic
-  const handleProfileUpdate = async () => {
-    try {
-      const updateData = {
-        user_id: parseInt(userId),
-        name: profileData.name,
-        phone: profileData.phone,
-        address: profileData.address,
-        base_price: profileData.base_price,
-        work_type: profileData.work_type
-      };
+const handleProfileUpdate = async () => {
+  try {
+    const updateData = {
+      user_id: parseInt(userId),
+      name: profileData.name,
+      phone: profileData.phone,
+      address: profileData.address,
+      base_price: profileData.base_price, // Sending from state
+      work_type: profileData.work_type    // Sending from state
+    };
 
-      // Changed to .post as per your backend route definition
-      const response = await axios.post("http://127.0.0.1:8000/api/profile/update", updateData);
-      
-      if (response.status === 200) {
-        alert("जानकारी परिवर्तन सफल भयो ! (Profile Updated)");
-      }
-    } catch (err) {
-      console.error("Update error:", err);
-      alert("अपडेट गर्न सकिएन ।");
+    const response = await axios.post("http://127.0.0.1:8000/api/profile/update", updateData);
+    
+    if (response.status === 200) {
+      alert("जानकारी परिवर्तन सफल भयो !");
     }
-  };
+  } catch (err) {
+    console.error("Update error:", err);
+    alert("अपडेट गर्न सकिएन ।");
+  }
+};
 
   return (
     <div className={`home-wrapper ${showModal ? 'modal-active' : ''}`}>
@@ -300,7 +338,7 @@ useEffect(() => {
               {/* Uses duration from the job object if available */}
               <input 
                 type="text" 
-                defaultValue={selectedJob?.duration || "समय तोकिएको छैन"} 
+                defaultValue={selectedJob?.duration || "समय तोकिएको छैन" || profileData.duration} 
                 required 
               />
             </div>
@@ -318,12 +356,13 @@ useEffect(() => {
 
             <div className="m-input">
               <label>कामको प्रकार/Work Type</label>
-              <input type="text" placeholder="Work type" required />
+              <input type="text"  placeholder="Work type" required />
             </div>
             <div className="m-input">
               <label>SetBaseprice </label>
               <input type="text" placeholder="Base price" required />
             </div>
+            
 
             <div className="m-input">
               <label>अतिरिक्त जानकारी/Additional info</label>
@@ -336,6 +375,12 @@ useEffect(() => {
     </div>
   </div>
 )}
+
+{/* Chat Popup Component */}
+{/* {showChat && (
+
+)} */}
+
 
       <img src="/side.png" alt="" className="floating-bg" />
     </div>

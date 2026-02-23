@@ -32,6 +32,7 @@ class User(Base):
     
     citizenship = Column(String) 
     coverphoto = Column(String)
+    
     # projects = relationship("AddProject", back_populates="owner")
 
     def __repr__(self):
@@ -55,6 +56,7 @@ class AddProject(Base):
     id = Column(Integer, primary_key=True, index=True)
     project_name = Column(String, index=True)
     duration = Column(String)
+    base_price = Column(String)
     
   
     phone_number = Column(String) 
