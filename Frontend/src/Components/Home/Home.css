@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800&display=swap");
 
-/* Smooth scroll everywhere */
+
 html {
   scroll-behavior: smooth;
 }
@@ -16,7 +16,7 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Sections */
+
 .main-section {
   padding: 120px 10% 60px;
   min-height: 100vh;
@@ -98,7 +98,6 @@ html {
   background: #d67a0e;
 }
 
-/* Profile Section */
 .profile-top-bar {
   display: flex;
   justify-content: space-between;
@@ -118,19 +117,14 @@ html {
   justify-content: left;
 }
 
-/* Profile Image Circular Fill */
-/* Direct image styling */
 .profile-avatar-img {
   
-  /* border: 2px solid red;
-   */
 
-  /* Change these two values to adjust size easily */
   width: 250px; 
   height: 250px;
 
-  border-radius: 50%; /* Makes it a circle */
-  object-fit: cover;  /* Ensures image isn't stretched */
+  border-radius: 50%; 
+  object-fit: cover; 
   object-position: center;
   display: block;
   
@@ -144,9 +138,6 @@ html {
   align-items: center;
   flex-shrink: 0;
 }
-
-/* Profile Image Circular Fill without white circle */
-/* Container for the profile circle */
 
 .review-stars {
   text-align: center;
@@ -231,12 +222,10 @@ html {
   z-index: -1;
 }
 
-/* Hide Scrollbar for clean look */
 .home-wrapper::-webkit-scrollbar {
   display: none;
 }
 
-/* --- POPUP (MODAL) STYLES --- */
 .modal-active .main-section, 
 .modal-active .floating-bg,
 .modal-active .navbar-container {
@@ -344,14 +333,3 @@ html {
     font-weight: bold;
     text-align: center;
 }
-/* .chat-popup-wrapper {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 300px;
-  height: 400px;
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.3);
-  z-index: 9999;
-} */

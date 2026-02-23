@@ -30,13 +30,13 @@ export default function VoiceChat({ currentUserId, targetUserId, targetUserName 
 }, [currentUserId, targetUserId]);
 
 
-  // Initialize WebSocket connection
+ 
 useEffect(() => {
   socket.current = new WebSocket(`ws://127.0.0.1:8000/ws/chat/${currentUserId}`);
 
   socket.current.onmessage = (event) => {
     const data = JSON.parse(event.data);
-    // Only add message if it's from the person we are currently chatting with
+    
     if (data.sender_id === targetUserId) {
       setMessages((prev) => [...prev, { sender: "them", text: data.text }]);
       speak(data.text);
@@ -46,7 +46,7 @@ useEffect(() => {
   return () => socket.current.close();
 }, [currentUserId, targetUserId]);
 
-  // Auto-scroll to bottom
+
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);

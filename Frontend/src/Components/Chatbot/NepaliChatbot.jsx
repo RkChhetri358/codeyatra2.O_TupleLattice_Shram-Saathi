@@ -10,7 +10,7 @@ export default function NepaliChatbot() {
   const startListening = () => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     const recognition = new SpeechRecognition();
-    recognition.lang = 'ne-NP'; // Set language to Nepali
+    recognition.lang = 'ne-NP'; 
 
     recognition.onstart = () => setIsRecording(true);
     
@@ -18,14 +18,14 @@ export default function NepaliChatbot() {
       const transcript = event.results[0][0].transcript;
       setIsRecording(false);
       
-      // Send text to your FastAPI AI endpoint
+      
       const res = await axios.post("http://127.0.0.1:8000/api/chat/text", {
         text: transcript
       });
       
       setChat({ user: transcript, bot: res.data.bot_reply });
       
-      // OPTIONAL: Speak the bot reply
+    
       speak(res.data.bot_reply);
     };
 

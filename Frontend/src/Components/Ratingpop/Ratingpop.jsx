@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Navigate ko lagi thapiyo
+import { useNavigate } from 'react-router-dom'; 
 import './RatingPop.css';
 
 const RatingPop = () => {
@@ -8,11 +8,11 @@ const RatingPop = () => {
   const [hover, setHover] = useState(0);
   const [comment, setComment] = useState("");
 
-  // Default worker name (Pachhi props bata lina sakinchha)
+
   const workerName = "राम बहादुर";
 
   const handleClose = () => {
-    navigate(-1); // App.jsx ma window.history.back garnu bhanda yo safe hunchha
+    navigate(-1); 
   };
 
   const handleSubmit = () => {
@@ -22,7 +22,7 @@ const RatingPop = () => {
     }
     console.log("Feedback Received:", { rating, comment, workerName });
     alert("तपाईंको प्रतिक्रिया प्राप्त भयो। धन्यवाद!");
-    navigate('/home'); // Submit pachi home ma pathaidine
+    navigate('/home'); 
   };
 
   return (
@@ -54,7 +54,7 @@ const RatingPop = () => {
           })}
         </div>
 
-        {/* Plain Comment Box (No placeholder) */}
+       
         <textarea
           className="feedback-box"
           value={comment}

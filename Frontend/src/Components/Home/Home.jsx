@@ -38,23 +38,23 @@ const Home = () => {
     fetchJobs();
   }, []);
 
-  // 2. आवेदन thichda hune kaam
+ 
   const handleApplyClick = (job) => {
     setSelectedJob(job);
     setShowModal(true);
   };
 
 
-// Add these states at the top of Home component
+
 const [showChat, setShowChat] = useState(false);
 const [chatTarget, setChatTarget] = useState({ id: null, name: "" });
 
-// Standardized userId retrieval
+
 
 const handleFinalSubmit = async (e) => {
   e.preventDefault();
   
-  // Form elements बाट सुरक्षित डाटा लिने तरिका
+ 
   const formData = new FormData(e.target);
   
   const applicationData = {
@@ -230,7 +230,7 @@ const handleProfileUpdate = async () => {
             <div className="star-row">
               <FontAwesomeIcon icon={faStar} />
               <FontAwesomeIcon icon={faStar} />
-              <FontAwesomeIcon icon={faStar} /> 5.0
+              <FontAwesomeIcon icon={faStar} /> 3.0
             </div>
           </div>
         </div>
