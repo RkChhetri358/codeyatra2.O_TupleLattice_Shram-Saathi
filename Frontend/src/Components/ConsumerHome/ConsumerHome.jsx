@@ -4,6 +4,7 @@ import axios from 'axios';
 import './ConsumerHome.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser,faStar  } from '@fortawesome/free-solid-svg-icons'
+import VoiceChat from '../VoiceChat/VoiceChat';
 
 const ConsumerHome = () => {
   const [myWorks, setMyWorks] = useState([]);
@@ -22,7 +23,46 @@ const ConsumerHome = () => {
     address: "",
     projectType: "",
     description: "",
+    basePrice: ""
   });
+  const [profileData, setProfileData] = useState({
+    name: "",
+    phone: "",
+    address: "",
+    base_price: "",
+    work_type: ""
+  });
+  const userId = localStorage.getItem("id") || localStorage.getItem("user_id");
+  
+  useEffect(() => {
+  const fetchUserData = async () => {
+    // If no userId, don't attempt to fetch
+    if (!userId) {
+      console.warn("No User ID found in localStorage");
+      return;
+    }
+
+    try {
+      console.log("Fetching data for User ID:", userId);
+      const response = await axios.get(`http://127.0.0.1:8000/api/user/${userId}`);
+      
+      // Log for debugging
+      console.log("Backend Response:", response.data);
+
+      setProfileData({
+        name: response.data.username || "",
+        phone: response.data.mobilenumber || "",
+        address: response.data.address || "",
+        // base_price: response.data.base_price || "",
+        // work_type: response.data.work_type || ""
+      });
+    } catch (err) {
+      console.error("Error fetching profile:", err);
+    }
+  };
+
+  fetchUserData();
+}, [userId]);
 
   const [projectPhoto, setProjectPhoto] = useState(null);
 
@@ -57,6 +97,7 @@ const handleAddProject = async (e) => {
   data.append("address", formData.address);
   data.append("project_type", formData.projectType);
   data.append("description", formData.description);
+  data.append("base_price", formData.basePrice);
   
   // Ensure this is sent as a clean number string
   data.append("consumer_id", parseInt(storedUserId)); 
@@ -142,7 +183,7 @@ useEffect(() => {
 
         <div className="section-header">
           <h3 className="nepali-title">मेरो काम / My work</h3>
-          <span className="filter-text">सबै हेर्नुहोस्</span>
+         
         </div>
 
        <div className="work-grid-consumer">
@@ -227,35 +268,23 @@ useEffect(() => {
 
                 <label>नाम/Name</label>
 
-                <input type="text" placeholder="आफ्नो नाम लेख्नुहोस्" />
+                <input type="text" name="name" value={profileData.name} onChange={handleChange} placeholder="आफ्नो नाम लेख्नुहोस्" />
 
               </div>
 
-              <div className="field-group">
+                <div className="field-group">
+                
+                  <label>फोन नम्बर/Phone No.</label>
+                
+                  <input
+                
+                    type="text" name="phone" value={profileData.phone} onChange={handleChange}
+                
+                    placeholder="मोबाइल नम्बर प्रविष्ट गर्नुहोस्"
+                
+                  />
+           
 
-                <label>आधार मूल्य/Base Price</label>
-
-                <input
-
-                  type="text"
-
-                  placeholder="आधार मूल्य प्रविष्ट गर्नुहोस्"
-
-                />
-
-              </div>
-
-              <div className="field-group">
-
-                <label>फोन नम्बर/Phone No.</label>
-
-                <input
-
-                  type="text"
-
-                  placeholder="मोबाइल नम्बर प्रविष्ट गर्नुहोस्"
-
-                />
 
               </div>
 
@@ -263,33 +292,34 @@ useEffect(() => {
 
                 <label>ठेगाना/Address</label>
 
-                <input type="text" placeholder="आफ्नो ठेगाना लेख्नुहोस्" />
+                <input type="text" name="address" value={profileData.address} onChange={handleChange} placeholder="आफ्नो ठेगाना लेख्नुहोस्" />
 
               </div>
 
-              <div className="field-group full-span">
-
-                <label>कामको प्रकार</label>
-
-                <input
-
-                  type="text"
-
-                  placeholder="निर्माण / घरकाम / कृषि / अन्य"
-
-                />
-
-              </div>
+         
 
             </div>
 
-            <button className="save-btn">जानकारी परिवर्तन</button>
+           
 
           </div>
 
         </div>
 
       </section>
+
+
+       {/* SECTION 3: CHATBOT */}
+         <section id="messages-section" className="messages-section main-section">
+
+       <VoiceChat/>
+
+
+        
+
+      </section>
+
+
       {/* MODAL 1: ADD NEW PROJECT */}
       {showAddModal && (
         <div className="modal-overlay">
@@ -339,12 +369,16 @@ useEffect(() => {
                     <label>कामको प्रकार</label>
                     <input name="projectType" type="text" value={formData.projectType} onChange={handleChange} required />
                   </div>
+                   <div className="m-input full-span">
+                    <label>आधार मूल्य/Base Price </label>
+                    <input name="basePrice" type="text" value={formData.basePrice} onChange={handleChange} required />
+                  </div>
                   <div className="m-input full-span">
                     <label>अतिरिक्त जानकारी</label>
                     <textarea name="description" className="modal-textarea" value={formData.description} onChange={handleChange}></textarea>
                   </div>
                 </div>
-                <button type="submit" onClick={handleAddProject}  className="modal-submit-btn orange-btn-consumer">आवेदन</button>
+                <button type="submit" onClick={handleAddProject}  className="modal-submit-btn orange-btn-consumer">परियोजना थप्नुहोस्</button>
               </div>
             </form>
           </div>

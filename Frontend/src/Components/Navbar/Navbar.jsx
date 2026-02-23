@@ -68,10 +68,13 @@ const Navbar = () => {
             PROFILE
           </li>
           <li 
-            className={activeSection === "notif-section" ? "active" : ""} 
-            onClick={() => scrollToSection('notif-section')}
-          >
-            NOTIFICATIONS
+            className={activeSection === "messages-section" ? "active" : ""} 
+            onClick={() => scrollToSection('messages-section')}
+          > 
+          
+            MESSAGES
+
+            
           </li>
           {/* <li 
             className={activeSection === "notif-section" ? "active" : ""} 

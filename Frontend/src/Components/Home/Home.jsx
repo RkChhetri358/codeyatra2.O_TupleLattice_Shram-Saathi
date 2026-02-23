@@ -118,38 +118,33 @@ const [profileData, setProfileData] = useState({
   phone: "",
   address: "",
   base_price: "",
-  work_type: ""
+  work_type: "",
+  duration: ""
+
 });
 const userId = localStorage.getItem("id") || localStorage.getItem("user_id");
 
   // 1. Fetch User Data on Load
 useEffect(() => {
   const fetchUserData = async () => {
-    // If no userId, don't attempt to fetch
-    if (!userId) {
-      console.warn("No User ID found in localStorage");
-      return;
-    }
+    if (!userId) return;
 
     try {
-      console.log("Fetching data for User ID:", userId);
       const response = await axios.get(`http://127.0.0.1:8000/api/user/${userId}`);
-      
-      // Log for debugging
-      console.log("Backend Response:", response.data);
+      console.log("Profile Data:", response.data);
 
       setProfileData({
         name: response.data.username || "",
         phone: response.data.mobilenumber || "",
         address: response.data.address || "",
-        // base_price: response.data.base_price || "",
-        // work_type: response.data.work_type || ""
+        // Make sure these match the keys returned by your get_user_profile route
+        base_price: response.data.base_price || "", 
+        work_type: response.data.work_type || ""
       });
     } catch (err) {
       console.error("Error fetching profile:", err);
     }
   };
-
   fetchUserData();
 }, [userId]);
 
@@ -159,28 +154,27 @@ useEffect(() => {
   };
 
   // 3. Update Profile Logic
-  const handleProfileUpdate = async () => {
-    try {
-      const updateData = {
-        user_id: parseInt(userId),
-        name: profileData.name,
-        phone: profileData.phone,
-        address: profileData.address,
-        base_price: profileData.base_price,
-        work_type: profileData.work_type
-      };
+const handleProfileUpdate = async () => {
+  try {
+    const updateData = {
+      user_id: parseInt(userId),
+      name: profileData.name,
+      phone: profileData.phone,
+      address: profileData.address,
+      base_price: profileData.base_price, // Sending from state
+      work_type: profileData.work_type    // Sending from state
+    };
 
-      // Changed to .post as per your backend route definition
-      const response = await axios.post("http://127.0.0.1:8000/api/profile/update", updateData);
-      
-      if (response.status === 200) {
-        alert("जानकारी परिवर्तन सफल भयो ! (Profile Updated)");
-      }
-    } catch (err) {
-      console.error("Update error:", err);
-      alert("अपडेट गर्न सकिएन ।");
+    const response = await axios.post("http://127.0.0.1:8000/api/profile/update", updateData);
+    
+    if (response.status === 200) {
+      alert("जानकारी परिवर्तन सफल भयो !");
     }
-  };
+  } catch (err) {
+    console.error("Update error:", err);
+    alert("अपडेट गर्न सकिएन ।");
+  }
+};
 
   return (
     <div className={`home-wrapper ${showModal ? 'modal-active' : ''}`}>
@@ -314,12 +308,7 @@ useEffect(() => {
           ))}
         </div>
       </section>
-  <div className="chat-popup-wrapper">
-    <button className="close-chat" onClick={() => setShowChat(false)}>X</button>
-    {/* यहाँ तपाईँको Chat कम्पोनेन्ट हुनुपर्छ */}
-    <div className="chat-header">Chat with {chatTarget.name}</div>
- <VoiceChat currentUserId={parseInt(userId)} targetUserId={chatTarget.id} targetUserName={chatTarget.name} />
-  </div>
+
  {showModal && (
   <div className="modal-overlay">
     <div className="modal-box">
@@ -349,7 +338,7 @@ useEffect(() => {
               {/* Uses duration from the job object if available */}
               <input 
                 type="text" 
-                defaultValue={selectedJob?.duration || "समय तोकिएको छैन"} 
+                defaultValue={selectedJob?.duration || "समय तोकिएको छैन" || profileData.duration} 
                 required 
               />
             </div>
@@ -367,12 +356,13 @@ useEffect(() => {
 
             <div className="m-input">
               <label>कामको प्रकार/Work Type</label>
-              <input type="text" placeholder="Work type" required />
+              <input type="text"  placeholder="Work type" required />
             </div>
             <div className="m-input">
               <label>SetBaseprice </label>
               <input type="text" placeholder="Base price" required />
             </div>
+            
 
             <div className="m-input">
               <label>अतिरिक्त जानकारी/Additional info</label>

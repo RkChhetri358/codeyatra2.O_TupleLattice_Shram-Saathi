@@ -228,11 +228,17 @@ async def update_profile(profile: ProfileUpdate, db: Session = Depends(get_db)):
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
     
+    # Update the core fields
     user.username = profile.name
     user.mobilenumber = profile.phone
     user.address = profile.address
-    # Update other fields as needed
+    
+    # CRITICAL: Add these lines to save to DB
+    user.base_price = profile.base_price
+    user.work_type = profile.work_type
+    
     db.commit()
+    db.refresh(user)
     return {"message": "Profile updated successfully"}
 
 # 4. Fetch Notifications Section
@@ -253,6 +259,7 @@ async def post_project_details(
     description: str = Form(...),
     consumer_id: int = Form(...),
     file: UploadFile = File(...),
+    base_price: str = Form(...),
     db: Session = Depends(get_db)
 ):
     try:
@@ -270,7 +277,8 @@ async def post_project_details(
                 project_type=project_type,
                 description=description,
                 file_path=file_location,
-                consumer_id=consumer_id
+                consumer_id=consumer_id,
+                base_price=base_price
             )
             db.add(new_project)
             db.commit()
