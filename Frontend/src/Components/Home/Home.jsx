@@ -44,27 +44,68 @@ const Home = () => {
   };
 
   // 3. Modal vitra ko Form submit garne (Post to Backend)
-  const handleFinalSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const userData = JSON.parse(localStorage.getItem("user")); // Login gareko user info
+  // const handleFinalSubmit = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const userData = JSON.parse(localStorage.getItem("user")); // Login gareko user info
       
-      const applicationData = {
-        job_id: selectedJob.id,
-        username: userData?.username,
-        // ... aru form fields haru yaha thapne
-      };
+  //     const applicationData = {
+  //       job_id: selectedJob.id,
+  //       username: userData?.username,
+  //       // ... aru form fields haru yaha thapne
+  //     };
 
-      const response = await axios.post("http://127.0.0.1:8000/api/apply", applicationData);
+  //     const response = await axios.post("http://127.0.0.1:8000/api/apply", applicationData);
       
-      if (response.status === 200) {
-        alert("आवेदन सफल भयो !");
-        setShowModal(false);
-      }
-    } catch (err) {
-      alert("आवेदन पठाउन सकिएन |");
-    }
+  //     if (response.status === 200) {
+  //       alert("आवेदन सफल भयो !");
+  //       setShowModal(false);
+  //     }
+  //   } catch (err) {
+  //     alert("आवेदन पठाउन सकिएन |");
+  //   }
+  // };
+
+
+
+
+  const handleFinalSubmit = async (e) => {
+  e.preventDefault();
+  // Get values from form inputs (you'll need to add state for these inputs)
+  const applicationData = {
+    job_id: selectedJob.id,
+    username: JSON.parse(localStorage.getItem("username")), 
+    duration: e.target[1].value, // Simple way to get input values
+    phone: e.target[2].value,
+    address: e.target[3].value,
+    work_type: e.target[4].value,
+    additional_info: e.target[5].value
   };
+
+  try {
+    await axios.post("http://127.0.0.1:8000/api/apply", applicationData);
+    alert("आवेदन सफल भयो !");
+    setShowModal(false);
+  } catch (err) {
+    alert("त्रुटि भयो ।");
+  }
+};
+
+
+const handleProfileUpdate = async () => {
+  const userId = localStorage.getItem("user_id");
+  const updateData = {
+    user_id: parseInt(userId),
+    name: nameState, // You need to bind inputs to React state
+    base_price: priceState,
+    phone: phoneState,
+    address: addressState,
+    work_type: typeState
+  };
+
+  await axios.put("http://127.0.0.1:8000/api/profile/update", updateData);
+  alert("प्रोफाइल अपडेट भयो !");
+};
 
   return (
     <div className={`home-wrapper ${showModal ? 'modal-active' : ''}`}>

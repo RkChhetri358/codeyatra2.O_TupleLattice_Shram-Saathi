@@ -1,5 +1,6 @@
 from fastapi import UploadFile
 from pydantic import BaseModel, EmailStr
+from typing import List, Optional
 
 
 
@@ -24,4 +25,19 @@ class SignupResponse(BaseModel):
     citizenship: str
 
 
+class ApplicationRequest(BaseModel):
+    job_id: int
+    username: str
+    duration: str
+    phone: str
+    address: str
+    work_type: str
+    additional_info: Optional[str] = None
 
+class ProfileUpdate(BaseModel):
+    user_id: int
+    name: str
+    base_price: str
+    phone: str
+    address: str
+    work_type: str
